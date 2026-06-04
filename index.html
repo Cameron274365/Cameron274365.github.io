@@ -1,1 +1,1143 @@
-<h1>Notes.</h1>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="一个现代化静态笔记博客，收录论文阅读、技术笔记与长期知识库。" />
+  <title>屿佳的笔记博客</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7fb;
+      --panel: rgba(255, 255, 255, 0.78);
+      --panel-strong: #ffffff;
+      --text: #172033;
+      --muted: #6b7280;
+      --line: rgba(24, 32, 51, 0.1);
+      --brand: #6d5dfc;
+      --brand-2: #00b8a9;
+      --brand-3: #ff8a3d;
+      --code: #101828;
+      --shadow: 0 24px 70px rgba(27, 39, 71, 0.14);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max: 1240px;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --panel: rgba(17, 24, 39, 0.76);
+      --panel-strong: #111827;
+      --text: #eef2ff;
+      --muted: #aab2c5;
+      --line: rgba(238, 242, 255, 0.12);
+      --code: #f8fafc;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(109, 93, 252, 0.2), transparent 28rem),
+        radial-gradient(circle at 86% 12%, rgba(0, 184, 169, 0.16), transparent 24rem),
+        radial-gradient(circle at 52% 88%, rgba(255, 138, 61, 0.14), transparent 24rem),
+        var(--bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 74%, transparent);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 15px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 12px 30px rgba(109, 93, 252, 0.34);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ghost-btn,
+    .primary-btn,
+    .chip {
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .ghost-btn,
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: var(--text);
+      background: var(--panel);
+    }
+
+    .primary-btn {
+      border: 0;
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 16px 32px rgba(0, 184, 169, 0.24);
+    }
+
+    .ghost-btn:hover,
+    .primary-btn:hover,
+    .chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(300px, 0.72fr);
+      gap: 28px;
+      padding: 48px 0 26px;
+    }
+
+    .hero-card,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 5vw, 56px);
+    }
+
+    .hero-card::after {
+      position: absolute;
+      right: -12%;
+      bottom: -24%;
+      width: 320px;
+      height: 320px;
+      content: "";
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(109, 93, 252, 0.2), transparent 70%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: color-mix(in srgb, var(--panel-strong) 70%, transparent);
+      font-size: 13px;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(42px, 7vw, 86px);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--brand), var(--brand-2), var(--brand-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .stat {
+      position: relative;
+      z-index: 1;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: color-mix(in srgb, var(--panel-strong) 74%, transparent);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .quick-panel {
+      padding: 22px;
+    }
+
+    .quick-panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel-strong);
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--panel-strong);
+    }
+
+    .chip.active {
+      border-color: color-mix(in srgb, var(--brand) 50%, var(--line));
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr) 230px;
+      gap: 22px;
+      align-items: start;
+      padding: 20px 0 56px;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .sidebar,
+    .toc-panel {
+      position: sticky;
+      top: 90px;
+      max-height: calc(100vh - 110px);
+      overflow: auto;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .note-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .note-card {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      background: var(--panel-strong);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .note-card:hover,
+    .note-card.active {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--brand) 48%, var(--line));
+      box-shadow: 0 18px 40px rgba(27, 39, 71, 0.12);
+    }
+
+    .note-card h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .note-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .meta-row,
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tag {
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: color-mix(in srgb, var(--brand) 75%, var(--text));
+      background: color-mix(in srgb, var(--brand) 12%, transparent);
+    }
+
+    .article {
+      min-width: 0;
+      padding: clamp(22px, 4vw, 42px);
+    }
+
+    .article-header {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .article-header h1 {
+      margin: 12px 0 16px;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+    }
+
+    .article-summary {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .article-body {
+      padding-top: 10px;
+      font-size: 16px;
+      line-height: 1.86;
+    }
+
+    .article-body h2,
+    .article-body h3 {
+      scroll-margin-top: 100px;
+      letter-spacing: -0.03em;
+    }
+
+    .article-body h2 {
+      margin: 34px 0 12px;
+      font-size: 28px;
+    }
+
+    .article-body h3 {
+      margin: 24px 0 10px;
+      font-size: 21px;
+    }
+
+    .article-body p,
+    .article-body ul,
+    .article-body ol {
+      color: color-mix(in srgb, var(--text) 84%, var(--muted));
+    }
+
+    .article-body li {
+      margin: 7px 0;
+    }
+
+    .article-body blockquote {
+      margin: 22px 0;
+      padding: 18px 20px;
+      border-left: 4px solid var(--brand);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      color: var(--muted);
+      background: color-mix(in srgb, var(--brand) 9%, transparent);
+    }
+
+    .article-body code {
+      padding: 2px 7px;
+      border-radius: 8px;
+      color: var(--code);
+      background: color-mix(in srgb, var(--muted) 13%, transparent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 18px 0 24px;
+    }
+
+    .metric {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--panel-strong) 92%, transparent), color-mix(in srgb, var(--brand) 7%, transparent));
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .figure {
+      margin: 24px 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--panel-strong);
+    }
+
+    .figure img {
+      width: 100%;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .figure figcaption {
+      padding: 14px 16px 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .table-wrap {
+      margin: 22px 0;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+      background: var(--panel-strong);
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 13px;
+      background: color-mix(in srgb, var(--muted) 8%, transparent);
+    }
+
+    .toc-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .toc-list a:hover {
+      color: var(--text);
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+    }
+
+    .toc-list .toc-h3 {
+      padding-left: 22px;
+      font-size: 12px;
+    }
+
+    .empty-state {
+      padding: 28px;
+      color: var(--muted);
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    .footer {
+      padding: 22px 0 42px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1100px) {
+      .hero,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar,
+      .toc-panel {
+        position: static;
+        max-height: none;
+      }
+
+      .toc-panel {
+        order: 3;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100% - 20px, var(--max));
+      }
+
+      .topbar-inner,
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .brand span:last-child,
+      .hide-mobile {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+
+      .stats,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#" aria-label="返回首页">
+        <span class="brand-mark">N</span>
+        <span>Notes Lab</span>
+      </a>
+      <nav class="nav-actions" aria-label="站点操作">
+        <a class="ghost-btn hide-mobile" href="https://github.com/Cameron274365/Cameron274365.github.io" target="_blank" rel="noreferrer">GitHub</a>
+        <button class="ghost-btn" id="themeToggle" type="button">深色</button>
+        <a class="primary-btn" href="#notes">开始阅读</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-label="博客简介">
+      <div class="hero-card">
+        <span class="eyebrow">✨ Static Knowledge Base · Paper Notes · Research Radar</span>
+        <h1>把论文、想法和工程经验沉淀成<span class="gradient-text">可检索的笔记系统</span></h1>
+        <p>这是一个纯静态、无需构建工具的现代化笔记博客。左侧是目录与分类，正文自动生成文章内大纲；新增笔记时，只需要在页面底部的 <code>NOTES</code> 数组中追加一条记录。</p>
+        <div class="stats" id="stats"></div>
+      </div>
+
+      <aside class="panel quick-panel" aria-label="搜索和分类">
+        <h2>快速定位</h2>
+        <label class="search-box" for="searchInput">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="搜索标题、摘要、标签或正文..." />
+        </label>
+        <div class="category-list" id="categoryList"></div>
+      </aside>
+    </section>
+
+    <section class="layout" id="notes">
+      <aside class="panel sidebar" aria-label="笔记列表">
+        <div class="section-title">
+          <span>Notes</span>
+          <span id="noteCount"></span>
+        </div>
+        <div class="note-list" id="noteList"></div>
+      </aside>
+
+      <article class="panel article" aria-live="polite">
+        <header class="article-header" id="articleHeader"></header>
+        <div class="article-body" id="articleBody"></div>
+      </article>
+
+      <aside class="panel toc-panel" aria-label="文章目录">
+        <div class="section-title">On this page</div>
+        <ol class="toc-list" id="tocList"></ol>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">Built as a single-file static blog. Update notes in <code>index.html</code> → <code>NOTES</code>.</div>
+  </footer>
+
+  <script>
+    const NOTES = [
+      {
+        id: "streamingvlm-real-time-infinite-video",
+        title: "StreamingVLM：面向无限视频流的实时理解",
+        category: "论文阅读",
+        date: "2026-06-03",
+        readTime: "12 min",
+        tags: ["VLM", "Streaming", "KV Cache", "RoPE", "Video Understanding"],
+        summary: "StreamingVLM 通过训练-推理一致的流式框架，让 VLM 在近无限视频上保持低延迟、低显存和稳定理解能力。论文构建了 Inf-Streams-Train / Eval，并在长达 2 小时以上的视频流评测中取得强结果。",
+        hero: "assets/papers/streamingvlm/x1.png",
+        content: `
+## 一句话总结
+StreamingVLM 的核心不是单点技巧，而是把 **训练方式、推理缓存结构、位置编码和数据集** 对齐成一套流式系统：训练时用短且重叠的视频块做全注意力 SFT；推理时保留 attention sink、近期文本窗口和近期视觉窗口，并复用 KV cache；再用 contiguous RoPE 避免位置编号无限增长。
+
+<div class="metric-grid">
+  <div class="metric"><strong>66.18%</strong><span>Inf-Streams-Eval 上对 GPT-4o mini 的胜率</span></div>
+  <div class="metric"><strong>8 FPS</strong><span>单张 NVIDIA H100 上保持实时流式理解</span></div>
+  <div class="metric"><strong>2.12h</strong><span>Inf-Streams-Eval 视频平均长度</span></div>
+  <div class="metric"><strong>+5.96</strong><span>OVOBench Realtime 相对基座模型提升</span></div>
+</div>
+
+## 论文信息
+- **标题**：StreamingVLM: Real-Time Understanding for Infinite Video Streams
+- **作者**：Ruyi Xu, Guangxuan Xiao, Yukang Chen, Liuning He, Yao Lu, Song Han
+- **机构**：MIT, NVIDIA
+- **会议**：ICLR 2026
+- **链接**：[arXiv:2510.09608](https://arxiv.org/abs/2510.09608) · [项目代码](https://github.com/mit-han-lab/streaming-vlm)
+
+## 背景：为什么长视频流很难？
+现有 VLM 面对实时视频流时通常遇到三类问题：
+
+- **Full Attention 成本失控**：视频越长，注意力开销近似按 O(T²) 增长，显存和延迟都不可接受，并且超过训练长度后性能下降。
+- **无重叠 Sliding Window 破坏连贯性**：每个窗口像独立片段，历史语义容易断裂；窗口过长又会造成延迟。
+- **有重叠 Sliding Window 重算严重**：能保留部分上下文，但大量重复计算导致实时性差。
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x1.png" alt="StreamingVLM 与 full attention、sliding window 方法对比" loading="lazy" />
+  <figcaption>图 1：StreamingVLM 与既有方案对比。它通过 Sliding Window + Reuse KV 复用 attention sink、短视觉窗口和长文本窗口，从而兼顾历史、低延迟与稳定性。</figcaption>
+</figure>
+
+## 方法：训练-推理一致的流式框架
+### 1. Streaming-aware KV Cache
+推理时，模型维护一个紧凑 KV cache，主要保留三部分：
+
+- **Attention sink tokens**：系统提示和早期关键文本 token，用于稳定注意力。
+- **Long text window**：较长的近期文本窗口，保留对话和解说历史。
+- **Short vision window**：较短的近期视觉 token 窗口，跟踪正在发生的动作。
+
+这种非对称策略很符合视频流特点：视觉画面变化快，旧视觉 token 可以先淘汰；文本承载长期语义、人物、比分和上下文，需要保留更久。
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x3.png" alt="StreamingVLM 推理结构" loading="lazy" />
+  <figcaption>图 3：推理时保留 512 个 attention-sink token、512 个近期文本 token，以及覆盖 16 秒的近期视觉 token。</figcaption>
+</figure>
+
+### 2. Contiguous RoPE
+如果简单丢弃旧 token，剩余 token 的 RoPE 位置编号会持续增长，最后落到训练分布之外。StreamingVLM 在淘汰 token 后将位置编号左移，让保留 token 和新 token 的位置保持连续且有界。
+
+对 Qwen-VL 这类使用 3D 位置编码的模型，论文也把 contiguous RoPE 扩展到视觉 token 的时间、高度、宽度维度。
+
+### 3. Overlapped-chunk Full-attention SFT
+训练阶段不直接训练超长视频，而是把长视频切成长度 W 的短 chunk，相邻 chunk 有 O 帧重叠，并在每个 chunk 内使用 full attention。
+
+这个设计很关键：虽然训练时看的是短片段，但重叠区域让训练样本近似模拟推理时的 “sink + 近期文本 + 近期视觉” 注意力模式，从而实现 **训练-推理一致**。
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x4.png" alt="StreamingVLM 训练策略" loading="lazy" />
+  <figcaption>图 4：训练时使用重叠 chunk 内的全注意力，模拟推理时保留 attention sink 和近期窗口的有效注意力模式。</figcaption>
+</figure>
+
+## 数据：Inf-Streams-Train 与 Inf-Streams-Eval
+论文围绕体育解说构建数据，因为体育赛事天然具备长视频、实时动作、强时序和密集解说的特点。
+
+### 数据清洗流程
+- 收集篮球、足球、美式橄榄球、冰球、棒球五类比赛视频。
+- 使用 WhisperX 获取带时间戳 ASR。
+- 将视频切成 120 秒片段，用 GPT-5 判断每句解说应该 keep、edit 还是 delete。
+- 原始 ASR 中约 46.32% 保留，37.89% 编辑，15.79% 删除。
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x5.png" alt="数据构建流程" loading="lazy" />
+  <figcaption>图 5：数据管线从五类体育比赛中采集视频和 ASR，经 GPT 清洗后构建 SFT 数据、评测集和高质量 annealing 数据。</figcaption>
+</figure>
+
+### 训练与评测数据
+- **SFT 数据**：以 W=24s、O=12s 切分，构成 525K streaming samples。
+- **高质量 annealing 数据**：保留实时场上动作占比超过 80% 的片段，最终 14,786 条。
+- **Inf-Streams-Eval**：20 场完整比赛，平均 2.12 小时，按 100 秒片段评估，使用 GPT-5 基于参考解说进行 pairwise vote。
+
+## 实验结果
+### Captioning：长视频解说显著领先
+StreamingVLM 在 Inf-Streams-Eval 的 infinite 模式下，对 GPT-4o mini chunk 模式达到 **66.18% win rate**，对 LiveCC chunk 模式达到 **87.81% win rate**，对 LiveCC infinite 模式达到 **99.12% win rate**。
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x6.png" alt="既有 VLM 在跨 chunk 连贯性与训练长度之间的权衡问题" loading="lazy" />
+  <figcaption>图 6：既有 VLM 很难同时兼顾跨 chunk 连贯性和训练长度限制；短 chunk 容易失去上下文，长 chunk 又会逼近甚至超过训练长度。</figcaption>
+</figure>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型 A</th><th>对 GPT-4o mini</th><th>对 LiveCC chunk</th><th>对 LiveCC infinite</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen2.5-VL-7B-Instruct</td><td>0.01</td><td>20.44</td><td>95.97</td><td>基座模型缺少连续解说能力</td></tr>
+      <tr><td>LiveCC-7B-Instruct chunk</td><td>15.73</td><td>—</td><td>—</td><td>短 chunk 尚可，但长程连贯性不足</td></tr>
+      <tr><td>StreamingVLM infinite</td><td><strong>66.18</strong></td><td><strong>87.81</strong></td><td><strong>99.12</strong></td><td>保持长程历史和实时视觉感知</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x2.png" alt="既有 VLM 的问题与 StreamingVLM 的改进" loading="lazy" />
+  <figcaption>图 2：没有 SFT 时模型难以跨轮次连贯生成；full attention 很快超过训练长度并带来高延迟；普通 sliding window 难以保留足够上下文。</figcaption>
+</figure>
+
+### VQA：没有专门 VQA 微调也有提升
+StreamingVLM 并未针对 VQA 再做特殊微调，但在多个 VQA benchmark 上仍优于基座模型，说明流式 SFT 和数据本身改善了通用视频理解能力。
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>MVBench</th><th>VideoMME</th><th>LongVideoBench</th><th>OVOBench Realtime</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen2.5-VL-7B-Instruct</td><td>67.34</td><td>65.10</td><td>54.70</td><td>56.00</td></tr>
+      <tr><td>StreamingVLM</td><td><strong>69.16</strong></td><td>65.10</td><td><strong>59.00</strong></td><td><strong>61.96</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+### Efficiency：延迟稳定，支持实时
+Full attention 会随视频变长不断变慢甚至 OOM；普通 sliding window 会周期性重建上下文或重复计算。StreamingVLM 由于固定缓存长度并复用 KV，per-token latency 基本稳定，可在单张 H100 上以 8 FPS 支持实时解说。
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x7.png" alt="不同推理方式的延迟对比" loading="lazy" />
+  <figcaption>图 7：StreamingVLM 的 per-token latency 随视频长度保持稳定；虚线表示实时阈值。</figcaption>
+</figure>
+
+<figure class="figure">
+  <img src="assets/papers/streamingvlm/x8.png" alt="StreamingVLM 随时间推移的稳定性" loading="lazy" />
+  <figcaption>图 8：附录稳定性实验。测试视频按 20% 间隔分成五段，StreamingVLM 在后续片段中没有明显退化，说明复用 KV 的流式方案能够维持长时稳定性。</figcaption>
+</figure>
+
+## Ablation：哪些设计最关键？
+### Contiguous RoPE
+Native RoPE 在无限流上性能明显下降，因为位置编号不断外推；contiguous RoPE 让位置保持在训练分布内，Inf-Streams-Eval 对 GPT-4o mini 的胜率从 25.09 提升到 66.18。
+
+### 视觉窗口与文本窗口
+- 0 秒视觉窗口明显下降，说明近期视觉上下文对连续动作非常重要。
+- 16 秒视觉窗口是较优点：足够覆盖近期动作，同时不会显著增加计算。
+- 文本 token 的 sink 和 window 保留策略对长程连贯性很重要。
+
+### 数据和训练策略
+仅使用 Live-WhisperX-526K 的效果有限；加入 Inf-Streams-Train 后，长视频流式能力大幅提升；再加入高质量 annealing 数据后，解说质量和 VQA 表现继续增强。非重叠训练策略也弱于 overlapped strategy，证明 **数据本身不够，训练方式也必须匹配推理形态**。
+
+## 我的理解与启发
+这篇论文最值得借鉴的是系统设计视角：它没有把 “无限视频理解” 简化成单个长上下文技巧，而是同时处理了四个约束：
+
+1. **计算约束**：通过 KV 复用和固定窗口避免重复计算。
+2. **记忆约束**：文本和视觉使用不同保留策略，符合多模态信息的时间尺度差异。
+3. **分布约束**：contiguous RoPE 避免位置编码超出训练分布。
+4. **监督约束**：重叠 chunk 训练让短上下文 SFT 学到流式推理模式。
+
+对实际产品也有启发：如果要做实时助手、机器人或自动驾驶场景的多模态 Agent，不能只追求模型输入更长；更重要的是设计稳定、低延迟、可持续运行的在线状态表示。
+
+## 局限与待观察点
+- 主要数据来自体育解说，迁移到开放世界监控、机器人或车载场景仍需验证。
+- GPT-5 作为评审器带来可扩展性，但也可能引入 judge 偏差。
+- 论文强调 8 FPS 与单 H100，端侧或低成本部署还需要进一步压缩。
+- 模型长期输出中的事实一致性、安全性和可控性仍是产品化挑战。
+
+## 结论
+StreamingVLM 给出了一个务实路线：用 **attention sink + 文本长窗口 + 视觉短窗口 + KV 复用 + contiguous RoPE + overlapped SFT**，把已有 VLM 改造成可实时处理近无限视频流的系统。它的贡献不仅是性能指标，更是把训练、推理和数据闭环对齐的工程范式。
+        `
+      },
+      {
+        id: "how-to-maintain-this-blog",
+        title: "如何维护这个静态笔记博客",
+        category: "站点管理",
+        date: "2026-06-03",
+        readTime: "4 min",
+        tags: ["Static Site", "Notes", "Workflow"],
+        summary: "这个站点不依赖构建工具、不需要后端。新增文章时，在 index.html 的 NOTES 数组里追加对象即可，页面会自动生成列表、分类、搜索和文章目录。",
+        content: `
+## 结构说明
+这个博客是一个单文件静态站点，适合 GitHub Pages：
+
+- **数据层**：页面底部的 \`NOTES\` 数组。
+- **交互层**：搜索、分类筛选、文章切换、目录生成和主题切换都由原生 JavaScript 完成。
+- **资源层**：图片放在 \`assets/\` 目录，文章里使用相对路径引用。
+
+## 新增笔记步骤
+1. 在 \`NOTES\` 数组顶部或底部追加一条对象。
+2. 填写 \`id\`、\`title\`、\`category\`、\`date\`、\`readTime\`、\`tags\`、\`summary\`、\`content\`。
+3. 如果有图片，放到 \`assets/你的主题/\` 目录，并在正文中用 \`<figure class="figure">...\</figure>\` 引用。
+4. 提交并推送到 GitHub，GitHub Pages 会自动更新。
+
+## 内容建议
+- 标题尽量清晰，便于搜索。
+- 每篇文章保留“一句话总结”和“我的理解”。
+- 论文笔记建议记录：问题背景、核心方法、实验结论、局限、个人启发。
+- 对长期知识库来说，标签比时间更重要，建议保持标签稳定。
+        `
+      }
+    ];
+
+    const state = {
+      activeCategory: "全部",
+      query: "",
+      activeNoteId: new URLSearchParams(location.search).get("note") || NOTES[0].id
+    };
+
+    const elements = {
+      themeToggle: document.querySelector("#themeToggle"),
+      searchInput: document.querySelector("#searchInput"),
+      categoryList: document.querySelector("#categoryList"),
+      noteList: document.querySelector("#noteList"),
+      noteCount: document.querySelector("#noteCount"),
+      stats: document.querySelector("#stats"),
+      articleHeader: document.querySelector("#articleHeader"),
+      articleBody: document.querySelector("#articleBody"),
+      tocList: document.querySelector("#tocList")
+    };
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function slugify(text) {
+      return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
+        .replace(/^-+|-+$/g, "") || "section";
+    }
+
+    function inlineMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+    }
+
+    function renderMarkdown(markdown) {
+      const lines = markdown.trim().split("\n");
+      const html = [];
+      let paragraph = [];
+      let listOpen = false;
+      let passthrough = false;
+
+      function closeParagraph() {
+        if (paragraph.length) {
+          html.push(`<p>${inlineMarkdown(paragraph.join(" ").trim())}</p>`);
+          paragraph = [];
+        }
+      }
+
+      function closeList() {
+        if (listOpen) {
+          html.push("</ul>");
+          listOpen = false;
+        }
+      }
+
+      for (const rawLine of lines) {
+        const line = rawLine.trimEnd();
+        const trimmed = line.trim();
+
+        if (trimmed.startsWith("<") || passthrough) {
+          closeParagraph();
+          closeList();
+          html.push(line);
+          passthrough = !(trimmed.endsWith(">") && !trimmed.includes("<table") && !trimmed.includes("<figure") && !trimmed.includes("<div"));
+          if (trimmed.includes("</table>") || trimmed.includes("</figure>") || trimmed.includes("</div>")) {
+            passthrough = false;
+          }
+          continue;
+        }
+
+        if (!trimmed) {
+          closeParagraph();
+          closeList();
+          continue;
+        }
+
+        const headingMatch = trimmed.match(/^(#{2,3})\s+(.+)$/);
+        if (headingMatch) {
+          closeParagraph();
+          closeList();
+          const level = headingMatch[1].length;
+          const headingText = inlineMarkdown(headingMatch[2]);
+          const id = slugify(headingMatch[2]);
+          html.push(`<h${level} id="${id}">${headingText}</h${level}>`);
+          continue;
+        }
+
+        if (trimmed.startsWith("- ")) {
+          closeParagraph();
+          if (!listOpen) {
+            html.push("<ul>");
+            listOpen = true;
+          }
+          html.push(`<li>${inlineMarkdown(trimmed.slice(2))}</li>`);
+          continue;
+        }
+
+        if (trimmed.startsWith("> ")) {
+          closeParagraph();
+          closeList();
+          html.push(`<blockquote>${inlineMarkdown(trimmed.slice(2))}</blockquote>`);
+          continue;
+        }
+
+        paragraph.push(trimmed);
+      }
+
+      closeParagraph();
+      closeList();
+      return html.join("\n");
+    }
+
+    function getCategories() {
+      return ["全部", ...Array.from(new Set(NOTES.map(note => note.category)))];
+    }
+
+    function getFilteredNotes() {
+      const normalizedQuery = state.query.trim().toLowerCase();
+      return NOTES.filter(note => {
+        const categoryMatched = state.activeCategory === "全部" || note.category === state.activeCategory;
+        const searchable = [note.title, note.summary, note.category, note.tags.join(" "), note.content].join(" ").toLowerCase();
+        return categoryMatched && (!normalizedQuery || searchable.includes(normalizedQuery));
+      });
+    }
+
+    function renderStats() {
+      const categories = new Set(NOTES.map(note => note.category));
+      const tags = new Set(NOTES.flatMap(note => note.tags));
+      elements.stats.innerHTML = `
+        <div class="stat"><strong>${NOTES.length}</strong><span>篇笔记</span></div>
+        <div class="stat"><strong>${categories.size}</strong><span>个分类</span></div>
+        <div class="stat"><strong>${tags.size}</strong><span>个标签</span></div>
+      `;
+    }
+
+    function renderCategories() {
+      elements.categoryList.innerHTML = getCategories().map(category => `
+        <button class="chip ${category === state.activeCategory ? "active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
+      `).join("");
+    }
+
+    function renderNoteList() {
+      const filteredNotes = getFilteredNotes();
+      elements.noteCount.textContent = `${filteredNotes.length}/${NOTES.length}`;
+
+      if (!filteredNotes.length) {
+        elements.noteList.innerHTML = '<div class="empty-state">没有匹配的笔记</div>';
+        return;
+      }
+
+      elements.noteList.innerHTML = filteredNotes.map(note => `
+        <button class="note-card ${note.id === state.activeNoteId ? "active" : ""}" type="button" data-note-id="${note.id}">
+          <div class="meta-row"><span>${escapeHtml(note.category)}</span><span>·</span><span>${escapeHtml(note.date)}</span><span>·</span><span>${escapeHtml(note.readTime)}</span></div>
+          <h3>${escapeHtml(note.title)}</h3>
+          <p>${escapeHtml(note.summary)}</p>
+          <div class="tag-row">${note.tags.slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
+        </button>
+      `).join("");
+    }
+
+    function renderArticle() {
+      const filteredNotes = getFilteredNotes();
+      let note = NOTES.find(item => item.id === state.activeNoteId);
+      if (!filteredNotes.some(item => item.id === state.activeNoteId)) {
+        note = filteredNotes[0] || NOTES[0];
+        state.activeNoteId = note.id;
+      }
+
+      history.replaceState(null, "", `?note=${encodeURIComponent(note.id)}`);
+      document.title = `${note.title} · 屿佳的笔记博客`;
+
+      elements.articleHeader.innerHTML = `
+        <div class="meta-row"><span>${escapeHtml(note.category)}</span><span>·</span><span>${escapeHtml(note.date)}</span><span>·</span><span>${escapeHtml(note.readTime)}</span></div>
+        <h1>${escapeHtml(note.title)}</h1>
+        <p class="article-summary">${escapeHtml(note.summary)}</p>
+        <div class="tag-row">${note.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
+      `;
+      elements.articleBody.innerHTML = renderMarkdown(note.content);
+      renderToc();
+    }
+
+    function renderToc() {
+      const headings = elements.articleBody.querySelectorAll("h2, h3");
+      if (!headings.length) {
+        elements.tocList.innerHTML = '<li class="empty-state">暂无目录</li>';
+        return;
+      }
+
+      elements.tocList.innerHTML = Array.from(headings).map(heading => `
+        <li><a class="toc-${heading.tagName.toLowerCase()}" href="#${heading.id}">${heading.textContent}</a></li>
+      `).join("");
+    }
+
+    function render() {
+      renderStats();
+      renderCategories();
+      renderNoteList();
+      renderArticle();
+    }
+
+    function bindEvents() {
+      elements.searchInput.addEventListener("input", event => {
+        state.query = event.target.value;
+        renderNoteList();
+        renderArticle();
+      });
+
+      elements.categoryList.addEventListener("click", event => {
+        const button = event.target.closest("[data-category]");
+        if (!button) return;
+        state.activeCategory = button.dataset.category;
+        renderCategories();
+        renderNoteList();
+        renderArticle();
+      });
+
+      elements.noteList.addEventListener("click", event => {
+        const button = event.target.closest("[data-note-id]");
+        if (!button) return;
+        state.activeNoteId = button.dataset.noteId;
+        renderNoteList();
+        renderArticle();
+        window.scrollTo({ top: document.querySelector(".layout").offsetTop - 80, behavior: "smooth" });
+      });
+
+      elements.themeToggle.addEventListener("click", () => {
+        const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = nextTheme;
+        localStorage.setItem("notes-theme", nextTheme);
+        elements.themeToggle.textContent = nextTheme === "dark" ? "浅色" : "深色";
+      });
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem("notes-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
+      document.documentElement.dataset.theme = theme;
+      elements.themeToggle.textContent = theme === "dark" ? "浅色" : "深色";
+    }
+
+    initTheme();
+    bindEvents();
+    render();
+  </script>
+</body>
+</html>
