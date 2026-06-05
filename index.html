@@ -27,7 +27,7 @@
       <div class="hero-card">
         <span class="eyebrow">✨ Static Knowledge Base · Paper Notes · Research Radar</span>
         <h1>把论文、想法和工程经验沉淀成<span class="gradient-text">可检索的笔记系统</span></h1>
-        <p>这是一个纯静态、无需构建工具的现代化笔记博客。左侧是目录与分类，正文自动生成文章内大纲；新增笔记时，只需要在 <code>notes-data.js</code> 的 <code>NOTES</code> 数组中追加一条记录。</p>
+        <p>这是一个纯静态、无需前端框架和后端服务的现代化笔记博客。左侧是目录与分类，正文自动生成文章内大纲；新增笔记时，只需要在 <code>notes/</code> 中添加 Markdown 文件，再运行 <code>node scripts/build-notes.js</code> 生成数据。</p>
         <div class="stats" id="stats"></div>
       </div>
 
@@ -63,7 +63,7 @@
   </main>
 
   <footer class="footer">
-    <div class="shell">Built as a static blog. Update notes in <code>notes-data.js</code> → <code>NOTES</code>.</div>
+    <div class="shell">Built as a static blog. Update Markdown notes in <code>notes/</code>, then run <code>node scripts/build-notes.js</code>.</div>
   </footer>
 
   <script src="notes-data.js"></script>
