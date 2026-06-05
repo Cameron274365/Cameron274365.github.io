@@ -34,7 +34,7 @@
     }
 
     function inlineMarkdown(text) {
-      return text
+      return escapeHtml(text)
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/`([^`]+)`/g, "<code>$1</code>")
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
@@ -82,7 +82,7 @@
           continue;
         }
 
-        const headingMatch = trimmed.match(/^(#{2,3})\s+(.+)$/);
+        const headingMatch = trimmed.match(/^(#{2,4})\s+(.+)$/);
         if (headingMatch) {
           closeParagraph();
           closeList();
@@ -188,7 +188,7 @@
     }
 
     function renderToc() {
-      const headings = elements.articleBody.querySelectorAll("h2, h3");
+      const headings = elements.articleBody.querySelectorAll("h2, h3, h4");
       if (!headings.length) {
         elements.tocList.innerHTML = '<li class="empty-state">暂无目录</li>';
         return;

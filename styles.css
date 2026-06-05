@@ -409,7 +409,8 @@
     }
 
     .article-body h2,
-    .article-body h3 {
+    .article-body h3,
+    .article-body h4 {
       scroll-margin-top: 100px;
       letter-spacing: -0.03em;
     }
@@ -422,6 +423,12 @@
     .article-body h3 {
       margin: 24px 0 10px;
       font-size: 21px;
+    }
+
+    .article-body h4 {
+      margin: 18px 0 8px;
+      color: color-mix(in srgb, var(--text) 90%, var(--muted));
+      font-size: 17px;
     }
 
     .article-body p,
@@ -566,6 +573,12 @@
     .toc-list .toc-h3 {
       padding-left: 22px;
       font-size: 12px;
+    }
+
+    .toc-list .toc-h4 {
+      padding-left: 34px;
+      font-size: 12px;
+      opacity: 0.86;
     }
 
     .empty-state {
