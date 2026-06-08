@@ -4,10 +4,10 @@ title: "AURA：面向视频流的常开理解与实时助手"
 category: "论文阅读"
 date: "2026-06-08"
 order: 20
-readTime: "10 min"
+readTime: "11 min"
 tags: ["VideoLLM","Streaming","Real-Time QA","Proactive Assistant","Qwen3-VL","vLLM"]
 summary: "AURA 将流式视频理解从被动问答推进到常开式实时助手：统一模型持续观察视频流，在需要时回答或主动提醒，并通过双滑窗上下文、流式数据构造、静默-发言平衡训练和 vLLM 推理优化实现长时稳定交互。"
-hero: ""
+hero: "assets/papers/aura/x3.png"
 ---
 
 ## 一句话总结
@@ -55,6 +55,11 @@ AURA 将视频流按小时间片组织成对话格式。每个视频 chunk 对�
 
 当问答落到视频窗口之外时，AURA 会丢弃旧视频 chunk 和 `<|silent|>`，只保留有效文本问答。这一点很实用：旧画面成本高，但旧问题和回答仍可能决定当前任务该如何继续。
 
+<figure class="figure">
+  <img src="assets/papers/aura/x3.png" alt="AURA 交互式视频流上下文管理机制" loading="lazy" />
+  <figcaption>图 1：AURA 的交互式视频流上下文管理。系统同时维护近期视频窗口和历史 QA 窗口：视频负责当前视觉证据，文本 QA 负责保留用户意图与长期交互状态。</figcaption>
+</figure>
+
 ### 3. 三类流式问答模式
 AURA 明确区分三种交互模式：
 
@@ -63,6 +68,11 @@ AURA 明确区分三种交互模式：
 - **Multi-Response QA**：用户提出持续性任务后，模型在事件演化过程中多次响应，不需要用户反复追问。
 
 这三个模式让 AURA 更接近真实助手。例如“我刚才关灯了吗？”属于实时或回溯问答；“水烧开了提醒我”属于主动响应；“看到异常就告诉我”则可能需要多次响应。
+
+<figure class="figure">
+  <img src="assets/papers/aura/x4.png" alt="AURA 支持的三类流式 QA 交互" loading="lazy" />
+  <figcaption>图 2：AURA 定义三类流式交互：Real-Time QA 立即回答，Proactive QA 等未来证据出现后回答，Multi-Response QA 则在持续事件中多次响应。</figcaption>
+</figure>
 
 ### 4. 静默-发言平衡训练
 流式视频中，大多数时间模型都应该沉默。如果直接训练，`<|silent|>` 会远多于有效回答，模型容易学成“过度沉默”。AURA 使用 Silent-Speech Balanced Loss：
@@ -75,6 +85,11 @@ AURA 明确区分三种交互模式：
 ## 数据：从粗到细构造流式监督
 AURA 构建了一个 Coarse-to-Fine Streaming Data Engine，覆盖五个阶段：
 
+<figure class="figure">
+  <img src="assets/papers/aura/x5.png" alt="AURA Coarse-to-Fine Streaming Data Engine" loading="lazy" />
+  <figcaption>图 3：AURA 的 Coarse-to-Fine Streaming Data Engine。它从视频准备、QA 合成、QA 精修、流式结构化到质量验证，逐步把普通视频转化为可训练流式交互数据。</figcaption>
+</figure>
+
 1. **Video Preparation**：从公开互联网来源收集视频，覆盖体育、vlog、纪录片、百科、影视、课程、游戏、动画等类别，并统一到 2 FPS。
 2. **QA Synthesis**：先做场景分割和场景描述，再合成带时间戳的 Real-Time、Proactive 和 Multi-Response QA。
 3. **QA Refinement**：增加问题难度、改写问题表达，提升数据多样性。
@@ -83,8 +98,18 @@ AURA 构建了一个 Coarse-to-Fine Streaming Data Engine，覆盖五个阶段�
 
 训练数据规模约为 **115K streaming video QA 样本**，约 **1.04B tokens**；再混合约 **59K 内部离线视频 QA 样本**，总计约 **174K 样本 / 1.2B tokens**。模型基于 `Qwen3-VL-8B-Instruct`，训练时冻结视觉编码器和 connector，仅微调 LLM 部分。
 
+<figure class="figure">
+  <img src="assets/papers/aura/x7.png" alt="AURA 训练数据分布" loading="lazy" />
+  <figcaption>图 4：训练数据分布。左侧展示 QA 类型分布，右侧展示视频领域分布，说明 AURA 的训练样本同时覆盖多种交互形式和开放域视频内容。</figcaption>
+</figure>
+
 ## 推理系统：从模型到可交互 Demo
 GitHub 仓库释放的不只是权重，还包括一个完整实时系统。整体链路包括：
+
+<figure class="figure">
+  <img src="assets/papers/aura/x6.png" alt="AURA 端到端实时推理系统" loading="lazy" />
+  <figcaption>图 5：AURA 的端到端实时推理系统。浏览器采集视频和语音，ASR 转写语音，AURA 执行多模态推理，非静默响应再交给 streaming TTS 输出语音。</figcaption>
+</figure>
 
 - **视频输入**：浏览器端采集摄像头画面，后端按 chunk 送入模型。
 - **语音输入**：ASR 将用户语音转为文本，并和对应时间点的视频 chunk 组合。
@@ -110,6 +135,11 @@ AURA 在三个流式视频理解 benchmark 上都取得了强结果：
 </div>
 
 在 StreamingBench 上，AURA 不只是总体分高，而是在 Real-Time Visual Understanding、Omni-Source Understanding、Contextual Understanding 三个高层类别都表现领先。论文也指出，MiniCPM-o-4.5 虽然支持 full-duplex live-streaming，但在长于两分钟的视频流里容易沉默或生成无关响应，这恰好说明长时稳定上下文管理的重要性。
+
+<figure class="figure">
+  <img src="assets/papers/aura/x8.png" alt="AURA 推理性能与 TTFT 对比" loading="lazy" />
+  <figcaption>图 6：AURA 的推理性能对比。关闭滑窗会让计算 token 数随视频流增长；关闭 prefix caching 会让 TTFT 持续偏高；AURA 同时使用滑窗和 KV 复用来维持低延迟。</figcaption>
+</figure>
 
 ## 我的理解与启发
 AURA 最值得关注的地方不是单个 benchmark 分数，而是它把“实时视频助手”拆成了一个完整系统问题：
