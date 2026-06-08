@@ -6,6 +6,19 @@
   <meta name="description" content="一个现代化静态笔记博客，收录论文阅读、技术笔记与长期知识库。" />
   <title>屿佳的笔记博客</title>
   <link rel="stylesheet" href="styles.css?v=20260608-aura" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"], ["$$", "$$"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
   <header class="topbar">

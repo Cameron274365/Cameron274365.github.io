@@ -166,6 +166,16 @@
       `).join("");
     }
 
+    function renderMath() {
+      if (!window.MathJax || !window.MathJax.typesetPromise) {
+        return;
+      }
+
+      window.MathJax.typesetPromise([elements.articleBody]).catch(error => {
+        console.warn("MathJax render failed", error);
+      });
+    }
+
     function renderArticle() {
       const filteredNotes = getFilteredNotes();
       let note = NOTES.find(item => item.id === state.activeNoteId);
@@ -184,6 +194,7 @@
         <div class="tag-row">${note.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
       `;
       elements.articleBody.innerHTML = renderMarkdown(note.content);
+      renderMath();
       renderToc();
     }
 
