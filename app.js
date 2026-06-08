@@ -166,13 +166,96 @@
       `).join("");
     }
 
+    function markMathSources(rootElement) {
+      const mathPattern = /(\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\]|\$\$[\s\S]+?\$\$|(?<!\$)\$[^$\n]+?\$(?!\$))/g;
+      const textNodes = [];
+      const walker = document.createTreeWalker(rootElement, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const parentElement = node.parentElement;
+          if (!parentElement || parentElement.closest("code, pre, script, style, textarea, [data-tex]")) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return mathPattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+
+      while (walker.nextNode()) {
+        textNodes.push(walker.currentNode);
+      }
+
+      for (const textNode of textNodes) {
+        const fragment = document.createDocumentFragment();
+        const text = textNode.nodeValue;
+        let lastIndex = 0;
+        mathPattern.lastIndex = 0;
+
+        for (const match of text.matchAll(mathPattern)) {
+          if (match.index > lastIndex) {
+            fragment.append(document.createTextNode(text.slice(lastIndex, match.index)));
+          }
+
+          const mathSource = match[0];
+          const mathElement = document.createElement("span");
+          mathElement.className = "math-source";
+          mathElement.dataset.tex = mathSource;
+          mathElement.textContent = mathSource;
+          fragment.append(mathElement);
+          lastIndex = match.index + mathSource.length;
+        }
+
+        if (lastIndex < text.length) {
+          fragment.append(document.createTextNode(text.slice(lastIndex)));
+        }
+
+        textNode.replaceWith(fragment);
+      }
+    }
+
     function renderMath() {
+      markMathSources(elements.articleBody);
+
       if (!window.MathJax || !window.MathJax.typesetPromise) {
         return;
       }
 
       window.MathJax.typesetPromise([elements.articleBody]).catch(error => {
         console.warn("MathJax render failed", error);
+      });
+    }
+
+    function bindCopyMathSources() {
+      elements.articleBody.addEventListener("copy", event => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) {
+          return;
+        }
+
+        const range = selection.getRangeAt(0);
+        const startElement = range.startContainer.nodeType === Node.ELEMENT_NODE
+          ? range.startContainer
+          : range.startContainer.parentElement;
+        const selectedMathElement = startElement && startElement.closest("[data-tex]");
+
+        if (selectedMathElement && selectedMathElement.dataset.tex) {
+          event.clipboardData.setData("text/plain", selectedMathElement.dataset.tex);
+          event.preventDefault();
+          return;
+        }
+
+        const selectedContent = range.cloneContents();
+        let containsMath = false;
+        selectedContent.querySelectorAll("[data-tex]").forEach(mathElement => {
+          containsMath = true;
+          mathElement.textContent = mathElement.dataset.tex;
+        });
+
+        if (!containsMath) {
+          return;
+        }
+
+        event.clipboardData.setData("text/plain", selectedContent.textContent);
+        event.preventDefault();
       });
     }
 
@@ -260,5 +343,6 @@
 
     initTheme();
     bindEvents();
+    bindCopyMathSources();
     render();
   
