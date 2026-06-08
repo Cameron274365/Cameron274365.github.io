@@ -66,7 +66,17 @@
     <div class="shell">Built as a static blog. Update Markdown notes in <code>notes/</code>, then run <code>node scripts/build-notes.js</code>.</div>
   </footer>
 
-  <script src="notes-data.js?v=20260608-aura"></script>
-  <script src="app.js?v=20260608-aura"></script>
+  <script>
+    const assetVersion = Date.now().toString();
+
+    function loadScript(src, onload) {
+      const script = document.createElement("script");
+      script.src = `${src}?v=${assetVersion}`;
+      script.onload = onload;
+      document.body.appendChild(script);
+    }
+
+    loadScript("notes-data.js", () => loadScript("app.js"));
+  </script>
 </body>
 </html>
