@@ -224,6 +224,18 @@
       });
     }
 
+    function writeClipboardContent(event, htmlContent, plainTextContent) {
+      event.clipboardData.setData("text/html", htmlContent);
+      event.clipboardData.setData("text/plain", plainTextContent);
+      event.preventDefault();
+    }
+
+    function createHtmlFromFragment(fragment) {
+      const container = document.createElement("div");
+      container.append(fragment.cloneNode(true));
+      return container.innerHTML;
+    }
+
     function bindCopyMathSources() {
       elements.articleBody.addEventListener("copy", event => {
         const selection = window.getSelection();
@@ -238,8 +250,8 @@
         const selectedMathElement = startElement && startElement.closest("[data-tex]");
 
         if (selectedMathElement && selectedMathElement.dataset.tex) {
-          event.clipboardData.setData("text/plain", selectedMathElement.dataset.tex);
-          event.preventDefault();
+          const mathSource = selectedMathElement.dataset.tex;
+          writeClipboardContent(event, escapeHtml(mathSource), mathSource);
           return;
         }
 
@@ -254,8 +266,7 @@
           return;
         }
 
-        event.clipboardData.setData("text/plain", selectedContent.textContent);
-        event.preventDefault();
+        writeClipboardContent(event, createHtmlFromFragment(selectedContent), selectedContent.textContent);
       });
     }
 
