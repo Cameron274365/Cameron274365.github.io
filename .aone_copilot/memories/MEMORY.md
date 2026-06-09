@@ -1,0 +1,6 @@
+- [insight] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/insight_latex_公式渲染问题.md — 网页中 LaTeX 公式如 \(V_t\)、\(p_t \geq \tau\) 无法正确显示，需要检查前端 Markdown 渲染器配置。
+- [feedback] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/feedback_论文博客笔记需保留关键图片.md — 整理论文/技术报告笔记时必须保留关键图表，若无法访问需说明原因。
+- [preference] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/preference_技术笔记写作规范.md — 生成的技术笔记需要排除环境配置说明，重点介绍项目内容和技术细节。
+- [insight] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/insight_博客需支持目录导航和分类功能.md — 用户期望新博客具备现代静态网站特性：目录索引、分类浏览、易于维护更新。
+- [preference] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/preference_使用_todo_工具管理任务进度.md — 用户倾向于使用 todo_write 工具来跟踪复杂任务的多个步骤。
+- [feedback] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/feedback_论文博客笔记整理风格.md — 用户认可 StreamingVLM 笔记风格；论文/技术文章笔记需保留关键图片，无法获取时说明原因。
