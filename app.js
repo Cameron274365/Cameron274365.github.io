@@ -366,9 +366,53 @@
         return;
       }
 
-      elements.tocList.innerHTML = Array.from(headings).map(heading => `
-        <li><a class="toc-${heading.tagName.toLowerCase()}" href="#${heading.id}">${heading.textContent}</a></li>
-      `).join("");
+      const sections = [];
+      let currentSection = null;
+
+      for (const heading of headings) {
+        if (heading.tagName === "H2") {
+          currentSection = { heading, children: [] };
+          sections.push(currentSection);
+        } else if (currentSection) {
+          currentSection.children.push(heading);
+        } else {
+          sections.push({ heading, children: [] });
+        }
+      }
+
+      elements.tocList.innerHTML = sections.map(section => {
+        const sectionHeading = section.heading;
+        const hasChildren = section.children.length > 0;
+
+        if (!hasChildren) {
+          return `<li><a class="toc-${sectionHeading.tagName.toLowerCase()}" href="#${sectionHeading.id}">${sectionHeading.textContent}</a></li>`;
+        }
+
+        const childrenHtml = section.children.map(child =>
+          `<li><a class="toc-${child.tagName.toLowerCase()}" href="#${child.id}">${child.textContent}</a></li>`
+        ).join("");
+
+        return `
+          <li class="toc-section">
+            <div class="toc-section-header">
+              <a class="toc-h2" href="#${sectionHeading.id}">${sectionHeading.textContent}</a>
+              <button class="toc-toggle" type="button" aria-label="展开/折叠">▾</button>
+            </div>
+            <ol class="toc-children">${childrenHtml}</ol>
+          </li>`;
+      }).join("");
+    }
+
+    function bindTocToggle() {
+      elements.tocList.addEventListener("click", event => {
+        const toggle = event.target.closest(".toc-toggle");
+        if (!toggle) return;
+        event.preventDefault();
+        const section = toggle.closest(".toc-section");
+        const children = section.querySelector(".toc-children");
+        const isCollapsed = children.classList.toggle("collapsed");
+        toggle.textContent = isCollapsed ? "▸" : "▾";
+      });
     }
 
     function render() {
@@ -434,5 +478,6 @@
     initTheme();
     bindEvents();
     bindCopyMathSources();
+    bindTocToggle();
     render();
   
