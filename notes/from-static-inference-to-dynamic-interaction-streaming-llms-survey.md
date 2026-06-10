@@ -1,7 +1,7 @@
 ---
 id: "from-static-inference-to-dynamic-interaction-streaming-llms-survey"
 title: "Streaming LLM 综述：从静态推理到动态交互"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-05"
 order: 10
 readTime: "18 min"

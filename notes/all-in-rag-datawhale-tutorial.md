@@ -1,7 +1,7 @@
 ---
 id: "all-in-rag-datawhale-tutorial"
 title: "All-in-RAG：Datawhale RAG 全栈技术教程精读"
-category: "教程学习"
+category: "多模态 RAG"
 date: "2026-06-09"
 order: 50
 readTime: "25 min"

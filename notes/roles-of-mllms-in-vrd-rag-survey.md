@@ -1,7 +1,7 @@
 ---
 id: "roles-of-mllms-in-vrd-rag-survey"
 title: "VRD-RAG 综述：MLLM 在视觉富文档检索中的三种角色"
-category: "论文阅读"
+category: "多模态 RAG"
 date: "2026-06-09"
 order: 10
 readTime: "16 min"

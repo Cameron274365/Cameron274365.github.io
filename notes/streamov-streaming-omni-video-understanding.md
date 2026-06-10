@@ -1,7 +1,7 @@
 ---
 id: "streamov-streaming-omni-video-understanding"
 title: "StreamOV：基于证据记忆与响应触发的流式全模态视频理解"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 10
 readTime: "13 min"

@@ -1,7 +1,7 @@
 ---
 id: "roma-real-time-omni-multimodal-assistant"
 title: "ROMA：统一主动与被动交互的实时全模态助手"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-09"
 order: 10
 readTime: "14 min"

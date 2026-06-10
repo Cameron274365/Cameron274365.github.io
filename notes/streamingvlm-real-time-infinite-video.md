@@ -1,7 +1,7 @@
 ---
 id: "streamingvlm-real-time-infinite-video"
 title: "StreamingVLM：面向无限视频流的实时理解"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-03"
 order: 30
 readTime: "12 min"

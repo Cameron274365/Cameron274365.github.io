@@ -1,7 +1,7 @@
 ---
 id: "live-vlm-webui-real-time-vlm"
 title: "Live VLM WebUI：把视觉语言模型接到实时视频流上"
-category: "项目阅读"
+category: "Streaming VLM"
 date: "2026-06-05"
 order: 10
 readTime: "9 min"

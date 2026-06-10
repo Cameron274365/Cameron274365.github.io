@@ -1,7 +1,7 @@
 ---
 id: "multimodal-rag-survey"
 title: "多模态 RAG 综述：从检索、融合、增强到生成的全景梳理"
-category: "论文阅读"
+category: "多模态 RAG"
 date: "2026-06-09"
 order: 5
 readTime: "20 min"

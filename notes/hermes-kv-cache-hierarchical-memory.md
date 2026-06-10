@@ -1,7 +1,7 @@
 ---
 id: "hermes-kv-cache-hierarchical-memory"
 title: "HERMES：把 KV Cache 当作层次化记忆的流式视频理解框架"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 10
 readTime: "13 min"

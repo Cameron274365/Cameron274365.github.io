@@ -1,7 +1,7 @@
 ---
 id: "fluxmem-adaptive-hierarchical-memory"
 title: "FluxMem：面向流式视频理解的自适应层级记忆"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 20
 readTime: "11 min"

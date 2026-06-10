@@ -1,7 +1,7 @@
 ---
 id: "simple-stream-baseline-streaming-video-understanding"
 title: "SimpleStream：流式视频理解中的强简单基线"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 10
 readTime: "11 min"

@@ -325,26 +325,85 @@
 
     .note-list {
       display: grid;
-      gap: 12px;
+      gap: 16px;
+    }
+
+    .note-group {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .note-group-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--panel-strong);
+      border: none;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .note-group-header:hover {
+      background: color-mix(in srgb, var(--brand) 6%, var(--panel-strong));
+    }
+
+    .note-group-chevron {
+      font-size: 12px;
+      color: var(--muted);
+      width: 16px;
+      text-align: center;
+    }
+
+    .note-group-title {
+      flex: 1;
+    }
+
+    .note-group-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--line);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .note-group-body {
+      display: grid;
+      gap: 8px;
+      padding: 8px;
+    }
+
+    .note-group-body.collapsed {
+      display: none;
     }
 
     .note-card {
       width: 100%;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm, 6px);
       color: var(--text);
       text-align: left;
       cursor: pointer;
-      background: var(--panel-strong);
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      background: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
-    .note-card:hover,
+    .note-card:hover {
+      background: color-mix(in srgb, var(--brand) 5%, transparent);
+      border-color: var(--line);
+    }
+
     .note-card.active {
-      transform: translateY(-2px);
-      border-color: color-mix(in srgb, var(--brand) 48%, var(--line));
-      box-shadow: 0 18px 40px rgba(27, 39, 71, 0.12);
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      border-color: color-mix(in srgb, var(--brand) 40%, var(--line));
     }
 
     .note-card h3 {

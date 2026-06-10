@@ -1,7 +1,7 @@
 ---
 id: "aura-always-on-understanding-real-time-assistance"
 title: "AURA：面向视频流的常开理解与实时助手"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 20
 readTime: "11 min"

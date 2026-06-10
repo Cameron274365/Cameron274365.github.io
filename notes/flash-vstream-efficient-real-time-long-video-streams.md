@@ -1,7 +1,7 @@
 ---
 id: "flash-vstream-efficient-real-time-long-video-streams"
 title: "Flash-VStream：面向长视频流的高效实时理解"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-04"
 order: 20
 readTime: "11 min"

@@ -1,7 +1,7 @@
 ---
 id: "think-as-you-see-streaming-chain-of-thought"
 title: "Think-as-You-See：面向视频流的实时 CoT 推理"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-05"
 order: 10
 readTime: "13 min"

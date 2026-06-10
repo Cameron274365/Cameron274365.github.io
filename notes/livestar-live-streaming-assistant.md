@@ -1,7 +1,7 @@
 ---
 id: "livestar-live-streaming-assistant"
 title: "LiveStar：面向真实在线视频理解的直播助手"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 10
 readTime: "14 min"

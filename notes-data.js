@@ -2,7 +2,7 @@ const NOTES = [
   {
     "id": "multimodal-rag-survey",
     "title": "多模态 RAG 综述：从检索、融合、增强到生成的全景梳理",
-    "category": "论文阅读",
+    "category": "多模态 RAG",
     "date": "2026-06-09",
     "order": 5,
     "readTime": "20 min",
@@ -26,7 +26,7 @@ const NOTES = [
   {
     "id": "roles-of-mllms-in-vrd-rag-survey",
     "title": "VRD-RAG 综述：MLLM 在视觉富文档检索中的三种角色",
-    "category": "论文阅读",
+    "category": "多模态 RAG",
     "date": "2026-06-09",
     "order": 10,
     "readTime": "16 min",
@@ -45,7 +45,7 @@ const NOTES = [
   {
     "id": "roma-real-time-omni-multimodal-assistant",
     "title": "ROMA：统一主动与被动交互的实时全模态助手",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-09",
     "order": 10,
     "readTime": "14 min",
@@ -65,7 +65,7 @@ const NOTES = [
   {
     "id": "streammind-event-gated-cognition",
     "title": "StreamMind：用事件门控实现全帧率流式视频对话",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-09",
     "order": 20,
     "readTime": "13 min",
@@ -83,7 +83,7 @@ const NOTES = [
   {
     "id": "all-in-rag-datawhale-tutorial",
     "title": "All-in-RAG：Datawhale RAG 全栈技术教程精读",
-    "category": "教程学习",
+    "category": "多模态 RAG",
     "date": "2026-06-09",
     "order": 50,
     "readTime": "25 min",
@@ -103,7 +103,7 @@ const NOTES = [
   {
     "id": "hermes-kv-cache-hierarchical-memory",
     "title": "HERMES：把 KV Cache 当作层次化记忆的流式视频理解框架",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 10,
     "readTime": "13 min",
@@ -122,7 +122,7 @@ const NOTES = [
   {
     "id": "livestar-live-streaming-assistant",
     "title": "LiveStar：面向真实在线视频理解的直播助手",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 10,
     "readTime": "14 min",
@@ -141,7 +141,7 @@ const NOTES = [
   {
     "id": "simple-stream-baseline-streaming-video-understanding",
     "title": "SimpleStream：流式视频理解中的强简单基线",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 10,
     "readTime": "11 min",
@@ -159,7 +159,7 @@ const NOTES = [
   {
     "id": "streamov-streaming-omni-video-understanding",
     "title": "StreamOV：基于证据记忆与响应触发的流式全模态视频理解",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 10,
     "readTime": "13 min",
@@ -179,7 +179,7 @@ const NOTES = [
   {
     "id": "stride-when-to-speak-sequence-denoising",
     "title": "STRIDE：用序列去噪解决流式视频中的何时开口",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 10,
     "readTime": "12 min",
@@ -198,7 +198,7 @@ const NOTES = [
   {
     "id": "aura-always-on-understanding-real-time-assistance",
     "title": "AURA：面向视频流的常开理解与实时助手",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 20,
     "readTime": "11 min",
@@ -217,7 +217,7 @@ const NOTES = [
   {
     "id": "fluxmem-adaptive-hierarchical-memory",
     "title": "FluxMem：面向流式视频理解的自适应层级记忆",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-08",
     "order": 20,
     "readTime": "11 min",
@@ -237,7 +237,7 @@ const NOTES = [
   {
     "id": "from-static-inference-to-dynamic-interaction-streaming-llms-survey",
     "title": "Streaming LLM 综述：从静态推理到动态交互",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-05",
     "order": 10,
     "readTime": "18 min",
@@ -256,7 +256,7 @@ const NOTES = [
   {
     "id": "live-vlm-webui-real-time-vlm",
     "title": "Live VLM WebUI：把视觉语言模型接到实时视频流上",
-    "category": "项目阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-05",
     "order": 10,
     "readTime": "9 min",
@@ -274,7 +274,7 @@ const NOTES = [
   {
     "id": "proact-vl-proactive-videollm-real-time-ai-companions",
     "title": "Proact-VL：面向实时 AI Companion 的主动式 VideoLLM",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-05",
     "order": 10,
     "readTime": "13 min",
@@ -292,7 +292,7 @@ const NOTES = [
   {
     "id": "think-as-you-see-streaming-chain-of-thought",
     "title": "Think-as-You-See：面向视频流的实时 CoT 推理",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-05",
     "order": 10,
     "readTime": "13 min",
@@ -310,7 +310,7 @@ const NOTES = [
   {
     "id": "streamchat-memory-enhanced-streaming-video-understanding",
     "title": "StreamChat：用层级记忆实现流式视频理解与多轮交互",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-04",
     "order": 10,
     "readTime": "13 min",
@@ -329,7 +329,7 @@ const NOTES = [
   {
     "id": "flash-vstream-efficient-real-time-long-video-streams",
     "title": "Flash-VStream：面向长视频流的高效实时理解",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-04",
     "order": 20,
     "readTime": "11 min",
@@ -348,7 +348,7 @@ const NOTES = [
   {
     "id": "streamingvlm-real-time-infinite-video",
     "title": "StreamingVLM：面向无限视频流的实时理解",
-    "category": "论文阅读",
+    "category": "Streaming VLM",
     "date": "2026-06-03",
     "order": 30,
     "readTime": "12 min",

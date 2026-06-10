@@ -1,7 +1,7 @@
 ---
 id: "stride-when-to-speak-sequence-denoising"
 title: "STRIDE：用序列去噪解决流式视频中的何时开口"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-08"
 order: 10
 readTime: "12 min"

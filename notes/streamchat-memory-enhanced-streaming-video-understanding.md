@@ -1,7 +1,7 @@
 ---
 id: "streamchat-memory-enhanced-streaming-video-understanding"
 title: "StreamChat：用层级记忆实现流式视频理解与多轮交互"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-04"
 order: 10
 readTime: "13 min"

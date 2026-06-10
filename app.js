@@ -1,7 +1,8 @@
     const state = {
       activeCategory: "全部",
       query: "",
-      activeNoteId: new URLSearchParams(location.search).get("note") || NOTES[0].id
+      activeNoteId: new URLSearchParams(location.search).get("note") || NOTES[0].id,
+      collapsedGroups: new Set()
     };
 
     const elements = {
@@ -147,6 +148,18 @@
       `).join("");
     }
 
+    function groupNotesByCategory(notes) {
+      const groups = new Map();
+      for (const note of notes) {
+        const category = note.category;
+        if (!groups.has(category)) {
+          groups.set(category, []);
+        }
+        groups.get(category).push(note);
+      }
+      return groups;
+    }
+
     function renderNoteList() {
       const filteredNotes = getFilteredNotes();
       elements.noteCount.textContent = `${filteredNotes.length}/${NOTES.length}`;
@@ -156,14 +169,33 @@
         return;
       }
 
-      elements.noteList.innerHTML = filteredNotes.map(note => `
-        <button class="note-card ${note.id === state.activeNoteId ? "active" : ""}" type="button" data-note-id="${note.id}">
-          <div class="meta-row"><span>${escapeHtml(note.category)}</span><span>·</span><span>${escapeHtml(note.date)}</span><span>·</span><span>${escapeHtml(note.readTime)}</span></div>
-          <h3>${escapeHtml(note.title)}</h3>
-          <p>${escapeHtml(note.summary)}</p>
-          <div class="tag-row">${note.tags.slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
-        </button>
-      `).join("");
+      const groups = groupNotesByCategory(filteredNotes);
+      const groupsHtml = [];
+
+      for (const [category, notes] of groups) {
+        const isExpanded = !state.collapsedGroups || !state.collapsedGroups.has(category);
+        const cardsHtml = notes.map(note => `
+          <button class="note-card ${note.id === state.activeNoteId ? "active" : ""}" type="button" data-note-id="${note.id}">
+            <div class="meta-row"><span>${escapeHtml(note.date)}</span><span>·</span><span>${escapeHtml(note.readTime)}</span></div>
+            <h3>${escapeHtml(note.title)}</h3>
+            <p>${escapeHtml(note.summary)}</p>
+            <div class="tag-row">${note.tags.slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
+          </button>
+        `).join("");
+
+        groupsHtml.push(`
+          <div class="note-group">
+            <button class="note-group-header ${isExpanded ? "expanded" : ""}" type="button" data-group-category="${escapeHtml(category)}">
+              <span class="note-group-chevron">${isExpanded ? "▾" : "▸"}</span>
+              <span class="note-group-title">${escapeHtml(category)}</span>
+              <span class="note-group-count">${notes.length}</span>
+            </button>
+            <div class="note-group-body ${isExpanded ? "" : "collapsed"}">${cardsHtml}</div>
+          </div>
+        `);
+      }
+
+      elements.noteList.innerHTML = groupsHtml.join("");
     }
 
     function markMathSources(rootElement) {
@@ -270,6 +302,40 @@
       });
     }
 
+    let imageObserver = null;
+
+    function setupImageLazyLoad() {
+      if (imageObserver) {
+        imageObserver.disconnect();
+      }
+
+      const lazyImages = elements.articleBody.querySelectorAll("img[data-src]");
+      if (!lazyImages.length) return;
+
+      imageObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.removeAttribute("data-src");
+            imageObserver.unobserve(img);
+          }
+        }
+      }, { rootMargin: "200px 0px" });
+
+      for (const img of lazyImages) {
+        imageObserver.observe(img);
+      }
+    }
+
+    function deferImages(html) {
+      return html.replace(/<img\s([^>]*?)src="([^"]+)"([^>]*?)>/g, (match, before, src, after) => {
+        const cleanBefore = before.replace(/loading="[^"]*"\s*/g, "");
+        const cleanAfter = after.replace(/loading="[^"]*"\s*/g, "");
+        return `<img ${cleanBefore}data-src="${src}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"${cleanAfter}>`;
+      });
+    }
+
     function renderArticle() {
       const filteredNotes = getFilteredNotes();
       let note = NOTES.find(item => item.id === state.activeNoteId);
@@ -287,7 +353,8 @@
         <p class="article-summary">${escapeHtml(note.summary)}</p>
         <div class="tag-row">${note.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
       `;
-      elements.articleBody.innerHTML = renderMarkdown(note.content);
+      elements.articleBody.innerHTML = deferImages(renderMarkdown(note.content));
+      setupImageLazyLoad();
       renderMath();
       renderToc();
     }
@@ -328,6 +395,18 @@
       });
 
       elements.noteList.addEventListener("click", event => {
+        const groupHeader = event.target.closest("[data-group-category]");
+        if (groupHeader) {
+          const category = groupHeader.dataset.groupCategory;
+          if (state.collapsedGroups.has(category)) {
+            state.collapsedGroups.delete(category);
+          } else {
+            state.collapsedGroups.add(category);
+          }
+          renderNoteList();
+          return;
+        }
+
         const button = event.target.closest("[data-note-id]");
         if (!button) return;
         state.activeNoteId = button.dataset.noteId;

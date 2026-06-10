@@ -1,7 +1,7 @@
 ---
 id: "proact-vl-proactive-videollm-real-time-ai-companions"
 title: "Proact-VL：面向实时 AI Companion 的主动式 VideoLLM"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-05"
 order: 10
 readTime: "13 min"

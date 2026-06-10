@@ -1,7 +1,7 @@
 ---
 id: "streammind-event-gated-cognition"
 title: "StreamMind：用事件门控实现全帧率流式视频对话"
-category: "论文阅读"
+category: "Streaming VLM"
 date: "2026-06-09"
 order: 20
 readTime: "13 min"
