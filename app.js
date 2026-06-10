@@ -398,7 +398,7 @@
               <a class="toc-h2" href="#${sectionHeading.id}">${sectionHeading.textContent}</a>
               <button class="toc-toggle" type="button" aria-label="展开/折叠">▾</button>
             </div>
-            <ol class="toc-children">${childrenHtml}</ol>
+            <ul class="toc-children">${childrenHtml}</ul>
           </li>`;
       }).join("");
     }
@@ -439,15 +439,24 @@
       });
 
       elements.noteList.addEventListener("click", event => {
-        const groupHeader = event.target.closest("[data-group-category]");
+        const groupHeader = event.target.closest(".note-group-header");
         if (groupHeader) {
           const category = groupHeader.dataset.groupCategory;
+          const group = groupHeader.closest(".note-group");
+          const body = group.querySelector(".note-group-body");
+          const chevron = groupHeader.querySelector(".note-group-chevron");
+
           if (state.collapsedGroups.has(category)) {
             state.collapsedGroups.delete(category);
+            body.classList.remove("collapsed");
+            groupHeader.classList.add("expanded");
+            chevron.textContent = "▾";
           } else {
             state.collapsedGroups.add(category);
+            body.classList.add("collapsed");
+            groupHeader.classList.remove("expanded");
+            chevron.textContent = "▸";
           }
-          renderNoteList();
           return;
         }
 
