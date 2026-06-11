@@ -1,7 +1,7 @@
 ---
 id: "colpali-efficient-document-retrieval-vlm"
 title: "ColPali：用视觉语言模型重做文档检索"
-category: "Multimodal RAG"
+category: "多模态 RAG"
 date: "2026-06-11"
 order: 10
 readTime: "12 min"

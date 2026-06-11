@@ -4,3 +4,4 @@
 - [insight] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/insight_博客需支持目录导航和分类功能.md — 用户期望新博客具备现代静态网站特性：目录索引、分类浏览、易于维护更新。
 - [preference] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/preference_使用_todo_工具管理任务进度.md — 用户倾向于使用 todo_write 工具来跟踪复杂任务的多个步骤。
 - [feedback] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/feedback_论文博客笔记整理风格.md — 用户认可 StreamingVLM 笔记风格；论文/技术文章笔记需保留关键图片，无法获取时说明原因。
+- [preference] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/preference_新增博客分类前需询问.md — 新增博客目录分类前必须先询问用户意见，优先复用现有分类。

@@ -1,7 +1,7 @@
 ---
 id: "mmed-rag-medical-vlm"
 title: "MMed-RAG：面向医疗视觉语言模型的多模态 RAG"
-category: "论文阅读"
+category: "多模态 RAG"
 date: "2026-06-10"
 order: 20
 readTime: "13 min"

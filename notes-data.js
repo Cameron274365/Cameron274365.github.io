@@ -2,7 +2,7 @@ const NOTES = [
   {
     "id": "colpali-efficient-document-retrieval-vlm",
     "title": "ColPali：用视觉语言模型重做文档检索",
-    "category": "Multimodal RAG",
+    "category": "多模态 RAG",
     "date": "2026-06-11",
     "order": 10,
     "readTime": "12 min",
@@ -21,7 +21,7 @@ const NOTES = [
   {
     "id": "qwen3-vl-embedding-reranker",
     "title": "Qwen3-VL-Embedding / Reranker：统一多模态检索与排序框架",
-    "category": "Multimodal RAG",
+    "category": "多模态 RAG",
     "date": "2026-06-11",
     "order": 10,
     "readTime": "14 min",
@@ -62,7 +62,7 @@ const NOTES = [
   {
     "id": "mmed-rag-medical-vlm",
     "title": "MMed-RAG：面向医疗视觉语言模型的多模态 RAG",
-    "category": "论文阅读",
+    "category": "多模态 RAG",
     "date": "2026-06-10",
     "order": 20,
     "readTime": "13 min",

@@ -30,7 +30,7 @@ description: 将论文阅读内容整理为当前静态笔记博客中的高质�
 4. **写入博客笔记**
    - 在 `index.html` 的 `NOTES` 数组中新增或更新一条 note。
    - 字段包含：`id`、`title`、`category`、`date`、`readTime`、`tags`、`summary`、`content`。
-   - `category` 通常使用 `论文阅读`。
+   - `category` 应优先复用现有目录分类；不要因为是论文笔记就默认创建 `论文阅读`。如果需要创建新的分类，必须先询问用户意见。
    - `tags` 应覆盖模型类型、任务、关键技术和 benchmark。
 
 ## 推荐笔记结构

@@ -1,7 +1,7 @@
 ---
 id: "qwen3-vl-embedding-reranker"
 title: "Qwen3-VL-Embedding / Reranker：统一多模态检索与排序框架"
-category: "Multimodal RAG"
+category: "多模态 RAG"
 date: "2026-06-11"
 order: 10
 readTime: "14 min"
