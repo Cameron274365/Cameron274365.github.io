@@ -100,6 +100,19 @@ function buildNotesData() {
   const output = `const NOTES = ${JSON.stringify(notes, null, 2)};\n`;
   fs.writeFileSync(outputFile, output);
   console.log(`Built ${notes.length} notes into ${path.relative(rootDir, outputFile)}`);
+
+  // Auto-bump CSS version in index.html to bust browser cache
+  const indexPath = path.join(rootDir, "index.html");
+  if (fs.existsSync(indexPath)) {
+    const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    let html = fs.readFileSync(indexPath, "utf8");
+    html = html.replace(
+      /styles\.css\?v=[^"]+/,
+      `styles.css?v=${dateStamp}-build`
+    );
+    fs.writeFileSync(indexPath, html);
+    console.log(`Updated index.html CSS version to ${dateStamp}-build`);
+  }
 }
 
 buildNotesData();
