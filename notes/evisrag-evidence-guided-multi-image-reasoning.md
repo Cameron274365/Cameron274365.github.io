@@ -7,7 +7,7 @@ order: 20
 readTime: "15 min"
 tags: ["Visual RAG","Multi-Image Reasoning","RS-GRPO","VLM","Evidence Grounding","Reinforcement Learning"]
 summary: "EVisRAG 提出 observe → record evidence → reason → answer 四阶段视觉 RAG 推理范式，并引入 RS-GRPO（Reward-Scoped GRPO）将感知奖励和推导奖励分别绑定到对应 token 作用域，在 5 个 VQA benchmark 上平均 F1 超过 Qwen2.5-VL-7B backbone 27 个百分点。"
-hero: "assets/papers/evisrag/page3_framework.webp"
+hero: "assets/papers/evisrag/fig2_framework.webp"
 ---
 
 ## 一句话总结
@@ -38,7 +38,7 @@ Visual RAG (VRAG) 将文档页快照作为检索单元，让 VLM 直接从图像
 3. **外部 agent/工具增加架构复杂度**：一些工作（如 VRAG-RL、ViDoRAG）引入视觉感知动作空间或多 agent 框架来改善感知，但增加了架构复杂度和计算成本，难以端到端训练和后续重构。
 
 <figure class="figure">
-  <img src="assets/papers/evisrag/page1_fig1.webp" alt="EVisRAG 与 normal VLRM 对比" loading="lazy" />
+  <img src="assets/papers/evisrag/fig1_comparison.webp" alt="EVisRAG 与 normal VLRM 对比" loading="lazy" />
   <figcaption>图 1：Normal VLRM 直接对检索图像进行端到端推理，容易在多图场景中遗漏证据；EVisRAG 先逐页观察并记录每页证据，再基于证据推理，产出更准确的答案。</figcaption>
 </figure>
 
@@ -86,7 +86,7 @@ M(t) = \begin{cases} \{R_{\text{perception}}, R_{\text{format}}\} & t \in T_o \c
 这个设计的关键洞察是：**感知奖励不应该作用于推理区间（否则会干扰推理学习），推理奖励也不应该作用于观察区间（否则会模糊感知学习）**。
 
 <figure class="figure">
-  <img src="assets/papers/evisrag/page3_framework.webp" alt="EVisRAG 整体框架与 RS-GRPO" loading="lazy" />
+  <img src="assets/papers/evisrag/fig2_framework.webp" alt="EVisRAG 整体框架与 RS-GRPO" loading="lazy" />
   <figcaption>图 2：EVisRAG 框架。Stage 1 为 SFT 冷启动（Long CoT cold start），Stage 2 为 RS-GRPO 策略模型更新。模型输出四个 token scope，三种细粒度奖励分别绑定到对应 scope 的 token 上，scope 内奖励均值化后做组归一化得到 token advantages。</figcaption>
 </figure>
 
@@ -152,11 +152,16 @@ R_{\text{perception}} = \frac{\sum_{i=1}^{n} r_i}{n}
 - 其他 VRAG 方法（VRAG-RL、R1-Router）的 F1 分数极低（15-17%），尽管 Accuracy 尚可——说明它们缺乏对 "insufficient to answer" 场景的准确判断，EVisRAG 在这一点上远优于它们。
 
 <figure class="figure">
-  <img src="assets/papers/evisrag/page7_results.webp" alt="主实验结果与消融实验" loading="lazy" />
-  <figcaption>图 3：Table 1（上）为总体性能对比，Table 2（下）为消融实验。EVisRAG 在所有 benchmark 上一致领先，消融实验逐步移除 Perception、Perception Reward、RS-GRPO 后性能依次下降。</figcaption>
+  <img src="assets/papers/evisrag/table1_results.webp" alt="主实验结果 Table 1" loading="lazy" />
+  <figcaption>图 3：总体性能对比（Table 1）。EVisRAG 在所有 5 个 benchmark 上一致领先，平均 Acc 75.01、F1 77.86。</figcaption>
 </figure>
 
 ## Ablation：哪些设计最关键？
+
+<figure class="figure">
+  <img src="assets/papers/evisrag/table2_ablation.webp" alt="消融实验 Table 2" loading="lazy" />
+  <figcaption>图 4：消融实验（Table 2）。逐步移除证据引导范式、感知奖励、RS-GRPO 后性能依次下降。</figcaption>
+</figure>
 
 <div class="table-wrap">
   <table>
@@ -181,8 +186,8 @@ R_{\text{perception}} = \frac{\sum_{i=1}^{n} r_i}{n}
 论文手动标注了 100+ 案例的证据区域，计算 **visual evidence attention ratio**（注意力落在证据框内的比例）。
 
 <figure class="figure">
-  <img src="assets/papers/evisrag/page9_attention.webp" alt="视觉证据注意力分析与证据密度对比" loading="lazy" />
-  <figcaption>图 4：(a) 准确率 vs 证据区域注意力比例——EVisRAG 达到最高注意力比例和最高准确率，两者呈正相关。(b) 可视化注意力热力图——EVisRAG 能精确聚焦到包含证据的 top bar 区域。</figcaption>
+  <img src="assets/papers/evisrag/fig3_attention.webp" alt="视觉证据注意力分析与注意力热力图" loading="lazy" />
+  <figcaption>图 5：(a) 准确率 vs 证据区域注意力比例——EVisRAG 达到最高注意力比例和最高准确率，两者呈正相关。(b) 可视化注意力热力图——EVisRAG 能精确聚焦到包含证据的 top bar 区域。</figcaption>
 </figure>
 
 关键发现：**模型对证据区域的注意力比例与回答准确率呈正相关**。EVisRAG 的注意力比例显著高于所有 baseline，说明 RS-GRPO 确实让模型学会了 "看对地方"。
@@ -190,6 +195,20 @@ R_{\text{perception}} = \frac{\sum_{i=1}^{n} r_i}{n}
 ### 证据密度鲁棒性
 
 论文测试了 top-1 到 top-5 不同检索数量下的证据密度变化。随着检索图像增多，总证据 token 数增加但证据密度急剧下降。EVisRAG 在所有密度水平下一致优于 baseline，尤其在 DocVQA 上性能保持稳定，说明其 **抗幻觉能力更强**。
+
+<figure class="figure">
+  <img src="assets/papers/evisrag/fig4_density.webp" alt="不同检索数量下的证据密度与性能对比" loading="lazy" />
+  <figcaption>图 6：不同检索数量（top-1 至 top-5）下的证据密度变化与 F1 性能对比。EVisRAG 在所有密度水平下均优于 baseline。</figcaption>
+</figure>
+
+### 检索正确/错误场景下的表现
+
+在 ChartQA 上分析模型在检索正确和检索错误两种场景下的行为分布。EVisRAG 在检索正确时将正确生成率从 24.32% 大幅提升至 39.12%（+14.80%），同时在检索错误时保持较低的幻觉率（不正确生成仅下降 16.72%），展现了 **更强的证据忠实性**。
+
+<figure class="figure">
+  <img src="assets/papers/evisrag/fig5_retrieval.webp" alt="检索正确与错误场景下的模型行为分布" loading="lazy" />
+  <figcaption>图 7：ChartQA 上检索正确/错误两种场景下的行为分布。EVisRAG 在检索正确时正确生成率显著提升，在检索错误时幻觉率受控。</figcaption>
+</figure>
 
 ## 我的理解与启发
 
