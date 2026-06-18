@@ -214,40 +214,8 @@
     }
 
     /* ===== Image Lazy Loading ===== */
-
-    function deferImages(html) {
-      return html.replace(/<img\s([^>]*?)(?<![a-z-])src="([^"]+)"([^>]*?)>/g, (match, before, src, after) => {
-        const cleanBefore = before.replace(/loading="[^"]*"\s*/g, "");
-        const cleanAfter = after.replace(/loading="[^"]*"\s*/g, "");
-        return `<img ${cleanBefore}data-src="${src}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"${cleanAfter}>`;
-      });
-    }
-
-    let imageObserver = null;
-
-    function setupImageLazyLoad() {
-      if (imageObserver) {
-        imageObserver.disconnect();
-      }
-
-      const lazyImages = elements.articleBody.querySelectorAll("img[data-src]");
-      if (!lazyImages.length) return;
-
-      imageObserver = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.removeAttribute("data-src");
-            imageObserver.unobserve(img);
-          }
-        }
-      }, { rootMargin: "200px 0px" });
-
-      for (const img of lazyImages) {
-        imageObserver.observe(img);
-      }
-    }
+    /* Using native browser loading="lazy" instead of custom IntersectionObserver.
+       More reliable and simpler — WebP images are already small. */
 
     /* ===== MathJax ===== */
 
@@ -441,7 +409,7 @@
 
       // Hero banner
       if (note.hero) {
-        elements.articleHeroBanner.innerHTML = `<img src="${escapeHtml(note.hero)}" alt="${escapeHtml(note.title)}" />`;
+        elements.articleHeroBanner.innerHTML = `<img src="${escapeHtml(note.hero)}" alt="${escapeHtml(note.title)}" loading="eager" />`;
       } else {
         elements.articleHeroBanner.innerHTML = "";
       }
@@ -459,8 +427,7 @@
       `;
 
       usedSlugIds.clear();
-      elements.articleBody.innerHTML = deferImages(renderMarkdown(note.content));
-      setupImageLazyLoad();
+      elements.articleBody.innerHTML = renderMarkdown(note.content);
       renderMath();
       renderToc();
       initScrollSpy();
