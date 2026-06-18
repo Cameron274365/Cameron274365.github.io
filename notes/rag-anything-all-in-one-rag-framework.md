@@ -7,7 +7,7 @@ order: 3
 readTime: "14 min"
 tags: ["RAG", "Multimodal RAG", "GraphRAG", "Document QA", "Long Context", "Table", "Equation", "Retrieval"]
 summary: "RAG-Anything 提出一个面向多模态文档的统一 RAG 框架：先把文本、图片、表格、公式等内容拆成原子知识单元，再用双图结构同时建模跨模态关系和文本语义，最后通过结构导航与语义匹配结合的混合检索完成长文档问答。"
-hero: "assets/papers/rag-anything/x1_framework.png"
+hero: "assets/papers/rag-anything/x1_framework.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ RAG-Anything 的核心观点是：**多模态文档不应该被压扁成文本 c
 - **链接**：[arXiv](https://arxiv.org/abs/2510.12323) · [PDF](https://arxiv.org/pdf/2510.12323) · [代码](https://github.com/HKUDS/RAG-Anything)
 
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x1_framework.png" alt="RAG-Anything 统一多模态 RAG 框架" loading="lazy" />
+  <img src="assets/papers/rag-anything/x1_framework.webp" alt="RAG-Anything 统一多模态 RAG 框架" loading="lazy" />
   <figcaption>图 1：RAG-Anything 框架总览。系统先做多模态知识统一，将文本、图片、表格、公式拆成原子单元；再构建双图索引；查询时结合结构化图导航与语义相似度检索，并把原始视觉证据还原给 VLM 生成答案。</figcaption>
 </figure>
 
@@ -141,7 +141,7 @@ RAG-Anything 首先把每个知识源分解成原子内容单元，每个单元�
 论文专门按页数分桶评估。结果显示，在短文档上 RAG-Anything 和 MMGraphRAG 差距不大；但文档越长，RAG-Anything 的优势越明显。
 
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x2_length_performance.png" alt="RAG-Anything 在不同页数文档上的性能" loading="lazy" />
+  <img src="assets/papers/rag-anything/x2_length_performance.webp" alt="RAG-Anything 在不同页数文档上的性能" loading="lazy" />
   <figcaption>图 2：不同文档长度下的性能。DocBench 中，当文档超过 100 页，RAG-Anything 相对 MMGraphRAG 的优势扩大到 13 个点以上；MMLongBench 中也在 51–100 页和 101–200 页区间保持明显优势。</figcaption>
 </figure>
 
@@ -166,7 +166,7 @@ RAG-Anything 首先把每个知识源分解成原子内容单元，每个单元�
 ## Case Study：结构化检索到底解决了什么？
 ### 多面板图像理解
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x3_visual_case.png" alt="RAG-Anything 多面板图像理解案例" loading="lazy" />
+  <img src="assets/papers/rag-anything/x3_visual_case.webp" alt="RAG-Anything 多面板图像理解案例" loading="lazy" />
   <figcaption>图 3：多面板图像理解案例。查询要求比较 style-space panel 中的聚类分离模式，RAG-Anything 通过面板、坐标轴、图例和 caption 的结构关系定位正确子图，避免被相邻 content-space panel 混淆。</figcaption>
 </figure>
 
@@ -174,7 +174,7 @@ RAG-Anything 首先把每个知识源分解成原子内容单元，每个单元�
 
 ### 财务表格导航
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x4_financial_table_case.png" alt="RAG-Anything 财务表格导航案例" loading="lazy" />
+  <img src="assets/papers/rag-anything/x4_financial_table_case.webp" alt="RAG-Anything 财务表格导航案例" loading="lazy" />
   <figcaption>图 4：财务表格导航案例。问题要求定位 “Wages and salaries” 行与 “2020” 列的交叉单元格，RAG-Anything 通过 row-of、column-of、header-applies-to、unit-of 等关系避免混淆相近条目。</figcaption>
 </figure>
 
@@ -182,7 +182,7 @@ RAG-Anything 首先把每个知识源分解成原子内容单元，每个单元�
 
 ### 复杂表格结构
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x5_tabular_case.png" alt="RAG-Anything 复杂表格结构案例" loading="lazy" />
+  <img src="assets/papers/rag-anything/x5_tabular_case.webp" alt="RAG-Anything 复杂表格结构案例" loading="lazy" />
   <figcaption>图 5：复杂表格结构案例。RAG-Anything 能在重复行标签和多数据集表格中定位 Evidence Inference 数据集下最高 AUPRC 值 0.506，对应 “GloVe + LSTM - Attention”。</figcaption>
 </figure>
 
@@ -193,7 +193,7 @@ RAG-Anything 首先把每个知识源分解成原子内容单元，每个单元�
 
 ### 1. Text-centric retrieval bias
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x6_cross_modal_noise.png" alt="多模态 RAG 的文本中心检索偏置失败案例" loading="lazy" />
+  <img src="assets/papers/rag-anything/x6_cross_modal_noise.webp" alt="多模态 RAG 的文本中心检索偏置失败案例" loading="lazy" />
   <figcaption>图 6：跨模态噪声案例。即使问题明确要求从图像中找答案，系统仍可能优先检索主题相近的文本证据，导致视觉证据被噪声文本覆盖。</figcaption>
 </figure>
 
@@ -201,7 +201,7 @@ RAG-Anything 首先把每个知识源分解成原子内容单元，每个单元�
 
 ### 2. Ambiguous table structure
 <figure class="figure">
-  <img src="assets/papers/rag-anything/x7_ambiguous_table.png" alt="多模态 RAG 的歧义表格结构失败案例" loading="lazy" />
+  <img src="assets/papers/rag-anything/x7_ambiguous_table.webp" alt="多模态 RAG 的歧义表格结构失败案例" loading="lazy" />
   <figcaption>图 7：歧义表格结构案例。当表格存在合并单元格、边界不清晰或非标准布局时，当前系统仍可能错误解析行列关系，说明 layout-aware parsing 仍是瓶颈。</figcaption>
 </figure>
 

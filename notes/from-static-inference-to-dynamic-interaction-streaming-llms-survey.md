@@ -7,7 +7,7 @@ order: 10
 readTime: "18 min"
 tags: ["LLM","Streaming","Survey","Real-Time Interaction","KV Cache","Multimodal"]
 summary: "这篇 ACL 2026 Findings 综述把 Streaming LLM 从一个容易混淆的术语拆成三层：output-streaming、sequential-streaming 和 concurrent-streaming，并从生成机制、增量编码、上下文管理、架构适配、交互策略和应用任务几个维度梳理了实时智能的发展路线。"
-hero: "assets/papers/streaming-llm-survey/top.png"
+hero: "assets/papers/streaming-llm-survey/top.webp"
 ---
 
 ## 一句话总结
@@ -40,7 +40,7 @@ Streaming LLM 这个词在不同论文里经常指向不同东西。有人说的
 因此，Streaming LLM 的问题不只是 “输出快一点”，而是要解决 **动态数据流里的实时决策**：模型在每个时刻能看到多少输入？要不要继续等？是否可以开始输出？输出后新输入又来了怎么办？
 
 <figure class="figure">
-  <img src="assets/papers/streaming-llm-survey/top.png" alt="Streaming LLM 三类范式" loading="lazy" />
+  <img src="assets/papers/streaming-llm-survey/top.webp" alt="Streaming LLM 三类范式" loading="lazy" />
   <figcaption>图 1：论文提出的三类 Streaming LLM。左侧 output-streaming 是静态读入后流式输出；中间 sequential-streaming 是流式读入后再生成；右侧 concurrent-streaming 是输入和输出同时展开。</figcaption>
 </figure>
 
@@ -86,7 +86,7 @@ Streaming LLM 这个词在不同论文里经常指向不同东西。有人说的
 </div>
 
 <figure class="figure">
-  <img src="assets/papers/streaming-llm-survey/main.png" alt="Streaming LLM 分类框架与核心挑战" loading="lazy" />
+  <img src="assets/papers/streaming-llm-survey/main.webp" alt="Streaming LLM 分类框架与核心挑战" loading="lazy" />
   <figcaption>图 2：论文的技术分类总览。Output-streaming 关注生成机制和生成效率；sequential-streaming 关注增量编码和上下文管理；concurrent-streaming 进一步引入架构适配和交互策略。</figcaption>
 </figure>
 
@@ -186,7 +186,7 @@ Concurrent-streaming 是论文最强调的难点，因为它要求模型同时�
 - **Position-ID conflict**：输入流和输出流异步增长时，新输入 token 和正在生成的输出 token 可能竞争同一位置编号，导致位置编码不再清晰。
 
 <figure class="figure">
-  <img src="assets/papers/streaming-llm-survey/conflict.png" alt="Concurrent streaming 中的注意力和位置冲突" loading="lazy" />
+  <img src="assets/papers/streaming-llm-survey/conflict.webp" alt="Concurrent streaming 中的注意力和位置冲突" loading="lazy" />
   <figcaption>图 3：Concurrent-streaming 的结构冲突。输入和输出同时展开后，模型需要重新定义注意力依赖和位置编号，否则会出现 attention contention 与 position-ID conflict。</figcaption>
 </figure>
 
@@ -211,7 +211,7 @@ Concurrent-streaming 是论文最强调的难点，因为它要求模型同时�
 仅有架构还不够，模型还要决定交互节奏。论文把交互策略分为 rule-based、SFT-based 和 RL-based。
 
 <figure class="figure">
-  <img src="assets/papers/streaming-llm-survey/interaction.png" alt="Concurrent streaming 中的读写决策" loading="lazy" />
+  <img src="assets/papers/streaming-llm-survey/interaction.webp" alt="Concurrent streaming 中的读写决策" loading="lazy" />
   <figcaption>图 4：交互策略决定模型在实时流中何时读取输入、何时生成输出。好的策略需要在低延迟和高质量之间动态平衡。</figcaption>
 </figure>
 

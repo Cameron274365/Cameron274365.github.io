@@ -7,7 +7,7 @@ order: 9
 readTime: "16 min"
 tags: ["MM-BizRAG","Multimodal RAG","Enterprise QA","Document AI","Layout Parsing","FastRAGEval","ColPali","VisRAG"]
 summary: "MM-BizRAG 反思了近年多模态 RAG 过度依赖页面截图和视觉 embedding 的趋势，提出按文档结构区分报告类纵向文档与幻灯片类横向文档：前者显式做版面解析、表格/图片 artifact 转换和占位符对齐，后者保留页面级整体语义。它在 SlideVQA、FinRAGBench-V 和内部企业数据上优于 ColPali、VisRAG 等视觉中心基线，最高提升 32 个百分点，并提出单次 LLM Judge 的 FastRAGEval 降低评估成本。"
-hero: "assets/papers/mm-bizrag/structure-aware-ingestion.png"
+hero: "assets/papers/mm-bizrag/structure-aware-ingestion.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ MM-BizRAG 的核心观点是：**企业文档 RAG 不能简单把每页都当图
 - **链接**：[arXiv](https://arxiv.org/abs/2606.04231) · [PDF](https://arxiv.org/pdf/2606.04231)
 
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/structure-aware-ingestion.png" alt="MM-BizRAG 结构感知文档摄取流程" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/structure-aware-ingestion.webp" alt="MM-BizRAG 结构感知文档摄取流程" loading="lazy" />
   <figcaption>图 1：MM-BizRAG 的结构感知 ingestion。系统先判断文档是纵向报告类还是横向幻灯片类，再分别采用不同的解析、切块和表示策略。</figcaption>
 </figure>
 
@@ -62,7 +62,7 @@ MM-BizRAG 的切入点就是把这些差异显式建模：**不要用一种统�
 这种设计的关键是 **placeholder-based positional alignment**：表格和图片不是被抽离成孤立对象，而是保留与原文位置的对应关系。生成时可以把 markdown、图片和描述插回原来的文本位置。
 
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/chunk-types.png" alt="MM-BizRAG 不同 chunk 类型处理方式" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/chunk-types.webp" alt="MM-BizRAG 不同 chunk 类型处理方式" loading="lazy" />
   <figcaption>图 2：纵向文档中，文本 chunk、表格 chunk 和图片 chunk 会通过 placeholder 与父文本块对齐，最终恢复成 interleaved text-image-table 上下文。</figcaption>
 </figure>
 
@@ -75,7 +75,7 @@ MM-BizRAG 的切入点就是把这些差异显式建模：**不要用一种统�
 论文设计了三个变体，用来隔离 ingestion 表示和 embedding 策略对最终 RAG 效果的影响。
 
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/variants.png" alt="MM-BizRAG 三种检索表示与 embedding 变体" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/variants.webp" alt="MM-BizRAG 三种检索表示与 embedding 变体" loading="lazy" />
   <figcaption>图 3：三种变体的差别主要在 chunk 粒度、文本/多模态 embedding 选择，以及 artifact 是在 ingestion 阶段合成还是推理阶段再组装。</figcaption>
 </figure>
 
@@ -96,7 +96,7 @@ MM-BizRAG 的切入点就是把这些差异显式建模：**不要用一种统�
 MM-BizRAG 最值得借鉴的工程点，是 **inference-time multimodal assembly**。检索阶段可以用更轻量、更稳定的表示，例如文本 chunk、表格描述、图片描述；但生成阶段不只把这些检索 chunk 原样塞给模型，而是根据 placeholder 和元数据恢复更丰富的上下文。
 
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/inference-pipeline.png" alt="MM-BizRAG 推理阶段检索、重排和答案生成流程" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/inference-pipeline.webp" alt="MM-BizRAG 推理阶段检索、重排和答案生成流程" loading="lazy" />
   <figcaption>图 4：推理流程包含 query rewriting、混合检索、LLM list-wise reranking，以及把文本、表格、图片重新组装后送入多模态生成模型。</figcaption>
 </figure>
 
@@ -111,7 +111,7 @@ MM-BizRAG 最值得借鉴的工程点，是 **inference-time multimodal assembly
 7. 去重、按文档顺序重排，构造 interleaved multimodal prompt 给 GPT-4.1 生成答案。
 
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/mm-reader-view.png" alt="MM-BizRAG 多模态阅读器视图" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/mm-reader-view.webp" alt="MM-BizRAG 多模态阅读器视图" loading="lazy" />
   <figcaption>图 5：多模态生成上下文会把文本、表格、图片按原始位置重组，而不是只把检索命中的短文本片段交给模型。</figcaption>
 </figure>
 
@@ -127,7 +127,7 @@ FastRAGEval 的做法是在一次 LLM 调用中完成：
 - 用 precision 和 recall 计算 F1。
 
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/fast-rag-eval.png" alt="FastRAGEval 细粒度生成召回评估流程" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/fast-rag-eval.webp" alt="FastRAGEval 细粒度生成召回评估流程" loading="lazy" />
   <figcaption>图 6：FastRAGEval 在单次 LLM Judge 调用中完成事实拆解、precision、recall 和 F1 计算，相比 RAGChecker 降低成本和延迟。</figcaption>
 </figure>
 
@@ -178,7 +178,7 @@ FastRAGEval 的做法是在一次 LLM 调用中完成：
 
 ### 2. 分模态结果
 <figure class="figure">
-  <img src="assets/papers/mm-bizrag/modality-comparison.png" alt="PCMHE 与 ColPali 在 FinRAGBench-V 上的分模态对比" loading="lazy" />
+  <img src="assets/papers/mm-bizrag/modality-comparison.webp" alt="PCMHE 与 ColPali 在 FinRAGBench-V 上的分模态对比" loading="lazy" />
   <figcaption>图 7：在 FinRAGBench-V 上，PCMHE 相比 ColPali 在 text、table、chart 等模态上都有明显优势，尤其体现出结构感知解析对报告类文档的价值。</figcaption>
 </figure>
 

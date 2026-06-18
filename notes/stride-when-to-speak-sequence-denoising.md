@@ -7,7 +7,7 @@ order: 10
 readTime: "12 min"
 tags: ["Video-LLM","Streaming","Proactive AI","Masked Diffusion","When-to-Speak","Temporal Grounding"]
 summary: "STRIDE 将流式视频理解里的 when-to-speak 问题从逐帧二分类改写为滑动窗口上的结构化序列建模，用轻量 masked diffusion 激活模块迭代去噪激活序列，从而生成更连续、更稳定的触发片段。"
-hero: "assets/papers/stride/fig1.png"
+hero: "assets/papers/stride/fig1.webp"
 ---
 
 ## 一句话总结
@@ -39,7 +39,7 @@ STRIDE 的核心贡献是把流式视频里的 **何时开口（when-to-speak）
 STRIDE 的判断是：主动触发不是一个 point-wise classification 问题，而是一个 **span-structured sequence modeling** 问题。也就是说，模型应该预测一段连续激活区间，而不是孤立判断某一帧是否该说话。
 
 <figure class="figure">
-  <img src="assets/papers/stride/fig1.png" alt="STRIDE 两阶段流式视频理解框架" loading="lazy" />
+  <img src="assets/papers/stride/fig1.webp" alt="STRIDE 两阶段流式视频理解框架" loading="lazy" />
   <figcaption>图 1：STRIDE 总览。轻量 Activation Model 持续监听视频流，并在滑动窗口内用 masked diffusion 预测连续激活片段；触发后再把累积视觉上下文交给下游 Video-LLM 生成回复。</figcaption>
 </figure>
 
@@ -76,7 +76,7 @@ STRIDE 将激活序列看作离散 token 序列，token 取值为 0、1 或 `[M]
 论文默认使用 **K=8** 个 denoising steps。由于输出空间只有 0/1，去噪过程收敛很快，约 100ms 级别就能达到较好精度。
 
 <figure class="figure">
-  <img src="assets/papers/stride/fig2.png" alt="STRIDE 激活建模和推理过程" loading="lazy" />
+  <img src="assets/papers/stride/fig2.webp" alt="STRIDE 激活建模和推理过程" loading="lazy" />
   <figcaption>图 2：训练阶段使用 sequence duplication 和三类结构化 masking；推理阶段滑动窗口随新帧前移，保留高置信历史状态，重新 mask 低置信位置并继续迭代去噪。</figcaption>
 </figure>
 
@@ -174,7 +174,7 @@ Baseline-AR 在整体上已有提升，但 Proactive Output 只有 24.30，说�
 这说明 STRIDE 的主要收益确实来自更好的时间边界建模，而不仅是下游模型更强。
 
 <figure class="figure">
-  <img src="assets/papers/stride/fig3.png" alt="STRIDE 和 Baseline-AR 在事件边界附近的激活抖动对比" loading="lazy" />
+  <img src="assets/papers/stride/fig3.webp" alt="STRIDE 和 Baseline-AR 在事件边界附近的激活抖动对比" loading="lazy" />
   <figcaption>图 3：ET-Bench TVG 上的事件边界转移频率。Baseline-AR 在事件开始和结束附近频繁 0/1 抖动；STRIDE 的激活片段更平滑，边界更稳定。</figcaption>
 </figure>
 
@@ -203,7 +203,7 @@ Baseline-AR 在整体上已有提升，但 Proactive Output 只有 24.30，说�
 如果只 mask 新加入的最后一个位置，旧判断永远固定，平均 F1 只有 **22.6**。加入 selective re-masking 后升到 **32.6**。这说明 streaming 场景下历史判断必须允许被新证据修正，否则早期边界错误会持续传播。
 
 <figure class="figure">
-  <img src="assets/papers/stride/fig5.png" alt="STRIDE 对 retention threshold tau 的敏感性分析" loading="lazy" />
+  <img src="assets/papers/stride/fig5.webp" alt="STRIDE 对 retention threshold tau 的敏感性分析" loading="lazy" />
   <figcaption>图 4：\(\tau\) 敏感性分析。无条件继承旧判断（\(\tau=0\)）效果最差；多数任务在 \(\tau \in [0.75, 0.85]\) 附近表现最好，论文默认取 \(\tau=0.75\)。</figcaption>
 </figure>
 
@@ -217,7 +217,7 @@ STRIDE 的 activation model 使用 Qwen3-VL-2B 初始化，在单张 H100 上评
 - 如果无需触发，下游 Video-LLM 的生成可以被跳过，相比每帧都调用大模型可节省约 **91%** 时间。
 
 <figure class="figure">
-  <img src="assets/papers/stride/fig4.png" alt="STRIDE denoising step 数和延迟精度权衡" loading="lazy" />
+  <img src="assets/papers/stride/fig4.webp" alt="STRIDE denoising step 数和延迟精度权衡" loading="lazy" />
   <figcaption>图 5：denoising step K 的延迟-精度权衡。K 增大能提升激活 F1，但很快趋于饱和；论文选择 K=8，在精度和实时开销之间折中。</figcaption>
 </figure>
 

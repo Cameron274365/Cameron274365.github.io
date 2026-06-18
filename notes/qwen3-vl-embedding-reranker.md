@@ -7,7 +7,7 @@ order: 10
 readTime: "14 min"
 tags: ["Qwen3-VL","Multimodal Retrieval","Embedding","Reranker","MRL","QAT","MMEB-V2"]
 summary: "Qwen3-VL-Embedding 与 Qwen3-VL-Reranker 基于 Qwen3-VL 构建统一多模态检索流水线，覆盖文本、图像、视觉文档和视频，在 MMEB-V2 上 8B Embedding 达到 77.8，总体排名领先，并通过 MRL 与 QAT 兼顾效果和部署成本。"
-hero: "assets/papers/qwen3-vl-embedding/performance-comparison.png"
+hero: "assets/papers/qwen3-vl-embedding/performance-comparison.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ Qwen3-VL-Embedding / Reranker 的核心价值，是把 **VLM 的多模态理解�
 - **链接**：[arXiv](https://arxiv.org/abs/2601.04720) · [PDF](https://arxiv.org/pdf/2601.04720)
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/performance-comparison.png" alt="Qwen3-VL-Embedding 与 Reranker 性能总览" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/performance-comparison.webp" alt="Qwen3-VL-Embedding 与 Reranker 性能总览" loading="lazy" />
   <figcaption>图 1：论文首页给出的性能总览。Qwen3-VL-Embedding / Reranker 面向图文、视频、视觉文档和文本检索统一建模。</figcaption>
 </figure>
 
@@ -44,7 +44,7 @@ Qwen3-VL-Embedding / Reranker 的核心价值，是把 **VLM 的多模态理解�
 这篇论文的出发点很明确：基于 Qwen3-VL 这样强多模态基础模型，训练一套 **统一的多模态 embedding + reranker**，同时覆盖召回、排序、长上下文、多语言和低成本部署。
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/unified-space.png" alt="统一多模态表示空间示意图" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/unified-space.webp" alt="统一多模态表示空间示意图" loading="lazy" />
   <figcaption>图 2：Qwen3-VL-Embedding 将文本、图像、视觉文档和视频映射到统一语义空间，使跨模态内容可以直接比较相似度。</figcaption>
 </figure>
 
@@ -66,7 +66,7 @@ s = \mathrm{sigmoid}(\mathrm{logit}(\text{yes}) - \mathrm{logit}(\text{no}))
 这类设计比单纯 cosine similarity 更慢，但更适合放在召回后的 top-K 精排阶段。
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/architecture.png" alt="Qwen3-VL-Embedding 与 Qwen3-VL-Reranker 架构" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/architecture.webp" alt="Qwen3-VL-Embedding 与 Qwen3-VL-Reranker 架构" loading="lazy" />
   <figcaption>图 3：Embedding 采用 bi-encoder 输出向量并计算 cosine similarity；Reranker 采用 cross-encoder，对 query-document pair 输出相关性分数。</figcaption>
 </figure>
 
@@ -94,7 +94,7 @@ s = \mathrm{sigmoid}(\mathrm{logit}(\text{yes}) - \mathrm{logit}(\text{no}))
 - **正例精炼与难负例挖掘**：先用 embedding 模型召回 top-K，再过滤低质量正例，并选择与正例相近但不应相关的 hard negatives。
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/data-distribution.png" alt="数据合成种子池分布" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/data-distribution.webp" alt="数据合成种子池分布" loading="lazy" />
   <figcaption>图 4：数据合成种子池的分布。论文通过类别重平衡缓解公开与内部数据在模态、任务和领域上的不均衡。</figcaption>
 </figure>
 
@@ -116,7 +116,7 @@ s = \mathrm{sigmoid}(\mathrm{logit}(\text{yes}) - \mathrm{logit}(\text{no}))
 论文最重要的工程设计之一，是多阶段训练流水线。它不是直接把所有数据混在一起训练，而是让模型能力和数据质量互相 bootstrapping。
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/training-pipeline.png" alt="Qwen3-VL-Embedding 与 Reranker 多阶段训练流水线" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/training-pipeline.webp" alt="Qwen3-VL-Embedding 与 Reranker 多阶段训练流水线" loading="lazy" />
   <figcaption>图 5：多阶段训练流水线。先用弱监督大规模数据预训练，再用高质量数据多任务训练，最后用 Reranker 蒸馏并做模型合并。</figcaption>
 </figure>
 
@@ -170,7 +170,7 @@ MRL 的思想是：不仅在完整维度上训练，也在多个前缀维度上�
 QAT 在训练时同时优化全精度和低精度向量，使模型生成的 embedding 对 int8 / binary 等量化格式更稳定。论文使用 LSQ，并通过 STE 传播量化操作的梯度。
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/mrl-qat-analysis.png" alt="MRL 与 QAT 对维度、量化、存储和延迟的影响" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/mrl-qat-analysis.webp" alt="MRL 与 QAT 对维度、量化、存储和延迟的影响" loading="lazy" />
   <figcaption>图 6：MRL 与 QAT 分析。维度降低会带来可控性能损失，但显著减少存储并提升检索速度；int8 基本保持效果，binary 损失更明显。</figcaption>
 </figure>
 
@@ -240,7 +240,7 @@ QAT 可以显著缓解低精度损失，但从分析图看，int8 更适合在�
 论文还分析了图片 token budget、视频帧数和视频空间分辨率对效果的影响。总体上资源增加会提升效果，但高到一定程度后收益变小，甚至可能因上下文过长带来轻微下降。
 
 <figure class="figure">
-  <img src="assets/papers/qwen3-vl-embedding/visual-granularity.png" alt="视觉粒度对不同任务性能的影响" loading="lazy" />
+  <img src="assets/papers/qwen3-vl-embedding/visual-granularity.webp" alt="视觉粒度对不同任务性能的影响" loading="lazy" />
   <figcaption>图 7：视觉粒度消融。更多视觉 token / 帧通常提升效果，但存在明显边际收益递减，过长上下文还可能带来退化。</figcaption>
 </figure>
 

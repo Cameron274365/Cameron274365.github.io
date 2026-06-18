@@ -4,11 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="一个现代化静态笔记博客，收录论文阅读、技术笔记与长期知识库。" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta name="author" content="Cameron" />
+  <meta name="theme-color" content="#6d5dfc" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="屿佳的笔记博客" />
+  <meta property="og:description" content="一个现代化静态笔记博客，收录论文阅读、技术笔记与长期知识库。" />
+  <meta property="og:url" content="https://cameron274365.github.io/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://cameron274365.github.io/" />
   <title>屿佳的笔记博客</title>
-  <link rel="stylesheet" href="styles.css?v=20260617-build" />
+  <link rel="stylesheet" href="styles.css?v=20260618-build" />
   <script>
     window.MathJax = {
       tex: {
@@ -24,62 +29,83 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
+  <!-- ===== TOPBAR ===== -->
   <header class="topbar">
     <div class="shell topbar-inner">
+      <button class="sidebar-toggle hide-desktop" id="sidebarToggle" type="button" aria-label="打开目录">
+        <span class="hamburger-icon"></span>
+      </button>
       <a class="brand" href="#" aria-label="返回首页">
         <span class="brand-mark">N</span>
-        <span>Notes Lab</span>
+        <span class="brand-name">Notes Lab</span>
       </a>
+      <label class="search-box topbar-search" for="searchInput">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="搜索标题、摘要、标签..." />
+      </label>
       <nav class="nav-actions" aria-label="站点操作">
         <a class="ghost-btn hide-mobile" href="https://github.com/Cameron274365/Cameron274365.github.io" target="_blank" rel="noreferrer">GitHub</a>
-        <button class="ghost-btn" id="themeToggle" type="button">深色</button>
-        <a class="primary-btn" href="#notes">开始阅读</a>
+        <button class="ghost-btn theme-toggle" id="themeToggle" type="button" aria-label="切换主题">
+          <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-dark" aria-hidden="true">☾</span>
+        </button>
       </nav>
     </div>
   </header>
 
-  <main class="shell">
-    <section class="hero" aria-label="博客简介">
-      <div class="hero-card">
-        <span class="eyebrow">✨ Static Knowledge Base · Paper Notes · Research Radar</span>
-        <h1>把论文、想法和工程经验沉淀成<span class="gradient-text">可检索的笔记系统</span></h1>
-        <p>这是一个纯静态、无需前端框架和后端服务的现代化笔记博客。左侧是目录与分类，正文自动生成文章内大纲；新增笔记时，只需要在 <code>notes/</code> 中添加 Markdown 文件，再运行 <code>node scripts/build-notes.js</code> 生成数据。</p>
-        <div class="stats" id="stats"></div>
-      </div>
+  <!-- ===== SIDEBAR BACKDROP ===== -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-      <aside class="panel quick-panel" aria-label="搜索和分类">
-        <h2>快速定位</h2>
-        <label class="search-box" for="searchInput">
-          <span>⌕</span>
-          <input id="searchInput" type="search" placeholder="搜索标题、摘要、标签或正文..." />
-        </label>
-        <div class="category-list" id="categoryList"></div>
-      </aside>
-    </section>
-
-    <section class="layout" id="notes">
-      <aside class="panel sidebar" aria-label="笔记列表">
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main class="shell layout-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="笔记列表">
+      <div class="sidebar-header">
         <div class="section-title">
           <span>Notes</span>
           <span id="noteCount"></span>
         </div>
-        <div class="note-list" id="noteList"></div>
-      </aside>
+        <div class="category-chips" id="categoryList"></div>
+      </div>
+      <div class="note-list" id="noteList"></div>
+    </aside>
 
-      <article class="panel article" aria-live="polite">
-        <header class="article-header" id="articleHeader"></header>
+    <!-- Article -->
+    <article class="article-panel" aria-live="polite">
+      <div class="article-hero-banner" id="articleHeroBanner"></div>
+      <div class="article-content">
+        <header class="article-meta-header" id="articleHeader"></header>
         <div class="article-body" id="articleBody"></div>
-      </article>
+      </div>
+      <!-- Mobile TOC FAB -->
+      <button class="toc-fab hide-desktop" id="tocFab" type="button" aria-label="文章目录">
+        <span aria-hidden="true">≡</span>
+      </button>
+      <!-- Mobile TOC overlay -->
+      <div class="toc-overlay hide-desktop" id="tocOverlay">
+        <div class="toc-overlay-header">
+          <span>On this page</span>
+          <button class="toc-overlay-close" id="tocOverlayClose" type="button" aria-label="关闭目录">✕</button>
+        </div>
+        <ul class="toc-list" id="tocListMobile"></ul>
+      </div>
+    </article>
 
-      <aside class="panel toc-panel" aria-label="文章目录">
+    <!-- Desktop TOC rail -->
+    <aside class="toc-rail hide-mobile-tablet" aria-label="文章目录">
+      <div class="toc-sticky">
         <div class="section-title">On this page</div>
-        <ul class="toc-list" id="tocList"></ul>
-      </aside>
-    </section>
+        <ul class="toc-list" id="tocListDesktop"></ul>
+      </div>
+    </aside>
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="shell">Built as a static blog. Update Markdown notes in <code>notes/</code>, then run <code>node scripts/build-notes.js</code>.</div>
+    <div class="shell footer-inner">
+      <div class="footer-stats" id="stats"></div>
+      <div class="footer-text">Built as a static blog. Update Markdown notes in <code>notes/</code>, then run <code>node scripts/build-notes.js</code>.</div>
+    </div>
   </footer>
 
   <script>

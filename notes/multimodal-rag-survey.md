@@ -7,7 +7,7 @@ order: 5
 readTime: "20 min"
 tags: ["RAG", "Multimodal", "Retrieval", "Fusion", "Augmentation", "Generation", "Survey", "Vision-Language", "Video RAG", "Audio RAG", "Document AI"]
 summary: "这篇综述系统梳理了多模态 RAG 的完整技术栈：从文本/视觉/视频/音频四类检索策略，到分数融合、注意力融合和统一投影三类融合机制，再到上下文丰富与自适应迭代增强，最后覆盖 ICL、推理链、指令微调和 Agent 驱动四种生成范式。论文还整理了训练策略、数据集/基准、评估方法，并指出泛化性、可解释性、统一嵌入空间和 Agent 化系统等开放问题。"
-hero: "assets/papers/multimodal-rag-survey/overview.png"
+hero: "assets/papers/multimodal-rag-survey/overview.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ hero: "assets/papers/multimodal-rag-survey/overview.png"
 - **链接**：[arXiv:2502.08826](https://arxiv.org/abs/2502.08826) · [PDF](https://arxiv.org/pdf/2502.08826)
 
 <figure class="figure">
-  <img src="assets/papers/multimodal-rag-survey/overview.png" alt="多模态 RAG 框架总览" loading="lazy" />
+  <img src="assets/papers/multimodal-rag-survey/overview.webp" alt="多模态 RAG 框架总览" loading="lazy" />
   <figcaption>图 1：多模态 RAG 的完整框架。从多模态数据源出发，经过检索、融合、增强、生成四个核心阶段，最终输出跨模态的高质量响应。</figcaption>
 </figure>
 

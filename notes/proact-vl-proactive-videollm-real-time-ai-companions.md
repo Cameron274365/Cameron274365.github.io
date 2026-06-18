@@ -7,7 +7,7 @@ order: 10
 readTime: "13 min"
 tags: ["VideoLLM","Proactive AI","Streaming","AI Companion","Game Commentary"]
 summary: "Proact-VL 把实时视频理解、主动响应时机判断和短句生成统一到一个流式框架中，并用 Live Gaming Dataset/Benchmark 评估游戏解说、协同解说和实时指导三类 AI Companion 场景。"
-hero: "assets/papers/proact-vl/page-1.png"
+hero: "assets/papers/proact-vl/page-1.webp"
 ---
 
 ## 一句话总结
@@ -27,7 +27,7 @@ Proact-VL 关注的不是“看懂视频后回答问题”，而是 **AI Compani
 - **链接**：[arXiv:2603.03447](https://arxiv.org/abs/2603.03447) · [PDF](https://arxiv.org/pdf/2603.03447) · [Homepage](https://proact-vl.github.io)
 
 <figure class="figure">
-  <img src="assets/papers/proact-vl/page-1.png" alt="Proact-VL 论文首页与应用概览" loading="lazy" />
+  <img src="assets/papers/proact-vl/page-1.webp" alt="Proact-VL 论文首页与应用概览" loading="lazy" />
   <figcaption>图 1：Proact-VL 面向两类典型 AI Companion：实时游戏解说和玩家指导。核心挑战是既要理解环境，又要决定是否主动开口。</figcaption>
 </figure>
 
@@ -59,7 +59,7 @@ Proact-VL 关注的不是“看懂视频后回答问题”，而是 **AI Compani
 - **Persona Enrichment**：从解说文本中抽取 tone、vocabulary、rhythm/pacing 等 persona，让模型在不同游戏和角色中保持更一致的风格。
 
 <figure class="figure">
-  <img src="assets/papers/proact-vl/page-3.png" alt="Live Gaming Dataset 与数据处理流程" loading="lazy" />
+  <img src="assets/papers/proact-vl/page-3.webp" alt="Live Gaming Dataset 与数据处理流程" loading="lazy" />
   <figcaption>图 2：Live Gaming Dataset 覆盖多种游戏类型；数据管线分别处理评论员语音、玩家指导、persona 与时间对齐。</figcaption>
 </figure>
 
@@ -84,7 +84,7 @@ Proact-VL 不把“沉默”当作一个普通生成 token，而是在 user mess
 这个设计的好处是 **决策与文本生成解耦**。如果直接生成 `<|SILENCE|>`，沉默概率会受 temperature、top-p 等解码参数影响，而且大量 silent assistant 样本容易让模型退化。response head 则更容易调阈值，也更适合线上控制发言密度。
 
 <figure class="figure">
-  <img src="assets/papers/proact-vl/page-4.png" alt="Proact-VL 方法结构与主动响应机制" loading="lazy" />
+  <img src="assets/papers/proact-vl/page-4.webp" alt="Proact-VL 方法结构与主动响应机制" loading="lazy" />
   <figcaption>图 3：Proact-VL 在每秒输入视频、query 和 history，通过 FLAG hidden state 判断是否触发响应；触发后生成短 clip-level 文本，否则保持沉默。</figcaption>
 </figure>
 
@@ -144,7 +144,7 @@ Proact-VL 不把“沉默”当作一个普通生成 token，而是在 user mess
 这部分对产品很关键：AI Companion 不是运行几十秒，而是要在直播、游戏、教育或陪伴场景里持续在线。Proact-VL 的结果说明，主动触发机制和滑窗缓存没有随着时间明显崩掉。
 
 <figure class="figure">
-  <img src="assets/papers/proact-vl/page-5.png" alt="Proact-VL 实验结果表格" loading="lazy" />
+  <img src="assets/papers/proact-vl/page-5.webp" alt="Proact-VL 实验结果表格" loading="lazy" />
   <figcaption>图 4：主实验结果覆盖文本质量、响应质量、common/general 评测和长时间 streaming 评测。</figcaption>
 </figure>
 

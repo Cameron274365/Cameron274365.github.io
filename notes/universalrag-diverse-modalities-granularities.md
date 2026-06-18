@@ -7,7 +7,7 @@ order: 2
 readTime: "14 min"
 tags: ["RAG", "Multimodal RAG", "UniversalRAG", "Routing", "Granularity", "Retrieval", "Qwen3-VL", "ACL 2026"]
 summary: "UniversalRAG 提出一种 any-to-any RAG 框架：不再把所有文本、表格、图片、视频统一塞进一个 embedding 空间，而是先用路由器判断 query 需要哪些模态和粒度，再到对应的专用语料库中检索。论文在 10 个跨模态、多粒度 benchmark 上验证了该设计，显示出比单模态 RAG、统一 embedding RAG 和 MultiRAG 更稳定的平均效果。"
-hero: "assets/papers/universalrag/concept.png"
+hero: "assets/papers/universalrag/concept.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ UniversalRAG 的核心观点是：**真实 RAG 系统不应该只有一个统一
 - **链接**：[arXiv:2504.20734](https://arxiv.org/abs/2504.20734) · [PDF](https://arxiv.org/pdf/2504.20734) · [项目主页](https://universalrag.github.io/) · [代码](https://github.com/wgcyeo/UniversalRAG)
 
 <figure class="figure">
-  <img src="assets/papers/universalrag/concept.png" alt="UniversalRAG 与单模态、单粒度、统一语料 RAG 的对比" loading="lazy" />
+  <img src="assets/papers/universalrag/concept.webp" alt="UniversalRAG 与单模态、单粒度、统一语料 RAG 的对比" loading="lazy" />
   <figcaption>图 1：UniversalRAG 的问题设定。单模态 RAG 缺少跨模态知识，单粒度 RAG 无法适配查询复杂度，统一语料 RAG 又会受 modality gap 影响；UniversalRAG 用路由机制选择合适的模态和粒度。</figcaption>
 </figure>
 
@@ -42,7 +42,7 @@ UniversalRAG 的核心观点是：**真实 RAG 系统不应该只有一个统一
 - **统一 embedding 的 modality gap**：多模态 embedding 虽然试图对齐语义，但实际仍倾向按模态聚类，导致检索偏向与 query 同模态的语料，而不是最相关的语料。
 
 <figure class="figure">
-  <img src="assets/papers/universalrag/embedding_space.png" alt="统一 embedding 空间中的 modality gap" loading="lazy" />
+  <img src="assets/papers/universalrag/embedding_space.webp" alt="统一 embedding 空间中的 modality gap" loading="lazy" />
   <figcaption>图 2：统一 embedding 空间的 t-SNE 可视化。不同模态仍明显分簇，说明“统一空间”并不等于真正消除了跨模态检索偏差。</figcaption>
 </figure>
 
@@ -116,7 +116,7 @@ UniversalRAG 进一步把每种模态拆成不同粒度：
 </div>
 
 <figure class="figure">
-  <img src="assets/papers/universalrag/barplot.png" alt="不同 RAG 方法在多个 LVLM 上的平均结果" loading="lazy" />
+  <img src="assets/papers/universalrag/barplot.webp" alt="不同 RAG 方法在多个 LVLM 上的平均结果" loading="lazy" />
   <figcaption>图 3：不同 RAG 方法的平均效果对比。UniversalRAG 在多个 LVLM 生成器上都保持更高平均表现，说明收益主要来自检索路由框架，而不只是某个生成模型。</figcaption>
 </figure>
 
@@ -134,7 +134,7 @@ UniversalRAG 进一步把每种模态拆成不同粒度：
 论文抽样 200 个 query 分析检索到的模态分布。VLM2Vec-V2 几乎全部检索文本，GME 也明显偏向文本；UniversalRAG 的检索分布更均衡，能按任务需要选择图片、视频、表格等语料。
 
 <figure class="figure">
-  <img src="assets/papers/universalrag/selection_rate.png" alt="不同方法检索模态分布对比" loading="lazy" />
+  <img src="assets/papers/universalrag/selection_rate.webp" alt="不同方法检索模态分布对比" loading="lazy" />
   <figcaption>图 4：检索模态分布对比。统一 embedding 方法容易偏向文本；UniversalRAG 的路由机制能更准确地选择目标模态。</figcaption>
 </figure>
 
@@ -149,14 +149,14 @@ UniversalRAG 进一步把每种模态拆成不同粒度：
 UniversalRAG 不是把所有语料都查一遍，而是只查相关 corpus。随着 corpus 规模增大，路由成本相对固定，而检索空间减少带来的收益会越来越明显。论文指出，在大规模语料，尤其超过 10M entries 后，UniversalRAG 的延迟优势会进一步扩大。
 
 <figure class="figure">
-  <img src="assets/papers/universalrag/latency.png" alt="不同语料规模下的检索延迟" loading="lazy" />
+  <img src="assets/papers/universalrag/latency.webp" alt="不同语料规模下的检索延迟" loading="lazy" />
   <figcaption>图 5：检索延迟随 corpus size 的变化。UniversalRAG 多了路由步骤，但通过缩小检索范围，在大规模语料下反而更具扩展性。</figcaption>
 </figure>
 
 同时，路由器不一定需要很大。论文显示 1B 级模型已经能达到约 **90%** 路由准确率，更大的模型可以进一步接近理想路由。
 
 <figure class="figure">
-  <img src="assets/papers/universalrag/router_size.png" alt="路由器模型大小与准确率关系" loading="lazy" />
+  <img src="assets/papers/universalrag/router_size.webp" alt="路由器模型大小与准确率关系" loading="lazy" />
   <figcaption>图 6：路由器模型大小与准确率关系。路由准确率随模型规模提升，但小模型也具备实用价值。</figcaption>
 </figure>
 

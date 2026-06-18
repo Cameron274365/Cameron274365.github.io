@@ -7,7 +7,7 @@ order: 10
 readTime: "13 min"
 tags: ["VLM","Streaming Video","Memory","RAG","Multi-round Interaction","Benchmark"]
 summary: "StreamChat 是一个 training-free 的流式视频理解框架，通过长短期视觉记忆、对话记忆和并行系统调度，让 Video-LLM 能在在线场景中实时处理长视频并支持多轮问答。论文同时提出 StreamBench，用 306 个视频、24.8 小时内容和 1.8K QA 评测真实流式交互能力。"
-hero: "assets/papers/streamchat/x4.png"
+hero: "assets/papers/streamchat/x4.webp"
 ---
 
 ## 一句话总结
@@ -36,7 +36,7 @@ StreamChat 的核心贡献是把长视频理解从“离线把若干帧塞进上
 - **关键事件可能很短暂**：如果只做均匀采样，短暂出现的对象或动作很容易被错过。
 
 <figure class="figure">
-  <img src="assets/papers/streamchat/x1.png" alt="StreamChat 与既有 Video-LLM 的性能对比" loading="lazy" />
+  <img src="assets/papers/streamchat/x1.webp" alt="StreamChat 与既有 Video-LLM 的性能对比" loading="lazy" />
   <figcaption>图 1：StreamChat 在准确率和响应速度上相对既有 Video-LLM 更均衡，目标是面向真实在线流式交互。</figcaption>
 </figure>
 
@@ -46,7 +46,7 @@ StreamChat 的核心贡献是把长视频理解从“离线把若干帧塞进上
 StreamBench 由 **306 个视频** 构成，总时长 **24.8 小时**，平均每个视频约 **4.5 分钟**，包含 **1.8K 高质量 QA**。视频覆盖四大来源：egocentric videos、web videos、working videos 和 movies，并进一步细分为 16 个子类。
 
 <figure class="figure">
-  <img src="assets/papers/streamchat/x3.png" alt="StreamBench benchmark overview" loading="lazy" />
+  <img src="assets/papers/streamchat/x3.webp" alt="StreamBench benchmark overview" loading="lazy" />
   <figcaption>图 2：StreamBench 覆盖 4 个视频大类和 16 个子类，并刻意构造多轮交互与不同类型问题。</figcaption>
 </figure>
 
@@ -66,7 +66,7 @@ StreamBench 的关键不是“多收集一些视频”，而是把在线交互�
 StreamChat 建立在 LongVA 之上，本身是 **training-free** 的系统框架。它主要由三个并行组件构成：Selective Frame Stacking、Memory Formation 和 Contextual Summarization。
 
 <figure class="figure">
-  <img src="assets/papers/streamchat/x4.png" alt="StreamChat framework overview" loading="lazy" />
+  <img src="assets/papers/streamchat/x4.webp" alt="StreamChat framework overview" loading="lazy" />
   <figcaption>图 3：StreamChat 总览。系统把视频处理、记忆更新和用户问答拆成独立线程，从而避免视频越长缓冲区越大的问题。</figcaption>
 </figure>
 
@@ -83,7 +83,7 @@ StreamChat 建立在 LongVA 之上，本身是 **training-free** 的系统框架
 - **Dialogue Memory**：每轮问答结束后，把问答对编码成向量并写入记忆，用 FAISS 等方式支持后续对话检索。
 
 <figure class="figure">
-  <img src="assets/papers/streamchat/x5.png" alt="StreamChat hierarchical memory storage" loading="lazy" />
+  <img src="assets/papers/streamchat/x5.webp" alt="StreamChat hierarchical memory storage" loading="lazy" />
   <figcaption>图 4：层级记忆结构。长程记忆把视频历史组织成树，短期记忆保留最近视觉信息，对话记忆保存历史问答。</figcaption>
 </figure>
 
@@ -140,7 +140,7 @@ StreamChat 把系统拆成三个线程并行运行：
 论文中特别提到：在 ActivityNet 上，加入长程记忆后比 Flash-VStream 高 **12.8%**，也比较强的离线方法 LLaVA-Hound 高 **1.4%**；在 NExT-QA 上，StreamChat 比 LongVA 高 **5.1%**。
 
 <figure class="figure">
-  <img src="assets/papers/streamchat/x6.png" alt="StreamChat inference case study" loading="lazy" />
+  <img src="assets/papers/streamchat/x6.webp" alt="StreamChat inference case study" loading="lazy" />
   <figcaption>图 5：案例分析展示了 StreamChat 如何沿长期记忆树检索相关视觉信息，同时从对话记忆中找回历史问答。</figcaption>
 </figure>
 
@@ -166,7 +166,7 @@ chunk length、group size 和 clustering goal 都会影响长期记忆树：
 - clustering goal 从 3 到 10 可提升准确率 **59.4% → 64.0%**，但显存从 **20GB** 增至 **56GB**。
 
 <figure class="figure">
-  <img src="assets/papers/streamchat/x7.png" alt="StreamChat memory parameter analysis" loading="lazy" />
+  <img src="assets/papers/streamchat/x7.webp" alt="StreamChat memory parameter analysis" loading="lazy" />
   <figcaption>图 6：记忆参数消融。更高的信息保留通常带来更高准确率，但也会增加延迟和显存。</figcaption>
 </figure>
 

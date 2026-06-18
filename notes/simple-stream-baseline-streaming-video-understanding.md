@@ -7,7 +7,7 @@ order: 10
 readTime: "11 min"
 tags: ["VLM","Streaming Video","Simple Baseline","OVO-Bench","StreamingBench"]
 summary: "SimpleStream 质疑流式视频理解中越来越复杂的记忆机制：只把最近 N 帧输入现成 VLM，就能在 OVO-Bench 和 StreamingBench 上匹配甚至超过多个已发表流式方法。论文的关键价值不在新架构，而在提醒后续工作必须先跑强 recency baseline，并拆开评估实时感知与长期记忆。"
-hero: "assets/papers/simple-stream/figure1_baseline_teaser.png"
+hero: "assets/papers/simple-stream/figure1_baseline_teaser.webp"
 ---
 
 ## 一句话总结
@@ -35,7 +35,7 @@ SimpleStream 的结论很直接：在当前流式视频理解 benchmark 上，**
 SimpleStream 的意义就在这里：它不是提出一个更复杂的新模块，而是问了一个更基础的问题：**只看最近几帧，到底已经能做到多强？**
 
 <figure class="figure">
-  <img src="assets/papers/simple-stream/figure1_baseline_teaser.png" alt="SimpleStream 方法概览与感知记忆对比" loading="lazy" />
+  <img src="assets/papers/simple-stream/figure1_baseline_teaser.webp" alt="SimpleStream 方法概览与感知记忆对比" loading="lazy" />
   <figcaption>图 1：SimpleStream 只把最近 N 帧和问题输入现成 VLM。右侧展示它在 OVO-Bench 的 perception-memory 坐标上已经处于很强的位置。</figcaption>
 </figure>
 
@@ -64,7 +64,7 @@ SimpleStream 刻意不做这些事情，只构造一个最小对照组。
 这种极简设定反而让它成为很干净的基线：如果复杂模块在相同 backbone、相同协议下赢不了它，就不能把提升归因于“更强的流式记忆”。
 
 <figure class="figure">
-  <img src="assets/papers/simple-stream/figure2_landscape.png" alt="流式视频理解方法谱系" loading="lazy" />
+  <img src="assets/papers/simple-stream/figure2_landscape.webp" alt="流式视频理解方法谱系" loading="lazy" />
   <figcaption>图 2：论文把已有流式视频理解方法按 external memory、retrieval、compression、latent memory 等机制分类，并把 SimpleStream 放在只依赖 recent context 的极简位置。</figcaption>
 </figure>
 
@@ -106,7 +106,7 @@ SimpleStream 刻意不做这些事情，只构造一个最小对照组。
 这说明短期上下文确实有帮助，但超过某个点后，额外帧会带来冗余、注意力稀释或视觉干扰。
 
 <figure class="figure">
-  <img src="assets/papers/simple-stream/figure3_window_size_accuracy.png" alt="SimpleStream 窗口大小消融" loading="lazy" />
+  <img src="assets/papers/simple-stream/figure3_window_size_accuracy.webp" alt="SimpleStream 窗口大小消融" loading="lazy" />
   <figcaption>图 3：窗口大小消融。4 帧在受控设置下取得最高 Real-Time accuracy，继续扩大窗口并不会单调提升整体表现。</figcaption>
 </figure>
 
@@ -123,7 +123,7 @@ SimpleStream 刻意不做这些事情，只构造一个最小对照组。
 因此，窗口长度不是一个可以固定照搬的超参，而是和 backbone 的视觉编码、上下文处理能力、训练分布和 benchmark 能力结构共同相关。
 
 <figure class="figure">
-  <img src="assets/papers/simple-stream/figure4_optimal_frames_by_scale.png" alt="不同模型规模下的最优窗口" loading="lazy" />
+  <img src="assets/papers/simple-stream/figure4_optimal_frames_by_scale.webp" alt="不同模型规模下的最优窗口" loading="lazy" />
   <figcaption>图 4：模型规模消融。许多 checkpoint 在 4 帧附近达到最优，但也有更大模型偏好 8 或 16 帧，说明最优 recent window 与 backbone family 和模型容量有关。</figcaption>
 </figure>
 
@@ -133,7 +133,7 @@ SimpleStream 的另一个优点是状态不会随视频流增长。因为它只�
 TTFT 方面，SimpleStream-4f 在 16/64/256 observed frames 下分别是 **35/33/38 ms**，只慢于 HERMES 的 **27/29/29 ms**，明显快于大多数流式方法。对于一个没有专门 memory module 的 baseline 来说，这个延迟已经非常有竞争力。
 
 <figure class="figure">
-  <img src="assets/papers/simple-stream/figure5_vram_scaling_sota.png" alt="峰值显存随观察帧数变化" loading="lazy" />
+  <img src="assets/papers/simple-stream/figure5_vram_scaling_sota.webp" alt="峰值显存随观察帧数变化" loading="lazy" />
   <figcaption>图 5：SimpleStream-4f 只保留固定 recent window，因此 peak GPU memory 随 observed frames 增长基本保持平坦。</figcaption>
 </figure>
 
@@ -169,7 +169,7 @@ TTFT 方面，SimpleStream-4f 在 16/64/256 observed frames 下分别是 **35/33
 结果显示，很多外部 memory / retrieval / long-context 方法能带来正向 memory gain，但几乎都付出了 perception cost。例如 StreamForest 的 \(\Delta M=+8.9\)，但 \(\Delta P=-13.8\)；HERMES 的 \(\Delta M=+2.4\)，但 \(\Delta P=-6.0\)。
 
 <figure class="figure">
-  <img src="assets/papers/simple-stream/figure6_perception_memory_tradeoff.png" alt="感知成本与记忆收益权衡" loading="lazy" />
+  <img src="assets/papers/simple-stream/figure6_perception_memory_tradeoff.webp" alt="感知成本与记忆收益权衡" loading="lazy" />
   <figcaption>图 6：相对 SimpleStream Qwen2.5-VL + 2f 的 perception cost 与 memory gain。许多方法能提升记忆相关指标，但同时显著损失实时感知。</figcaption>
 </figure>
 

@@ -2,7 +2,9 @@
       activeCategory: "全部",
       query: "",
       activeNoteId: new URLSearchParams(location.search).get("note") || NOTES[0].id,
-      collapsedGroups: new Set()
+      collapsedGroups: new Set(),
+      sidebarOpen: false,
+      tocOverlayOpen: false
     };
 
     const elements = {
@@ -14,8 +16,18 @@
       stats: document.querySelector("#stats"),
       articleHeader: document.querySelector("#articleHeader"),
       articleBody: document.querySelector("#articleBody"),
-      tocList: document.querySelector("#tocList")
+      articleHeroBanner: document.querySelector("#articleHeroBanner"),
+      tocListDesktop: document.querySelector("#tocListDesktop"),
+      tocListMobile: document.querySelector("#tocListMobile"),
+      sidebar: document.querySelector("#sidebar"),
+      sidebarToggle: document.querySelector("#sidebarToggle"),
+      sidebarBackdrop: document.querySelector("#sidebarBackdrop"),
+      tocFab: document.querySelector("#tocFab"),
+      tocOverlay: document.querySelector("#tocOverlay"),
+      tocOverlayClose: document.querySelector("#tocOverlayClose")
     };
+
+    /* ===== Utility ===== */
 
     function escapeHtml(value) {
       return String(value)
@@ -26,18 +38,38 @@
         .replaceAll("'", "&#039;");
     }
 
+    const usedSlugIds = new Map();
+
     function slugify(text) {
-      return text
+      const base = text
         .toLowerCase()
         .trim()
         .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
         .replace(/^-+|-+$/g, "") || "section";
+      if (usedSlugIds.has(base)) {
+        const count = usedSlugIds.get(base) + 1;
+        usedSlugIds.set(base, count);
+        return `${base}-${count}`;
+      }
+      usedSlugIds.set(base, 0);
+      return base;
     }
+
+    function debounce(fn, delay) {
+      let timer;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
+
+    /* ===== Markdown Rendering ===== */
 
     function inlineMarkdown(text) {
       return escapeHtml(text)
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<figure class="figure"><img src="$2" alt="$1" /><figcaption>$1</figcaption></figure>')
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
     }
 
@@ -45,8 +77,11 @@
       const lines = markdown.trim().split("\n");
       const html = [];
       let paragraph = [];
-      let listOpen = false;
+      const listStack = [];
       let passthrough = false;
+      let inCodeBlock = false;
+      let codeLang = "";
+      let codeLines = [];
 
       function closeParagraph() {
         if (paragraph.length) {
@@ -55,10 +90,19 @@
         }
       }
 
-      function closeList() {
-        if (listOpen) {
-          html.push("</ul>");
-          listOpen = false;
+      function closeAllLists() {
+        while (listStack.length) {
+          html.push(`</${listStack.pop()}>`);
+        }
+      }
+
+      function closeCodeBlock() {
+        if (inCodeBlock) {
+          const langAttr = codeLang ? ` class="language-${escapeHtml(codeLang)}"` : "";
+          html.push(`<pre><code${langAttr}>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+          inCodeBlock = false;
+          codeLang = "";
+          codeLines = [];
         }
       }
 
@@ -66,9 +110,26 @@
         const line = rawLine.trimEnd();
         const trimmed = line.trim();
 
+        if (inCodeBlock) {
+          if (trimmed.startsWith("```")) {
+            closeCodeBlock();
+          } else {
+            codeLines.push(rawLine);
+          }
+          continue;
+        }
+
+        if (trimmed.startsWith("```")) {
+          closeParagraph();
+          closeAllLists();
+          inCodeBlock = true;
+          codeLang = trimmed.slice(3).trim();
+          continue;
+        }
+
         if (trimmed.startsWith("<") || passthrough) {
           closeParagraph();
-          closeList();
+          closeAllLists();
           html.push(line);
           passthrough = !(trimmed.endsWith(">") && !trimmed.includes("<table") && !trimmed.includes("<figure") && !trimmed.includes("<div"));
           if (trimmed.includes("</table>") || trimmed.includes("</figure>") || trimmed.includes("</div>")) {
@@ -79,14 +140,21 @@
 
         if (!trimmed) {
           closeParagraph();
-          closeList();
+          closeAllLists();
+          continue;
+        }
+
+        if (/^[-*_]{3,}$/.test(trimmed)) {
+          closeParagraph();
+          closeAllLists();
+          html.push("<hr />");
           continue;
         }
 
         const headingMatch = trimmed.match(/^(#{2,4})\s+(.+)$/);
         if (headingMatch) {
           closeParagraph();
-          closeList();
+          closeAllLists();
           const level = headingMatch[1].length;
           const headingText = inlineMarkdown(headingMatch[2]);
           const id = slugify(headingMatch[2]);
@@ -94,19 +162,44 @@
           continue;
         }
 
-        if (trimmed.startsWith("- ")) {
+        const indent = line.search(/\S/);
+        const listLevel = Math.min(Math.floor(indent / 2), 3);
+
+        const ulMatch = trimmed.match(/^[-*+]\s+(.+)$/);
+        if (ulMatch) {
           closeParagraph();
-          if (!listOpen) {
-            html.push("<ul>");
-            listOpen = true;
+          while (listStack.length > listLevel + 1) {
+            html.push(`</${listStack.pop()}>`);
           }
-          html.push(`<li>${inlineMarkdown(trimmed.slice(2))}</li>`);
+          if (listStack.length <= listLevel) {
+            while (listStack.length <= listLevel) {
+              html.push("<ul>");
+              listStack.push("ul");
+            }
+          }
+          html.push(`<li>${inlineMarkdown(ulMatch[1])}</li>`);
+          continue;
+        }
+
+        const olMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+        if (olMatch) {
+          closeParagraph();
+          while (listStack.length > listLevel + 1) {
+            html.push(`</${listStack.pop()}>`);
+          }
+          if (listStack.length <= listLevel) {
+            while (listStack.length <= listLevel) {
+              html.push("<ol>");
+              listStack.push("ol");
+            }
+          }
+          html.push(`<li>${inlineMarkdown(olMatch[1])}</li>`);
           continue;
         }
 
         if (trimmed.startsWith("> ")) {
           closeParagraph();
-          closeList();
+          closeAllLists();
           html.push(`<blockquote>${inlineMarkdown(trimmed.slice(2))}</blockquote>`);
           continue;
         }
@@ -115,190 +208,18 @@
       }
 
       closeParagraph();
-      closeList();
+      closeAllLists();
+      closeCodeBlock();
       return html.join("\n");
     }
 
-    function getCategories() {
-      return ["全部", ...Array.from(new Set(NOTES.map(note => note.category)))];
-    }
+    /* ===== Image Lazy Loading ===== */
 
-    function getFilteredNotes() {
-      const normalizedQuery = state.query.trim().toLowerCase();
-      return NOTES.filter(note => {
-        const categoryMatched = state.activeCategory === "全部" || note.category === state.activeCategory;
-        const searchable = [note.title, note.summary, note.category, note.tags.join(" "), note.content].join(" ").toLowerCase();
-        return categoryMatched && (!normalizedQuery || searchable.includes(normalizedQuery));
-      });
-    }
-
-    function renderStats() {
-      const categories = new Set(NOTES.map(note => note.category));
-      const tags = new Set(NOTES.flatMap(note => note.tags));
-      elements.stats.innerHTML = `
-        <div class="stat"><strong>${NOTES.length}</strong><span>篇笔记</span></div>
-        <div class="stat"><strong>${categories.size}</strong><span>个分类</span></div>
-        <div class="stat"><strong>${tags.size}</strong><span>个标签</span></div>
-      `;
-    }
-
-    function renderCategories() {
-      elements.categoryList.innerHTML = getCategories().map(category => `
-        <button class="chip ${category === state.activeCategory ? "active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
-      `).join("");
-    }
-
-    function groupNotesByCategory(notes) {
-      const groups = new Map();
-      for (const note of notes) {
-        const category = note.category;
-        if (!groups.has(category)) {
-          groups.set(category, []);
-        }
-        groups.get(category).push(note);
-      }
-      return groups;
-    }
-
-    function renderNoteList() {
-      const filteredNotes = getFilteredNotes();
-      elements.noteCount.textContent = `${filteredNotes.length}/${NOTES.length}`;
-
-      if (!filteredNotes.length) {
-        elements.noteList.innerHTML = '<div class="empty-state">没有匹配的笔记</div>';
-        return;
-      }
-
-      const groups = groupNotesByCategory(filteredNotes);
-      const groupsHtml = [];
-
-      for (const [category, notes] of groups) {
-        const isExpanded = !state.collapsedGroups || !state.collapsedGroups.has(category);
-        const cardsHtml = notes.map(note => `
-          <button class="note-card ${note.id === state.activeNoteId ? "active" : ""}" type="button" data-note-id="${note.id}">
-            <div class="meta-row"><span>${escapeHtml(note.date)}</span><span>·</span><span>${escapeHtml(note.readTime)}</span></div>
-            <h3>${escapeHtml(note.title)}</h3>
-            <p>${escapeHtml(note.summary)}</p>
-            <div class="tag-row">${note.tags.slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
-          </button>
-        `).join("");
-
-        groupsHtml.push(`
-          <div class="note-group">
-            <button class="note-group-header ${isExpanded ? "expanded" : ""}" type="button" data-group-category="${escapeHtml(category)}">
-              <span class="note-group-chevron">${isExpanded ? "▾" : "▸"}</span>
-              <span class="note-group-title">${escapeHtml(category)}</span>
-              <span class="note-group-count">${notes.length}</span>
-            </button>
-            <div class="note-group-body ${isExpanded ? "" : "collapsed"}">${cardsHtml}</div>
-          </div>
-        `);
-      }
-
-      elements.noteList.innerHTML = groupsHtml.join("");
-    }
-
-    function markMathSources(rootElement) {
-      const mathPattern = /(\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\]|\$\$[\s\S]+?\$\$|(?<!\$)\$[^$\n]+?\$(?!\$))/g;
-      const textNodes = [];
-      const walker = document.createTreeWalker(rootElement, NodeFilter.SHOW_TEXT, {
-        acceptNode(node) {
-          const parentElement = node.parentElement;
-          if (!parentElement || parentElement.closest("code, pre, script, style, textarea, [data-tex]")) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          return mathPattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-        }
-      });
-
-      while (walker.nextNode()) {
-        textNodes.push(walker.currentNode);
-      }
-
-      for (const textNode of textNodes) {
-        const fragment = document.createDocumentFragment();
-        const text = textNode.nodeValue;
-        let lastIndex = 0;
-        mathPattern.lastIndex = 0;
-
-        for (const match of text.matchAll(mathPattern)) {
-          if (match.index > lastIndex) {
-            fragment.append(document.createTextNode(text.slice(lastIndex, match.index)));
-          }
-
-          const mathSource = match[0];
-          const mathElement = document.createElement("span");
-          mathElement.className = "math-source";
-          mathElement.dataset.tex = mathSource;
-          mathElement.textContent = mathSource;
-          fragment.append(mathElement);
-          lastIndex = match.index + mathSource.length;
-        }
-
-        if (lastIndex < text.length) {
-          fragment.append(document.createTextNode(text.slice(lastIndex)));
-        }
-
-        textNode.replaceWith(fragment);
-      }
-    }
-
-    function renderMath() {
-      markMathSources(elements.articleBody);
-
-      if (!window.MathJax || !window.MathJax.typesetPromise) {
-        return;
-      }
-
-      window.MathJax.typesetPromise([elements.articleBody]).catch(error => {
-        console.warn("MathJax render failed", error);
-      });
-    }
-
-    function writeClipboardContent(event, htmlContent, plainTextContent) {
-      event.clipboardData.setData("text/html", htmlContent);
-      event.clipboardData.setData("text/plain", plainTextContent);
-      event.preventDefault();
-    }
-
-    function createHtmlFromFragment(fragment) {
-      const container = document.createElement("div");
-      container.append(fragment.cloneNode(true));
-      return container.innerHTML;
-    }
-
-    function bindCopyMathSources() {
-      elements.articleBody.addEventListener("copy", event => {
-        const selection = window.getSelection();
-        if (!selection || selection.rangeCount === 0) {
-          return;
-        }
-
-        const range = selection.getRangeAt(0);
-        const startElement = range.startContainer.nodeType === Node.ELEMENT_NODE
-          ? range.startContainer
-          : range.startContainer.parentElement;
-        const selectedMathElement = startElement && startElement.closest("[data-tex]");
-
-        if (selectedMathElement && selectedMathElement.dataset.tex) {
-          const mathSource = selectedMathElement.dataset.tex;
-          writeClipboardContent(event, escapeHtml(mathSource), mathSource);
-          return;
-        }
-
-        const selectedContent = range.cloneContents();
-        let containsMath = false;
-        selectedContent.querySelectorAll("[data-tex]").forEach(mathElement => {
-          containsMath = true;
-          mathElement.textContent = mathElement.dataset.tex;
-        });
-
-        if (!containsMath) {
-          return;
-        }
-
-        writeClipboardContent(event, createHtmlFromFragment(selectedContent), selectedContent.textContent);
+    function deferImages(html) {
+      return html.replace(/<img\s([^>]*?)(?<![a-z-])src="([^"]+)"([^>]*?)>/g, (match, before, src, after) => {
+        const cleanBefore = before.replace(/loading="[^"]*"\s*/g, "");
+        const cleanAfter = after.replace(/loading="[^"]*"\s*/g, "");
+        return `<img ${cleanBefore}data-src="${src}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"${cleanAfter}>`;
       });
     }
 
@@ -328,12 +249,183 @@
       }
     }
 
-    function deferImages(html) {
-      return html.replace(/<img\s([^>]*?)src="([^"]+)"([^>]*?)>/g, (match, before, src, after) => {
-        const cleanBefore = before.replace(/loading="[^"]*"\s*/g, "");
-        const cleanAfter = after.replace(/loading="[^"]*"\s*/g, "");
-        return `<img ${cleanBefore}data-src="${src}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"${cleanAfter}>`;
+    /* ===== MathJax ===== */
+
+    function markMathSources(rootElement) {
+      const mathPattern = /(\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\]|\$\$[\s\S]+?\$\$|(?<!\$)\$[^$\n]+?\$(?!\$))/g;
+      const textNodes = [];
+      const walker = document.createTreeWalker(rootElement, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const parentElement = node.parentElement;
+          if (!parentElement || parentElement.closest("code, pre, script, style, textarea, [data-tex]")) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          return mathPattern.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
       });
+
+      while (walker.nextNode()) {
+        textNodes.push(walker.currentNode);
+      }
+
+      for (const textNode of textNodes) {
+        const fragment = document.createDocumentFragment();
+        const text = textNode.nodeValue;
+        let lastIndex = 0;
+        mathPattern.lastIndex = 0;
+
+        for (const match of text.matchAll(mathPattern)) {
+          if (match.index > lastIndex) {
+            fragment.append(document.createTextNode(text.slice(lastIndex, match.index)));
+          }
+          const mathSource = match[0];
+          const mathElement = document.createElement("span");
+          mathElement.className = "math-source";
+          mathElement.dataset.tex = mathSource;
+          mathElement.textContent = mathSource;
+          fragment.append(mathElement);
+          lastIndex = match.index + mathSource.length;
+        }
+
+        if (lastIndex < text.length) {
+          fragment.append(document.createTextNode(text.slice(lastIndex)));
+        }
+
+        textNode.replaceWith(fragment);
+      }
+    }
+
+    function renderMath() {
+      markMathSources(elements.articleBody);
+      if (!window.MathJax || !window.MathJax.typesetPromise) return;
+      window.MathJax.typesetPromise([elements.articleBody]).catch(error => {
+        console.warn("MathJax render failed", error);
+      });
+    }
+
+    function writeClipboardContent(event, htmlContent, plainTextContent) {
+      event.clipboardData.setData("text/html", htmlContent);
+      event.clipboardData.setData("text/plain", plainTextContent);
+      event.preventDefault();
+    }
+
+    function createHtmlFromFragment(fragment) {
+      const container = document.createElement("div");
+      container.append(fragment.cloneNode(true));
+      return container.innerHTML;
+    }
+
+    function bindCopyMathSources() {
+      elements.articleBody.addEventListener("copy", event => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) return;
+
+        const range = selection.getRangeAt(0);
+        const startElement = range.startContainer.nodeType === Node.ELEMENT_NODE
+          ? range.startContainer
+          : range.startContainer.parentElement;
+        const selectedMathElement = startElement && startElement.closest("[data-tex]");
+
+        if (selectedMathElement && selectedMathElement.dataset.tex) {
+          const mathSource = selectedMathElement.dataset.tex;
+          writeClipboardContent(event, escapeHtml(mathSource), mathSource);
+          return;
+        }
+
+        const selectedContent = range.cloneContents();
+        let containsMath = false;
+        selectedContent.querySelectorAll("[data-tex]").forEach(mathElement => {
+          containsMath = true;
+          mathElement.textContent = mathElement.dataset.tex;
+        });
+
+        if (!containsMath) return;
+        writeClipboardContent(event, createHtmlFromFragment(selectedContent), selectedContent.textContent);
+      });
+    }
+
+    /* ===== Data Helpers ===== */
+
+    function getCategories() {
+      return ["全部", ...Array.from(new Set(NOTES.map(note => note.category)))];
+    }
+
+    function getFilteredNotes() {
+      const normalizedQuery = state.query.trim().toLowerCase();
+      return NOTES.filter(note => {
+        const categoryMatched = state.activeCategory === "全部" || note.category === state.activeCategory;
+        const searchable = [note.title, note.summary, note.category, note.tags.join(" "), note.content].join(" ").toLowerCase();
+        return categoryMatched && (!normalizedQuery || searchable.includes(normalizedQuery));
+      });
+    }
+
+    function groupNotesByCategory(notes) {
+      const groups = new Map();
+      for (const note of notes) {
+        const category = note.category;
+        if (!groups.has(category)) {
+          groups.set(category, []);
+        }
+        groups.get(category).push(note);
+      }
+      return groups;
+    }
+
+    /* ===== Render Functions ===== */
+
+    function renderStats() {
+      const categories = new Set(NOTES.map(note => note.category));
+      const tags = new Set(NOTES.flatMap(note => note.tags));
+      elements.stats.innerHTML = `
+        <span>${NOTES.length} 篇笔记</span>
+        <span>·</span>
+        <span>${categories.size} 个分类</span>
+        <span>·</span>
+        <span>${tags.size} 个标签</span>
+      `;
+    }
+
+    function renderCategories() {
+      elements.categoryList.innerHTML = getCategories().map(category => `
+        <button class="chip ${category === state.activeCategory ? "active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>
+      `).join("");
+    }
+
+    function renderNoteList() {
+      const filteredNotes = getFilteredNotes();
+      elements.noteCount.textContent = `${filteredNotes.length}/${NOTES.length}`;
+
+      if (!filteredNotes.length) {
+        elements.noteList.innerHTML = '<div class="empty-state">没有匹配的笔记</div>';
+        return;
+      }
+
+      const groups = groupNotesByCategory(filteredNotes);
+      const groupsHtml = [];
+
+      for (const [category, notes] of groups) {
+        const isExpanded = !state.collapsedGroups.has(category);
+        const cardsHtml = notes.map(note => `
+          <button class="note-card ${note.id === state.activeNoteId ? "active" : ""}" type="button" data-note-id="${note.id}">
+            <h3>${escapeHtml(note.title)}</h3>
+            <div class="card-meta">${escapeHtml(note.category)} · ${escapeHtml(note.date)}</div>
+            <div class="card-summary">${escapeHtml(note.summary)}</div>
+          </button>
+        `).join("");
+
+        groupsHtml.push(`
+          <div class="note-group">
+            <button class="note-group-header ${isExpanded ? "expanded" : ""}" type="button" data-group-category="${escapeHtml(category)}">
+              <span class="note-group-chevron">${isExpanded ? "▾" : "▸"}</span>
+              <span class="note-group-title">${escapeHtml(category)}</span>
+              <span class="note-group-count">${notes.length}</span>
+            </button>
+            <div class="note-group-body ${isExpanded ? "" : "collapsed"}">${cardsHtml}</div>
+          </div>
+        `);
+      }
+
+      elements.noteList.innerHTML = groupsHtml.join("");
     }
 
     function renderArticle() {
@@ -347,22 +439,41 @@
       history.replaceState(null, "", `?note=${encodeURIComponent(note.id)}`);
       document.title = `${note.title} · 屿佳的笔记博客`;
 
+      // Hero banner
+      if (note.hero) {
+        elements.articleHeroBanner.innerHTML = `<img src="${escapeHtml(note.hero)}" alt="${escapeHtml(note.title)}" />`;
+      } else {
+        elements.articleHeroBanner.innerHTML = "";
+      }
+
+      // Merged meta header
       elements.articleHeader.innerHTML = `
-        <div class="meta-row"><span>${escapeHtml(note.category)}</span><span>·</span><span>${escapeHtml(note.date)}</span><span>·</span><span>${escapeHtml(note.readTime)}</span></div>
+        <div class="meta-row">
+          <span class="chip active">${escapeHtml(note.category)}</span>
+          <span>${escapeHtml(note.date)}</span>
+          <span>·</span>
+          <span>${escapeHtml(note.readTime)}</span>
+        </div>
         <h1>${escapeHtml(note.title)}</h1>
-        <p class="article-summary">${escapeHtml(note.summary)}</p>
         <div class="tag-row">${note.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
       `;
+
+      usedSlugIds.clear();
       elements.articleBody.innerHTML = deferImages(renderMarkdown(note.content));
       setupImageLazyLoad();
       renderMath();
       renderToc();
+      initScrollSpy();
     }
+
+    /* ===== TOC ===== */
 
     function renderToc() {
       const headings = elements.articleBody.querySelectorAll("h2, h3, h4");
       if (!headings.length) {
-        elements.tocList.innerHTML = '<li class="empty-state">暂无目录</li>';
+        const emptyHtml = '<li class="empty-state">暂无目录</li>';
+        elements.tocListDesktop.innerHTML = emptyHtml;
+        elements.tocListMobile.innerHTML = emptyHtml;
         return;
       }
 
@@ -380,7 +491,7 @@
         }
       }
 
-      elements.tocList.innerHTML = sections.map(section => {
+      const tocHtml = sections.map(section => {
         const sectionHeading = section.heading;
         const hasChildren = section.children.length > 0;
 
@@ -401,10 +512,13 @@
             <ul class="toc-children">${childrenHtml}</ul>
           </li>`;
       }).join("");
+
+      elements.tocListDesktop.innerHTML = tocHtml;
+      elements.tocListMobile.innerHTML = tocHtml;
     }
 
-    function bindTocToggle() {
-      elements.tocList.addEventListener("click", event => {
+    function bindTocToggleFor(listElement) {
+      listElement.addEventListener("click", event => {
         const toggle = event.target.closest(".toc-toggle");
         if (!toggle) return;
         event.preventDefault();
@@ -415,6 +529,85 @@
       });
     }
 
+    function handleTocLinkClick(event) {
+      const link = event.target.closest("a[href^='#']");
+      if (!link) return;
+      event.preventDefault();
+      const targetId = link.getAttribute("href").slice(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    /* ===== Scroll Spy ===== */
+
+    let spyObserver = null;
+
+    function initScrollSpy() {
+      if (spyObserver) spyObserver.disconnect();
+
+      const headings = elements.articleBody.querySelectorAll("h2[id], h3[id], h4[id]");
+      if (!headings.length) return;
+
+      const allTocLinks = document.querySelectorAll(".toc-list a[href^='#']");
+      allTocLinks.forEach(a => a.classList.remove("active"));
+
+      let currentActiveId = null;
+
+      spyObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            currentActiveId = entry.target.id;
+            break;
+          }
+        }
+
+        if (!currentActiveId) return;
+
+        [elements.tocListDesktop, elements.tocListMobile].forEach(list => {
+          if (!list) return;
+          list.querySelectorAll("a").forEach(a => {
+            a.classList.toggle("active", a.getAttribute("href") === `#${currentActiveId}`);
+          });
+        });
+
+        const activeLink = elements.tocListDesktop?.querySelector("a.active");
+        if (activeLink) {
+          activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      }, {
+        rootMargin: "-80px 0px -70% 0px",
+        threshold: 0
+      });
+
+      headings.forEach(h => spyObserver.observe(h));
+    }
+
+    /* ===== Sidebar Drawer ===== */
+
+    function toggleSidebar(open) {
+      state.sidebarOpen = open;
+      elements.sidebar.classList.toggle("open", open);
+      elements.sidebarBackdrop.classList.toggle("visible", open);
+      document.body.style.overflow = open ? "hidden" : "";
+      if (open) {
+        const activeCard = elements.sidebar.querySelector(".note-card.active");
+        if (activeCard) {
+          activeCard.scrollIntoView({ block: "nearest" });
+        }
+      }
+    }
+
+    /* ===== TOC Overlay (Mobile) ===== */
+
+    function toggleTocOverlay(open) {
+      state.tocOverlayOpen = open;
+      elements.tocOverlay.classList.toggle("open", open);
+    }
+
+    /* ===== Main Render ===== */
+
     function render() {
       renderStats();
       renderCategories();
@@ -422,13 +615,26 @@
       renderArticle();
     }
 
+    /* ===== Theme ===== */
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem("notes-theme");
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
+      document.documentElement.dataset.theme = theme;
+    }
+
+    /* ===== Event Binding ===== */
+
     function bindEvents() {
-      elements.searchInput.addEventListener("input", event => {
+      // Search with debounce
+      elements.searchInput.addEventListener("input", debounce(event => {
         state.query = event.target.value;
         renderNoteList();
         renderArticle();
-      });
+      }, 200));
 
+      // Category filter
       elements.categoryList.addEventListener("click", event => {
         const button = event.target.closest("[data-category]");
         if (!button) return;
@@ -438,6 +644,7 @@
         renderArticle();
       });
 
+      // Note list: group toggle + note selection
       elements.noteList.addEventListener("click", event => {
         const groupHeader = event.target.closest(".note-group-header");
         if (groupHeader) {
@@ -465,28 +672,49 @@
         state.activeNoteId = button.dataset.noteId;
         renderNoteList();
         renderArticle();
-        window.scrollTo({ top: document.querySelector(".layout").offsetTop - 80, behavior: "smooth" });
+
+        // Close sidebar on mobile after selection
+        if (window.innerWidth <= 1200) {
+          toggleSidebar(false);
+        }
       });
 
+      // Theme toggle
       elements.themeToggle.addEventListener("click", () => {
         const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = nextTheme;
         localStorage.setItem("notes-theme", nextTheme);
-        elements.themeToggle.textContent = nextTheme === "dark" ? "浅色" : "深色";
+      });
+
+      // Sidebar drawer
+      elements.sidebarToggle.addEventListener("click", () => toggleSidebar(true));
+      elements.sidebarBackdrop.addEventListener("click", () => toggleSidebar(false));
+
+      // Mobile TOC
+      elements.tocFab.addEventListener("click", () => toggleTocOverlay(!state.tocOverlayOpen));
+      elements.tocOverlayClose.addEventListener("click", () => toggleTocOverlay(false));
+
+      // TOC link clicks (smooth scroll)
+      elements.tocListDesktop.addEventListener("click", handleTocLinkClick);
+      elements.tocListMobile.addEventListener("click", event => {
+        handleTocLinkClick(event);
+        toggleTocOverlay(false);
+      });
+
+      // Escape key closes overlays
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+          if (state.sidebarOpen) toggleSidebar(false);
+          if (state.tocOverlayOpen) toggleTocOverlay(false);
+        }
       });
     }
 
-    function initTheme() {
-      const savedTheme = localStorage.getItem("notes-theme");
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = savedTheme || (prefersDark ? "dark" : "light");
-      document.documentElement.dataset.theme = theme;
-      elements.themeToggle.textContent = theme === "dark" ? "浅色" : "深色";
-    }
+    /* ===== Init ===== */
 
     initTheme();
     bindEvents();
     bindCopyMathSources();
-    bindTocToggle();
+    bindTocToggleFor(elements.tocListDesktop);
+    bindTocToggleFor(elements.tocListMobile);
     render();
-  

@@ -7,7 +7,7 @@ order: 30
 readTime: "12 min"
 tags: ["VLM","Streaming","KV Cache","RoPE","Video Understanding"]
 summary: "StreamingVLM 通过训练-推理一致的流式框架，让 VLM 在近无限视频上保持低延迟、低显存和稳定理解能力。论文构建了 Inf-Streams-Train / Eval，并在长达 2 小时以上的视频流评测中取得强结果。"
-hero: "assets/papers/streamingvlm/x1.png"
+hero: "assets/papers/streamingvlm/x1.webp"
 ---
 
 ## 一句话总结
@@ -35,7 +35,7 @@ StreamingVLM 的核心不是单点技巧，而是把 **训练方式、推理缓�
 - **有重叠 Sliding Window 重算严重**：能保留部分上下文，但大量重复计算导致实时性差。
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x1.png" alt="StreamingVLM 与 full attention、sliding window 方法对比" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x1.webp" alt="StreamingVLM 与 full attention、sliding window 方法对比" loading="lazy" />
   <figcaption>图 1：StreamingVLM 与既有方案对比。它通过 Sliding Window + Reuse KV 复用 attention sink、短视觉窗口和长文本窗口，从而兼顾历史、低延迟与稳定性。</figcaption>
 </figure>
 
@@ -50,7 +50,7 @@ StreamingVLM 的核心不是单点技巧，而是把 **训练方式、推理缓�
 这种非对称策略很符合视频流特点：视觉画面变化快，旧视觉 token 可以先淘汰；文本承载长期语义、人物、比分和上下文，需要保留更久。
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x3.png" alt="StreamingVLM 推理结构" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x3.webp" alt="StreamingVLM 推理结构" loading="lazy" />
   <figcaption>图 3：推理时保留 512 个 attention-sink token、512 个近期文本 token，以及覆盖 16 秒的近期视觉 token。</figcaption>
 </figure>
 
@@ -65,7 +65,7 @@ StreamingVLM 的核心不是单点技巧，而是把 **训练方式、推理缓�
 这个设计很关键：虽然训练时看的是短片段，但重叠区域让训练样本近似模拟推理时的 “sink + 近期文本 + 近期视觉” 注意力模式，从而实现 **训练-推理一致**。
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x4.png" alt="StreamingVLM 训练策略" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x4.webp" alt="StreamingVLM 训练策略" loading="lazy" />
   <figcaption>图 4：训练时使用重叠 chunk 内的全注意力，模拟推理时保留 attention sink 和近期窗口的有效注意力模式。</figcaption>
 </figure>
 
@@ -79,7 +79,7 @@ StreamingVLM 的核心不是单点技巧，而是把 **训练方式、推理缓�
 - 原始 ASR 中约 46.32% 保留，37.89% 编辑，15.79% 删除。
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x5.png" alt="数据构建流程" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x5.webp" alt="数据构建流程" loading="lazy" />
   <figcaption>图 5：数据管线从五类体育比赛中采集视频和 ASR，经 GPT 清洗后构建 SFT 数据、评测集和高质量 annealing 数据。</figcaption>
 </figure>
 
@@ -93,7 +93,7 @@ StreamingVLM 的核心不是单点技巧，而是把 **训练方式、推理缓�
 StreamingVLM 在 Inf-Streams-Eval 的 infinite 模式下，对 GPT-4o mini chunk 模式达到 **66.18% win rate**，对 LiveCC chunk 模式达到 **87.81% win rate**，对 LiveCC infinite 模式达到 **99.12% win rate**。
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x6.png" alt="既有 VLM 在跨 chunk 连贯性与训练长度之间的权衡问题" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x6.webp" alt="既有 VLM 在跨 chunk 连贯性与训练长度之间的权衡问题" loading="lazy" />
   <figcaption>图 6：既有 VLM 很难同时兼顾跨 chunk 连贯性和训练长度限制；短 chunk 容易失去上下文，长 chunk 又会逼近甚至超过训练长度。</figcaption>
 </figure>
 
@@ -109,7 +109,7 @@ StreamingVLM 在 Inf-Streams-Eval 的 infinite 模式下，对 GPT-4o mini chunk
 </div>
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x2.png" alt="既有 VLM 的问题与 StreamingVLM 的改进" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x2.webp" alt="既有 VLM 的问题与 StreamingVLM 的改进" loading="lazy" />
   <figcaption>图 2：没有 SFT 时模型难以跨轮次连贯生成；full attention 很快超过训练长度并带来高延迟；普通 sliding window 难以保留足够上下文。</figcaption>
 </figure>
 
@@ -130,12 +130,12 @@ StreamingVLM 并未针对 VQA 再做特殊微调，但在多个 VQA benchmark �
 Full attention 会随视频变长不断变慢甚至 OOM；普通 sliding window 会周期性重建上下文或重复计算。StreamingVLM 由于固定缓存长度并复用 KV，per-token latency 基本稳定，可在单张 H100 上以 8 FPS 支持实时解说。
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x7.png" alt="不同推理方式的延迟对比" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x7.webp" alt="不同推理方式的延迟对比" loading="lazy" />
   <figcaption>图 7：StreamingVLM 的 per-token latency 随视频长度保持稳定；虚线表示实时阈值。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/streamingvlm/x8.png" alt="StreamingVLM 随时间推移的稳定性" loading="lazy" />
+  <img src="assets/papers/streamingvlm/x8.webp" alt="StreamingVLM 随时间推移的稳定性" loading="lazy" />
   <figcaption>图 8：附录稳定性实验。测试视频按 20% 间隔分成五段，StreamingVLM 在后续片段中没有明显退化，说明复用 KV 的流式方案能够维持长时稳定性。</figcaption>
 </figure>
 

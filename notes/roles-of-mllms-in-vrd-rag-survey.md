@@ -7,7 +7,7 @@ order: 10
 readTime: "16 min"
 tags: ["RAG","MLLM","Multimodal Retrieval","VRD","Document AI","Survey"]
 summary: "这篇 AACL-IJCNLP 2025 综述聚焦视觉富文档在 RAG 中的检索问题，将 MLLM 的作用归纳为三种角色：把视觉内容转成文本的 Captioner、统一多模态表征空间的 Embedder，以及直接编码整页图像的 End-to-End Representer，并系统比较了检索粒度、信息保真度、延迟、索引成本和可解释性之间的取舍。"
-hero: "assets/papers/vrd-rag-mllm-survey/roles.png"
+hero: "assets/papers/vrd-rag-mllm-survey/roles.webp"
 ---
 
 ## 一句话总结
@@ -40,7 +40,7 @@ hero: "assets/papers/vrd-rag-mllm-survey/roles.png"
 因此，VRD-RAG 的核心不是“给图片加个 OCR”这么简单，而是要决定：**检索单元应该是文本片段、区域、表格、页面截图，还是跨页结构？索引里保存的是文本、向量、视觉 token，还是多种表征的组合？**
 
 <figure class="figure">
-  <img src="assets/papers/vrd-rag-mllm-survey/roles.png" alt="MLLM 在视觉富文档 RAG 中的三种角色" loading="lazy" />
+  <img src="assets/papers/vrd-rag-mllm-survey/roles.webp" alt="MLLM 在视觉富文档 RAG 中的三种角色" loading="lazy" />
   <figcaption>图 1：论文提出的三角色框架。左侧 Captioner 将视觉元素转成文本代理；中间 Embedder 将文本和视觉内容映射到共享向量空间；右侧 Representer 直接把整页文档作为图像编码和检索。</figcaption>
 </figure>
 
@@ -138,7 +138,7 @@ Captioner 最容易接入现有文本 RAG，但信息损失最大。Representer 
 如果知识库更新很慢，可以接受昂贵的离线 captioning 和 embedding，以换取低在线延迟。如果文档持续更新，重 caption 和重建多模态索引的成本就会成为瓶颈。
 
 <figure class="figure">
-  <img src="assets/papers/vrd-rag-mllm-survey/latency.png" alt="CLIP 与 UniEmb 的编码和向量搜索延迟对比" loading="lazy" />
+  <img src="assets/papers/vrd-rag-mllm-survey/latency.webp" alt="CLIP 与 UniEmb 的编码和向量搜索延迟对比" loading="lazy" />
   <figcaption>图 2：论文附录中的效率对比。MLLM-based embedder 通常带来更强表征能力，但编码延迟和搜索成本也更高，说明模型小型化、向量压缩和自适应检索非常关键。</figcaption>
 </figure>
 

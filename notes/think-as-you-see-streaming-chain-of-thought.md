@@ -7,7 +7,7 @@ order: 10
 readTime: "13 min"
 tags: ["LVLM","Streaming","Chain-of-Thought","KV Cache","Video Reasoning"]
 summary: "TaYS 把大视觉语言模型的视频 CoT 从“看完整段视频再思考”的 batch 范式，改造成边看边想的 streaming reasoning：通过流式注意力掩码、解耦位置编码和双 KV-cache 并行推理，在保持推理质量的同时把 TTFT 从约 10.6 秒降到近零。"
-hero: "assets/papers/tays/figure1.png"
+hero: "assets/papers/tays/figure1.webp"
 ---
 
 ## 一句话总结
@@ -36,7 +36,7 @@ Think-as-You-See（TaYS）的核心贡献，是把视频理解里的 Chain-of-Th
 论文用一个很直观的类比来切入：人类不会“看完整段视频再开始思考”，而是在看到新证据时持续更新认知状态。因此视频 CoT 也应该从 wait-and-see 变为 think-as-you-see。
 
 <figure class="figure">
-  <img src="assets/papers/tays/figure1.png" alt="Batch thinking 与 streaming thinking 范式对比" loading="lazy" />
+  <img src="assets/papers/tays/figure1.webp" alt="Batch thinking 与 streaming thinking 范式对比" loading="lazy" />
   <figcaption>图 1：传统 batch thinking 等完整输入后再推理；TaYS 的 streaming thinking 在接收视频流的同时持续生成推理，降低延迟并让注意力顺序与输入顺序保持一致。</figcaption>
 </figure>
 
@@ -52,7 +52,7 @@ TaYS 不是直接拿离线 CoT 数据训练，而是把 VideoEspresso 中带关�
 这个设计的意义在于：监督信号不再是“最后给一个完整解释”，而是告诉模型 **什么时候应该产生哪一段推理**。
 
 <figure class="figure">
-  <img src="assets/papers/tays/figure2.png" alt="Streaming Video CoT 数据构造流程" loading="lazy" />
+  <img src="assets/papers/tays/figure2.webp" alt="Streaming Video CoT 数据构造流程" loading="lazy" />
   <figcaption>图 2：Streaming Video CoT 的两步构造流程。先调整 frame ID 并保持帧-描述对齐，再基于原始标注生成渐进式、frame-aware 的推理轨迹。</figcaption>
 </figure>
 
@@ -83,7 +83,7 @@ TaYS 的关键工程设计是 **parallel dual KV-cache**：
 这让视觉编码和语言推理可以并行推进，缩短关键路径，避免 interleaved 方案中的串行等待。
 
 <figure class="figure">
-  <img src="assets/papers/tays/main.png" alt="TaYS 流式推理框架总览" loading="lazy" />
+  <img src="assets/papers/tays/main.webp" alt="TaYS 流式推理框架总览" loading="lazy" />
   <figcaption>图 3：TaYS 框架总览。双 KV-cache 支持视觉编码与推理生成并行；streaming mask 保证时间因果；并行信息流比 interleaved 范式更短、更少阻塞。</figcaption>
 </figure>
 
@@ -140,7 +140,7 @@ GPT-5 主观排序中，TaYS 的 normalized win rate 达到 **43.7%**，超过 B
 这说明 TaYS 不只是更快，也更会在正确的视觉证据附近组织推理。
 
 <figure class="figure">
-  <img src="assets/papers/tays/case_study.png" alt="TaYS 与 Interleaved 的案例对比" loading="lazy" />
+  <img src="assets/papers/tays/case_study.webp" alt="TaYS 与 Interleaved 的案例对比" loading="lazy" />
   <figcaption>图 4：案例对比中，TaYS 的推理更紧贴视觉证据和时间顺序；Interleaved 更容易输出不准确、碎片化的描述。</figcaption>
 </figure>
 
@@ -154,7 +154,7 @@ TaYS 的表现更稳定：
 - FPS=3 时 accuracy 达到 **36.01%**，是该表中的峰值。
 
 <figure class="figure">
-  <img src="assets/papers/tays/latency_combined.png" alt="TaYS 延迟与准确率对比" loading="lazy" />
+  <img src="assets/papers/tays/latency_combined.webp" alt="TaYS 延迟与准确率对比" loading="lazy" />
   <figcaption>图 5：TaYS 借助并行 KV-cache 获得最低 TTFT 和稳定整体延迟；Interleaved 在高 FPS 下延迟明显累积。</figcaption>
 </figure>
 
@@ -165,7 +165,7 @@ TaYS 的表现更稳定：
 同时，TaYS 有 **86.0%** 的推理发生在关键帧 1 秒内，而 Interleaved 是 **62.4%**。这说明 TaYS 更倾向于在事件真正发生或变化的时刻输出推理，而不是把推理散落到无关时间段。
 
 <figure class="figure">
-  <img src="assets/papers/tays/temporal_alignment.png" alt="TaYS 与 Interleaved 的时间对齐分布" loading="lazy" />
+  <img src="assets/papers/tays/temporal_alignment.webp" alt="TaYS 与 Interleaved 的时间对齐分布" loading="lazy" />
   <figcaption>图 6：TaYS 的推理时间更靠近关键帧，平均偏差 0.69s；Interleaved 的分布更分散。</figcaption>
 </figure>
 

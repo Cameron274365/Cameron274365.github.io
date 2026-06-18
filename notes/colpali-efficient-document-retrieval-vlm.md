@@ -7,7 +7,7 @@ order: 10
 readTime: "12 min"
 tags: ["Document Retrieval","VLM","RAG","ColBERT","Late Interaction","ViDoRe"]
 summary: "ColPali 把文档页当作图片直接编码，用 PaliGemma 生成多向量视觉表示，再通过 ColBERT 风格 late interaction 与查询匹配。它在 ViDoRe 上达到 81.3 nDCG@5，显著超过传统 OCR/Layout/Captioning 管线，同时把离线索引从 7.22s/page 降到 0.39s/page。"
-hero: "assets/papers/colpali/figure1_overview.png"
+hero: "assets/papers/colpali/figure1_overview.webp"
 ---
 
 ## 一句话总结
@@ -39,7 +39,7 @@ ColPali 的核心观点很激进但很实用：**不要先把 PDF 解析成文�
 问题在于，系统效果经常不取决于 embedding 模型有多强，而取决于前面的解析管线有没有漏掉视觉信息。表格结构、图中数值、页面布局和字体强调一旦在摄入阶段丢失，后续检索模型很难再补回来。
 
 <figure class="figure">
-  <img src="assets/papers/colpali/figure1_overview.png" alt="ColPali 与标准文档检索管线对比" loading="lazy" />
+  <img src="assets/papers/colpali/figure1_overview.webp" alt="ColPali 与标准文档检索管线对比" loading="lazy" />
   <figcaption>图 1：传统检索需要 OCR、layout detection、chunking 等复杂摄入流程；ColPali 直接把页面图片送入 VLM，并用 late interaction 与查询匹配。</figcaption>
 </figure>
 
@@ -54,7 +54,7 @@ ViDoRe 的价值在于它不是只测纯文本段落检索，而是覆盖更接�
 - **场景多样**：既包含学术 VQA 数据改造任务，也包含从公开 PDF 构建的实际检索任务。
 
 <figure class="figure">
-  <img src="assets/papers/colpali/table1_vidore.png" alt="ViDoRe benchmark 数据集组成" loading="lazy" />
+  <img src="assets/papers/colpali/table1_vidore.webp" alt="ViDoRe benchmark 数据集组成" loading="lazy" />
   <figcaption>图 2：ViDoRe 包含 DocVQA、InfoVQA、TAT-DQA、arXiVQA、TabFQuAD，以及能源、政府、医疗、AI、Shift Project 等实际文档任务。</figcaption>
 </figure>
 
@@ -114,7 +114,7 @@ LI(q,d)=\sum_{i=1}^{N_q}\max_{j \in [1,N_d]} \langle E_q^{(i)}, E_d^{(j)} \rangl
 - ColPali：**81.3**
 
 <figure class="figure">
-  <img src="assets/papers/colpali/table2_results.png" alt="ColPali 在 ViDoRe 上的主实验结果" loading="lazy" />
+  <img src="assets/papers/colpali/table2_results.webp" alt="ColPali 在 ViDoRe 上的主实验结果" loading="lazy" />
   <figcaption>图 3：ColPali 在 ViDoRe 平均 nDCG@5 上达到 81.3，尤其在 infographic、arXiv 图表、法文表格等视觉复杂任务上提升明显。</figcaption>
 </figure>
 
@@ -149,7 +149,7 @@ ColPali 的在线查询比 BGE-M3 略慢，但离线索引比复杂解析管线�
 Late interaction 的另一个好处是可解释。因为每个 query token 都会找到页面中最相似的 patch，所以可以把相似度热力图叠加到原图上，观察模型到底在看哪里。
 
 <figure class="figure">
-  <img src="assets/papers/colpali/figure3_pooling_interpretability.png" alt="ColPali token pooling 与可解释性热力图" loading="lazy" />
+  <img src="assets/papers/colpali/figure3_pooling_interpretability.webp" alt="ColPali token pooling 与可解释性热力图" loading="lazy" />
   <figcaption>图 4：左侧展示 token pooling 后性能退化很小；右侧展示 query token 在页面上的关注区域，例如 hour 对齐到图表中的 hours / hourly 文本和横轴。</figcaption>
 </figure>
 

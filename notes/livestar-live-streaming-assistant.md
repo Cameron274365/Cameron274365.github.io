@@ -7,7 +7,7 @@ order: 10
 readTime: "14 min"
 tags: ["Video-LLM","Online Video Understanding","Streaming","Response Timing","KV Cache","Benchmark"]
 summary: "LiveStar 面向真实在线视频理解，提出 SCAM 流式训练、SVeD 响应-沉默解码和 Peak-End 记忆压缩，在 OmniStar 五类在线任务上同时提升语义正确性、响应时机和推理速度。"
-hero: "assets/papers/livestar/overview.png"
+hero: "assets/papers/livestar/overview.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ LiveStar 解决的不是“看懂一段完整视频”，而是更接近真实�
 - **链接**：[arXiv:2511.05299](https://arxiv.org/abs/2511.05299) · [项目代码/数据](https://github.com/yzy-bupt/LiveStar)
 
 <figure class="figure">
-  <img src="assets/papers/livestar/overview.png" alt="LiveStar 在线视频理解整体示意" loading="lazy" />
+  <img src="assets/papers/livestar/overview.webp" alt="LiveStar 在线视频理解整体示意" loading="lazy" />
   <figcaption>图 1：在线理解不是离线 captioning 的简单延伸。模型必须持续读入视频流，并在语义合适的时间点主动输出。</figcaption>
 </figure>
 
@@ -55,12 +55,12 @@ SCAM 的目标是让模型在生成当前帧对应 caption 时：
 - 保留当前 caption 已经自回归生成的 token，保证语言连贯。
 
 <figure class="figure">
-  <img src="assets/papers/livestar/livestar-framework.png" alt="LiveStar 训练与推理框架" loading="lazy" />
+  <img src="assets/papers/livestar/livestar-framework.webp" alt="LiveStar 训练与推理框架" loading="lazy" />
   <figcaption>图 2：LiveStar 用 SCAM 进行流式视频-语言对齐训练，并用 SVeD 在推理阶段动态决定响应或沉默。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/livestar/scam-mask.png" alt="SCAM 注意力 mask 矩阵" loading="lazy" />
+  <img src="assets/papers/livestar/scam-mask.webp" alt="SCAM 注意力 mask 矩阵" loading="lazy" />
   <figcaption>图 3：SCAM 的注意力 mask。它保留历史片段和边界 caption，同时屏蔽当前片段中可能导致复制的 caption token。</figcaption>
 </figure>
 
@@ -76,7 +76,7 @@ SCAM 的目标是让模型在生成当前帧对应 caption 时：
 论文默认阈值系数 alpha 为 1.03。直观理解是：**当旧 caption 对新画面变得“不再自然”时，模型才开口。**
 
 <figure class="figure">
-  <img src="assets/papers/livestar/sved.png" alt="SVeD 响应-沉默解码流程" loading="lazy" />
+  <img src="assets/papers/livestar/sved.webp" alt="SVeD 响应-沉默解码流程" loading="lazy" />
   <figcaption>图 4：SVeD 通过单次前向验证判断是否需要更新 caption，避免 EOS 式逐帧沉默预测。</figcaption>
 </figure>
 
@@ -164,7 +164,7 @@ OmniStar 覆盖 Travel & Events、Sports、Pets & Animals、Music、Autos & Vehi
 SVeD 的阈值 alpha 直接控制模型说话频率。实验显示，alpha 在 **1.02 到 1.04** 之间最平衡；论文默认使用 **1.03**。阈值太低会让模型过度敏感、频繁输出；阈值太高则容易错过该更新的时刻。
 
 <figure class="figure">
-  <img src="assets/papers/livestar/threshold-ablation.png" alt="SVeD 阈值 alpha 的消融实验" loading="lazy" />
+  <img src="assets/papers/livestar/threshold-ablation.webp" alt="SVeD 阈值 alpha 的消融实验" loading="lazy" />
   <figcaption>图 5：响应-沉默阈值 alpha 的消融。alpha 需要在响应及时性、冗余度和覆盖率之间折中。</figcaption>
 </figure>
 
@@ -191,17 +191,17 @@ SVeD 的阈值 alpha 直接控制模型说话频率。实验显示，alpha 在 *
 论文给出了 RNG、MIQ、FDQ 等案例。整体趋势是：VideoLLM-online 往往过度输出或重复，MMDuet 有时过于稀疏或细节不足，而 LiveStar 更能在语义变化点输出，并保持上下文一致。
 
 <figure class="figure">
-  <img src="assets/papers/livestar/rng-case.png" alt="RNG 任务案例对比" loading="lazy" />
+  <img src="assets/papers/livestar/rng-case.webp" alt="RNG 任务案例对比" loading="lazy" />
   <figcaption>图 6：RNG 任务案例。LiveStar 的叙事更贴近事件发展，减少无效重复输出。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/livestar/fdq-case.png" alt="FDQ 任务案例对比" loading="lazy" />
+  <img src="assets/papers/livestar/fdq-case.webp" alt="FDQ 任务案例对比" loading="lazy" />
   <figcaption>图 7：FDQ 任务案例。面对随时间变化的答案，LiveStar 更能根据当前画面更新细粒度回答。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/livestar/miq-case.png" alt="MIQ 任务案例对比" loading="lazy" />
+  <img src="assets/papers/livestar/miq-case.webp" alt="MIQ 任务案例对比" loading="lazy" />
   <figcaption>图 8：MIQ 任务案例。多轮交互需要模型维护历史上下文，LiveStar 的回答更连贯、更少幻觉。</figcaption>
 </figure>
 

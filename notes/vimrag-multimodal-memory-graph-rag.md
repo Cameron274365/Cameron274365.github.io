@@ -7,7 +7,7 @@ order: 1
 readTime: "14 min"
 tags: ["RAG", "Multimodal Memory", "Graph", "Visual Token Compression", "RL", "Agentic Reasoning"]
 summary: "VimRAG 将多模态 RAG 的推理过程建模为动态有向无环图（Memory Graph），通过图拓扑评估节点重要性来自适应分配视觉 token 密度，并提出 Graph-Guided Policy Optimization 解耦步骤有效性与轨迹级奖励。在 9 个多模态 RAG benchmark 上取得 SOTA，Qwen3-VL-8B 整体准确率从 43.6 提升至 50.1。"
-hero: "assets/papers/vimrag/fig1-overview.png"
+hero: "assets/papers/vimrag/fig1-overview.webp"
 ---
 
 ## 一句话总结
@@ -35,7 +35,7 @@ VimRAG 的核心洞察是：**多模态 Agent 的记忆不应只是事实存储�
 - **监督信号稀疏且粗糙**：基于最终结果的 rejection sampling 将奖励广播到整个轨迹，导致有效检索被错误惩罚、无效步骤被错误奖励，信用分配严重失准。
 
 <figure class="figure">
-  <img src="assets/papers/vimrag/fig2-pilot.png" alt="VimRAG Pilot Study：不同记忆结构的 token 消耗与无效动作对比" loading="lazy" />
+  <img src="assets/papers/vimrag/fig2-pilot.webp" alt="VimRAG Pilot Study：不同记忆结构的 token 消耗与无效动作对比" loading="lazy" />
   <figcaption>图 2：Pilot Study 量化分析。Graph-as-Memory 相比 ReAct 和 Iterative Summary 显著降低 token 消耗，并有效避免重复检索等无效动作。</figcaption>
 </figure>
 
@@ -81,7 +81,7 @@ b_{i,k} = \left\lfloor S_{total} \cdot \frac{\Omega(m_{i,k})}{\sum_{m' \in M_{to
 高能量节点获得高分辨率 token，低能量节点被压缩或丢弃，在紧凑预算内对齐推理与有价值观察。
 
 <figure class="figure">
-  <img src="assets/papers/vimrag/fig1-overview.png" alt="VimRAG 推理流程总览：记忆图演化、图调制编码与外部环境交互" loading="lazy" />
+  <img src="assets/papers/vimrag/fig1-overview.webp" alt="VimRAG 推理流程总览：记忆图演化、图调制编码与外部环境交互" loading="lazy" />
   <figcaption>图 1：VimRAG 推理管线。(a) 推理-检索-记忆演化的循环；(b) 结构化推理拓扑的演化过程；(c) Graph-Modulated Visual Memory Encoding 逐步计算能量并自适应分配视觉 token 密度。</figcaption>
 </figure>
 
@@ -100,7 +100,7 @@ b_{i,k} = \left\lfloor S_{total} \cdot \frac{\Omega(m_{i,k})}{\sum_{m' \in M_{to
 只有 \((1-\mu_{g,i})=1\) 的步骤参与 PPO 更新，使梯度聚焦于真正有效且有价值的样本。
 
 <figure class="figure">
-  <img src="assets/papers/vimrag/fig4-ggpo.png" alt="Graph-Guided Policy Optimization 框架与图剪枝信用分配" loading="lazy" />
+  <img src="assets/papers/vimrag/fig4-ggpo.webp" alt="Graph-Guided Policy Optimization 框架与图剪枝信用分配" loading="lazy" />
   <figcaption>图 4：GGPO 总览。(a) RL 框架将 rollout 轨迹分割为原子推理周期，结果优势广播到步骤级；(b) 图剪枝对正样本屏蔽死胡同、对负样本保护有效检索，实现精细信用分配。</figcaption>
 </figure>
 

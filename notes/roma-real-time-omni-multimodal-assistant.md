@@ -7,7 +7,7 @@ order: 10
 readTime: "14 min"
 tags: ["Omni-Modal","Streaming Video","Audio-Visual","Proactive Response","TMRoPE","Speak Head","Benchmark"]
 summary: "ROMA 面向实时音视频流交互，把被动问答和主动响应统一到同一个 omni-multimodal assistant 中：用一秒级多模态单元对齐音频与视频，用 chunked TMRoPE 维护连续时间线，并用轻量 speak head 专门判断何时开口。"
-hero: "assets/papers/roma/x1.png"
+hero: "assets/papers/roma/x1.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ ROMA 的核心价值是把实时音视频助手从“用户问了再回答”推
 - **链接**：[arXiv:2601.10323](https://arxiv.org/abs/2601.10323) · [PDF](https://arxiv.org/pdf/2601.10323) · [项目页](https://eureka-maggie.github.io/ROMA_show/)
 
 <figure class="figure">
-  <img src="assets/papers/roma/x1.png" alt="ROMA 支持主动提醒、实时解说和被动问答" loading="lazy" />
+  <img src="assets/papers/roma/x1.webp" alt="ROMA 支持主动提醒、实时解说和被动问答" loading="lazy" />
   <figcaption>图 1：ROMA 的目标是统一 proactive 与 reactive 两类交互。模型既能在事件发生时主动提醒，也能持续生成实时解说，还能在用户提问后基于音视频上下文回答。</figcaption>
 </figure>
 
@@ -44,7 +44,7 @@ ROMA 的核心价值是把实时音视频助手从“用户问了再回答”推
 
 ## 方法：ROMA 的三个核心设计
 <figure class="figure">
-  <img src="assets/papers/roma/x2.png" alt="ROMA 模型架构" loading="lazy" />
+  <img src="assets/papers/roma/x2.webp" alt="ROMA 模型架构" loading="lazy" />
   <figcaption>图 2：ROMA 将连续输入切成对齐的 multimodal units；speak head 判断响应时机，超过阈值后再激活 LM head 生成文本。</figcaption>
 </figure>
 
@@ -62,7 +62,7 @@ ROMA 改造 Qwen2.5-Omni 的 Time-aligned Multimodal RoPE，用于 chunked audio
 - 后续 unit 从前一个 unit 的最大 position ID 继续累加，形成全局递增时间线。
 
 <figure class="figure">
-  <img src="assets/papers/roma/x3.png" alt="Chunked TMRoPE" loading="lazy" />
+  <img src="assets/papers/roma/x3.webp" alt="Chunked TMRoPE" loading="lazy" />
   <figcaption>图 3：Chunked TMRoPE 将离散 unit 串成连续时间轴，并在每个 unit 内对齐视觉和音频 token 的边界。</figcaption>
 </figure>
 
@@ -80,7 +80,7 @@ speak head 的输入不是只取最后一层，而是学习聚合最后 \(K\) �
 
 ## 数据与训练：先适配流式格式，再学习何时响应
 <figure class="figure">
-  <img src="assets/papers/roma/x4.png" alt="ROMA 流式数据集" loading="lazy" />
+  <img src="assets/papers/roma/x4.webp" alt="ROMA 流式数据集" loading="lazy" />
   <figcaption>图 4：ROMA 构建了包含 proactive alert、real-time narration 和 reactive QA 的流式数据集，总计 676,731 个样本。</figcaption>
 </figure>
 
@@ -152,7 +152,7 @@ ROMA 在 YouCook2 实时解说上达到 **35.21 F1**，超过 TimeChat、VTG-LLM
 </div>
 
 <figure class="figure">
-  <img src="assets/papers/roma/x6.png" alt="ROMA 实时解说案例" loading="lazy" />
+  <img src="assets/papers/roma/x6.webp" alt="ROMA 实时解说案例" loading="lazy" />
   <figcaption>图 5：实时解说案例。ROMA 需要在片段转换或关键动作出现时开口，并把之前生成的内容继续作为后续上下文。</figcaption>
 </figure>
 
@@ -187,7 +187,7 @@ ROMA 最值得借鉴的地方，是它把实时多模态助手拆成了两个互
 这对产品化实时助手很有启发。真正的 always-on AI 不只是“能理解视频”，还要能判断“现在是否值得打断用户”。如果没有独立的响应时机模块，系统很容易变成两种极端：要么频繁打扰，要么关键时刻沉默。
 
 <figure class="figure">
-  <img src="assets/papers/roma/x5.png" alt="ROMA 主动提醒案例" loading="lazy" />
+  <img src="assets/papers/roma/x5.webp" alt="ROMA 主动提醒案例" loading="lazy" />
   <figcaption>图 6：主动提醒案例。模型需要持续观察 stream prefix，在目标事件真正发生时触发，而不能依赖未来上下文。</figcaption>
 </figure>
 

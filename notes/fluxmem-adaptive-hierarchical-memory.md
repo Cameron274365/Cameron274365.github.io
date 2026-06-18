@@ -7,7 +7,7 @@ order: 20
 readTime: "11 min"
 tags: ["VLM","Streaming Video","Memory","Token Compression","Training-free","OVO-Bench","StreamingBench"]
 summary: "FluxMem 是一个免训练的流式视频记忆框架，通过短期、中期、长期三层视觉记忆，以及 TAS 与 SDC 两个自适应压缩模块，在保持因果在线处理的同时降低视觉 token、延迟和显存开销。"
-hero: "assets/papers/fluxmem/teaserfigure.png"
+hero: "assets/papers/fluxmem/teaserfigure.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ FluxMem 的核心思想是：**不要把所有历史视频 token 平等保存**�
 - **链接**：[arXiv](https://arxiv.org/abs/2603.02096) · [PDF](https://arxiv.org/pdf/2603.02096) · [Code](https://github.com/YiwengXie/FluxMem)
 
 <figure class="figure">
-  <img src="assets/papers/fluxmem/teaserfigure.png" alt="FluxMem 论文总览图" loading="lazy" />
+  <img src="assets/papers/fluxmem/teaserfigure.webp" alt="FluxMem 论文总览图" loading="lazy" />
   <figcaption>图 1：FluxMem 是一个渐进式压缩视觉 token 的自适应层级记忆框架；论文也展示了它在长视频推理中相对其他方法的显存优势。</figcaption>
 </figure>
 
@@ -46,7 +46,7 @@ FluxMem 的定位就是在这些约束之间做折中：它不是训练一个新
 
 ## 方法：Adaptive Hierarchical Memory
 <figure class="figure">
-  <img src="assets/papers/fluxmem/framework.png" alt="FluxMem 自适应层级记忆框架" loading="lazy" />
+  <img src="assets/papers/fluxmem/framework.webp" alt="FluxMem 自适应层级记忆框架" loading="lazy" />
   <figcaption>图 2：FluxMem 的短期、中期、长期记忆级联结构。新帧先进入短期记忆；短期溢出后经 TAS 筛选进入中期；中期溢出后经 SDC 合并进入长期。</figcaption>
 </figure>
 
@@ -159,7 +159,7 @@ FluxMem 的一个关键卖点是效率。论文为了隔离记忆机制的贡献
 
 ### 2. FluxMem 的压缩策略优于常见 token reduction
 <figure class="figure">
-  <img src="assets/papers/fluxmem/ablation_method.png" alt="不同记忆压缩方法的消融对比" loading="lazy" />
+  <img src="assets/papers/fluxmem/ablation_method.webp" alt="不同记忆压缩方法的消融对比" loading="lazy" />
   <figcaption>图 3：在 MLVU 上比较不同 token reduction 方法。FluxMem 在 50%–70% 这类实用压缩区间表现更好，即使 drop ratio 到 85% 仍保持较强性能。</figcaption>
 </figure>
 
@@ -169,12 +169,12 @@ FluxMem 的一个关键卖点是效率。论文为了隔离记忆机制的贡献
 
 ### 3. 自适应阈值比固定阈值更省 token
 <figure class="figure">
-  <img src="assets/papers/fluxmem/ablation_mid.png" alt="中期记忆自适应阈值消融" loading="lazy" />
+  <img src="assets/papers/fluxmem/ablation_mid.webp" alt="中期记忆自适应阈值消融" loading="lazy" />
   <figcaption>图 4：中期记忆中，自适应阈值能以更高 drop ratio 达到与最优固定阈值相当或更好的性能，说明它更能适配不同视频动态。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/fluxmem/ablation_long.png" alt="长期记忆自适应阈值消融" loading="lazy" />
+  <img src="assets/papers/fluxmem/ablation_long.webp" alt="长期记忆自适应阈值消融" loading="lazy" />
   <figcaption>图 5：长期记忆中，自适应阈值在保持性能的同时实现更强压缩，反映出 SDC 对空间冗余的稳定建模能力。</figcaption>
 </figure>
 

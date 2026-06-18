@@ -7,7 +7,7 @@ order: 10
 readTime: "13 min"
 tags: ["VLM","Streaming Video","KV Cache","Memory","Token Compression","Real-time"]
 summary: "HERMES 将 MLLM 的 KV cache 解释为分层视频记忆：浅层保留近期感知，中层承担工作记忆，深层存储长期语义锚点。它无需训练，通过层次化缓存管理、跨层记忆平滑和位置重索引，在流式视频理解中实现低延迟、低显存和稳定准确率。"
-hero: "assets/papers/hermes/x1_teaser.png"
+hero: "assets/papers/hermes/x1_teaser.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ HERMES 的核心观点是：**KV cache 不只是推理加速缓存，也可以�
 - **代码**：arXiv 页面未显示官方代码链接
 
 <figure class="figure">
-  <img src="assets/papers/hermes/x1_teaser.png" alt="HERMES 方法、注意力分析与效率结果总览" loading="lazy" />
+  <img src="assets/papers/hermes/x1_teaser.webp" alt="HERMES 方法、注意力分析与效率结果总览" loading="lazy" />
   <figcaption>图 1：HERMES 总览。左侧展示训练无关的层次化 KV cache 管理；中间是不同层注意力偏好的机制分析；右侧显示在流式输入中保持低 TTFT 与稳定 GPU 显存。</figcaption>
 </figure>
 
@@ -54,7 +54,7 @@ HERMES 的核心观点是：**KV cache 不只是推理加速缓存，也可以�
 这个发现使缓存管理不再只是“保留最近 token”或“按全局注意力排序”，而是可以按层设计不同策略。
 
 <figure class="figure">
-  <img src="assets/papers/hermes/x2_framework.png" alt="HERMES 层次化 KV cache 管理框架" loading="lazy" />
+  <img src="assets/papers/hermes/x2_framework.webp" alt="HERMES 层次化 KV cache 管理框架" loading="lazy" />
   <figcaption>图 2：HERMES 架构。视频流按 chunk 进入模型，KV cache 在不同层采用不同的重要性估计与压缩策略；用户提问时直接复用已有紧凑缓存，无需额外检索或外部记忆计算。</figcaption>
 </figure>
 
@@ -125,7 +125,7 @@ HERMES 将 decoder 层划分为三段：前 10% 为浅层，中间 60% 为中层
 在 RVS-Ego 和 RVS-Movie 上，HERMES 也超过多数 training-free 方法。以 LLaVA-OV-7B 为例，基础模型在 RVS-Ego 上 accuracy 为 56.2，HERMES 6K 达到 60.3；RVS-Movie 从 43.0 提升到 54.4。论文指出，相对统一采样 64 帧的基础模型，HERMES 在流式数据集上最高带来 **11.4%** 的准确率提升。
 
 <figure class="figure">
-  <img src="assets/papers/hermes/x5_temporal_case.png" alt="HERMES 细粒度时间理解案例" loading="lazy" />
+  <img src="assets/papers/hermes/x5_temporal_case.webp" alt="HERMES 细粒度时间理解案例" loading="lazy" />
   <figcaption>图 3：RVS temporal case。HERMES 相比基础模型能更好利用历史缓存中的细粒度时间信息，回答涉及事件顺序和长期上下文的问题。</figcaption>
 </figure>
 
@@ -138,7 +138,7 @@ HERMES 将 decoder 层划分为三段：前 10% 为浅层，中间 60% 为中层
 HERMES 最大的工程价值在 TTFT 和显存稳定性。由于视频流到达时已经持续压缩并维护紧凑 KV cache，用户提问时不需要临时检索外部存储，也不需要重新 prefill 历史视频。
 
 <figure class="figure">
-  <img src="assets/papers/hermes/x3_efficiency.png" alt="HERMES GPU 显存和 TTFT 效率对比" loading="lazy" />
+  <img src="assets/papers/hermes/x3_efficiency.webp" alt="HERMES GPU 显存和 TTFT 效率对比" loading="lazy" />
   <figcaption>图 4：效率对比。HERMES 在输入帧数增加时保持稳定 GPU 显存和低 TTFT；在 256 帧设置下，相比 LiveVLM 峰值显存降低约 1.04×，相比 StreamingTOM 的 TTFT 快约 10×。</figcaption>
 </figure>
 
@@ -149,7 +149,7 @@ HERMES 最大的工程价值在 TTFT 和显存稳定性。由于视频流到达�
 LLaVA-OV-7B 的预算实验显示，HERMES 在 4K token 后基本稳定；流式数据集对较小预算更宽容，而长离线数据集在低于 4K 时明显退化。这符合直觉：离线长视频问题可能依赖更广范围的信息，而流式实时问题通常更看重最近和局部历史。
 
 <figure class="figure">
-  <img src="assets/papers/hermes/x4_budget_llava.png" alt="HERMES 在 LLaVA-OV 上的缓存预算消融" loading="lazy" />
+  <img src="assets/papers/hermes/x4_budget_llava.webp" alt="HERMES 在 LLaVA-OV 上的缓存预算消融" loading="lazy" />
   <figcaption>图 5：总缓存预算消融。4K 左右成为较重要的稳定点；更低预算会损害长视频理解，尤其是 VideoMME 这类长离线任务。</figcaption>
 </figure>
 

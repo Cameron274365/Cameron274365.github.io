@@ -7,7 +7,7 @@ order: 45
 readTime: "16 min"
 tags: ["Video RAG","Multimodal RAG","Long Video Understanding","Knowledge Graph","Retrieval","ImageBind","MiniCPM-V"]
 summary: "VideoRAG 将视频先转化为可检索的跨视频知识库：一条通道用图结构组织视觉 caption 与 ASR 文本，另一条通道保留多模态视觉 embedding，再通过文本语义检索、视觉相似度检索和 LLM 过滤共同定位相关片段。论文提出 LongerVideos，覆盖 164 个视频、134.6 小时和 602 个查询，用于评估跨多个超长视频的问答能力。"
-hero: "assets/papers/videorag/framework.png"
+hero: "assets/papers/videorag/framework.webp"
 ---
 
 ## 一句话总结
@@ -40,7 +40,7 @@ VideoRAG 的核心贡献是把“看很长的视频”转化为“先构建可�
 
 ## 方法：VideoRAG 的双通道架构
 <figure class="figure">
-  <img src="assets/papers/videorag/framework.png" alt="VideoRAG 总体框架" loading="lazy" />
+  <img src="assets/papers/videorag/framework.webp" alt="VideoRAG 总体框架" loading="lazy" />
   <figcaption>图 1：VideoRAG 总体框架。系统先构建 graph-based textual knowledge grounding 和 multi-modal context encoding 两类索引，再结合文本语义检索、视觉检索和 LLM 过滤完成 query-aware retrieval。</figcaption>
 </figure>
 
@@ -144,7 +144,7 @@ VideoRAG 与 NaiveRAG、GraphRAG、LightRAG 等文本 RAG 方法相比，在 Lon
 
 ## Ablation：哪些模块最关键？
 <figure class="figure">
-  <img src="assets/papers/videorag/ablation_study.png" alt="VideoRAG 消融实验" loading="lazy" />
+  <img src="assets/papers/videorag/ablation_study.webp" alt="VideoRAG 消融实验" loading="lazy" />
   <figcaption>图 2：VideoRAG 消融实验。移除 graph-based index-retrieval 或 visual indexing/retrieval 都会导致性能下降，说明图结构和视觉通道都不可替代。</figcaption>
 </figure>
 
@@ -165,17 +165,17 @@ VideoRAG 与 NaiveRAG、GraphRAG、LightRAG 等文本 RAG 方法相比，在 Lon
 VideoRAG 能从 12 个视频中定位到 Day 2 “Reinforcement Fine-Tuning” 里 10:00 到 12:00 的连续片段，并生成关于 graders 的详细说明，包括：grader 如何比较模型输出与标准答案、如何给 0 到 1 的分数、如何支持 partial credit，以及这些分数如何反馈到强化微调过程中。
 
 <figure class="figure">
-  <img src="assets/papers/videorag/openai-1.png" alt="VideoRAG 检索到的 OpenAI 案例片段 1" loading="lazy" />
+  <img src="assets/papers/videorag/openai-1.webp" alt="VideoRAG 检索到的 OpenAI 案例片段 1" loading="lazy" />
   <figcaption>图 3：案例中检索到的关键片段之一，来自 OpenAI Day 2 reinforcement fine-tuning 相关视频。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/videorag/openai-2.png" alt="VideoRAG 检索到的 OpenAI 案例片段 2" loading="lazy" />
+  <img src="assets/papers/videorag/openai-2.webp" alt="VideoRAG 检索到的 OpenAI 案例片段 2" loading="lazy" />
   <figcaption>图 4：VideoRAG 利用连续片段中的视觉与文本证据，支撑对 graders 功能的解释。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/videorag/openai-3.png" alt="VideoRAG 检索到的 OpenAI 案例片段 3" loading="lazy" />
+  <img src="assets/papers/videorag/openai-3.webp" alt="VideoRAG 检索到的 OpenAI 案例片段 3" loading="lazy" />
   <figcaption>图 5：该案例展示了跨系列视频定位目标知识点的能力，而不是只在单个视频内做检索。</figcaption>
 </figure>
 

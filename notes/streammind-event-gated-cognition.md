@@ -7,7 +7,7 @@ order: 20
 readTime: "13 min"
 tags: ["Video LLM","Streaming Video Dialogue","Event Gate","State Space Model","Real-time AI"]
 summary: "StreamMind 提出 event-gated LLM invocation：视频编码器持续以全帧率感知，只有当查询相关事件出现时才唤醒 LLM，从而在单张 A100 上达到最高 100 FPS 的流式视频对话处理能力。"
-hero: "assets/papers/streammind/x3.png"
+hero: "assets/papers/streammind/x3.webp"
 ---
 
 ## 一句话总结
@@ -36,12 +36,12 @@ Streaming Video Dialogue 不是传统视频问答的简单在线版本。传统�
 现有 VideoLLM-Online / VideoLLM-MoD 采用 per-step LLM invocation：每个时间步都把历史上下文交给 LLM 判断是否回答。这种方式直观但代价极高。随着视频帧数增长，视频流是线性到达的，但反复调用 Transformer 会造成近似立方级开销，并且受限于上下文窗口。
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x1.png" alt="StreamMind 的事件门控调用范式" loading="lazy" />
+  <img src="assets/papers/streammind/x1.webp" alt="StreamMind 的事件门控调用范式" loading="lazy" />
   <figcaption>图 1：左侧是每一步都调用 LLM 的传统范式；右侧是 StreamMind 的 event-gated LLM invocation，只有查询相关事件发生时才唤醒 LLM。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x2.png" alt="流式视频对话和传统视频对话的区别" loading="lazy" />
+  <img src="assets/papers/streammind/x2.webp" alt="流式视频对话和传统视频对话的区别" loading="lazy" />
   <figcaption>图 2：传统视频对话依赖用户逐次触发；流式视频对话需要模型根据持续感知和用户 query，在合适时刻主动生成响应。</figcaption>
 </figure>
 
@@ -56,7 +56,7 @@ StreamMind 的工作流可以概括为三步：
 这个设计把“看视频”和“深度思考/生成语言”解耦：看视频必须全帧率持续进行，而调用大模型只在事件发生时进行。
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x3.png" alt="StreamMind 工作流" loading="lazy" />
+  <img src="assets/papers/streammind/x3.webp" alt="StreamMind 工作流" loading="lazy" />
   <figcaption>图 3：StreamMind 工作流。EPFE 将每帧压缩成 perception token；Cognition Gate 根据当前 token 和 query 判断是否触发；触发后才从 perception memory 采样上下文交给 LLM。</figcaption>
 </figure>
 
@@ -81,7 +81,7 @@ StreamMind 采用两阶段训练：
 - **阶段二**：固定或单独训练 Cognition Gate，让它生成 `</response>` / `</silence>` token。
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x4.png" alt="StreamMind 两阶段训练流程" loading="lazy" />
+  <img src="assets/papers/streammind/x4.webp" alt="StreamMind 两阶段训练流程" loading="lazy" />
   <figcaption>图 4：第一阶段训练 EPFE 与 LLM 的表征对齐；第二阶段训练 Cognition Gate 输出 response/silence，决定是否调用 LLM。</figcaption>
 </figure>
 
@@ -133,7 +133,7 @@ StreamMind 采用两阶段训练：
 论文最重要的工程结果是实时效率。VideoLLM-Online 和 VideoLLM-MoD 在超过 10 FPS 后难以实时处理 1 秒视频，而 StreamMind 在 A100 和 H100 上都能覆盖电影、电视、游戏等高帧率输入，最高达到 **100 FPS**。
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x6.png" alt="StreamMind 在 A100 和 H100 上的运行时间对比" loading="lazy" />
+  <img src="assets/papers/streammind/x6.webp" alt="StreamMind 在 A100 和 H100 上的运行时间对比" loading="lazy" />
   <figcaption>图 5：处理 1 秒流式视频的运行时间对比。低于 1 秒表示能实时处理；StreamMind 能覆盖最高 100 FPS，而 per-step LLM 调用方法很快超过实时阈值。</figcaption>
 </figure>
 
@@ -141,12 +141,12 @@ StreamMind 采用两阶段训练：
 论文用连续事件间 perception tokens 的余弦相似度做可视化。结果显示，EPFE 生成的 token 能区分相关事件和噪声帧，并且在事件持续期间保持较高相似度；即使中间出现无关噪声，也能重新聚焦到主事件。
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x5.png" alt="EPFE 与 STC 的事件保持能力可视化" loading="lazy" />
+  <img src="assets/papers/streammind/x5.webp" alt="EPFE 与 STC 的事件保持能力可视化" loading="lazy" />
   <figcaption>图 6：EPFE 的 perception token 能在事件内部保持稳定相似度，并区分噪声；相比之下，STC 更偏局部时空特征，长程事件保持能力较弱。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/streammind/x7.png" alt="StreamMind 足球比赛流式对话示例" loading="lazy" />
+  <img src="assets/papers/streammind/x7.webp" alt="StreamMind 足球比赛流式对话示例" loading="lazy" />
   <figcaption>图 7：足球比赛实时解说示例。用户只在开头提出长期 query，后续由 StreamMind 根据比赛事件主动生成 commentary。</figcaption>
 </figure>
 

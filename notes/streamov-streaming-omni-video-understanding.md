@@ -7,7 +7,7 @@ order: 10
 readTime: "13 min"
 tags: ["VLM","Omni-Modal","Streaming Video","Audio-Visual","Memory","Proactive Response","Benchmark"]
 summary: "StreamOV 面向流式全模态视频理解：它用多模态证据引导的长短期记忆在固定预算下保留关键音视频上下文，并用 MLLM 隐状态触发器决定何时回答。论文同时提出 SOVBench，评测在线、多轮、音视频理解和主动响应能力。"
-hero: "assets/papers/streamov/x1.png"
+hero: "assets/papers/streamov/x1.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ StreamOV 的核心是把“看视频回答问题”推进到更真实的 **流�
 - **链接**：[arXiv:2605.25621](https://arxiv.org/abs/2605.25621) · [PDF](https://arxiv.org/pdf/2605.25621)
 
 <figure class="figure">
-  <img src="assets/papers/streamov/x1.png" alt="StreamOV 与 SOVBench 概览" loading="lazy" />
+  <img src="assets/papers/streamov/x1.webp" alt="StreamOV 与 SOVBench 概览" loading="lazy" />
   <figcaption>图 1：StreamOV 同时解决流式音视频记忆和响应时机判断。相比 silence-token 或外部 router，StreamOV 使用紧凑多模态记忆和轻量 hidden-state trigger。</figcaption>
 </figure>
 
@@ -51,7 +51,7 @@ StreamOV 的核心是把“看视频回答问题”推进到更真实的 **流�
 - **SOVBench-T**：把“是否该回答”建模成二分类任务，检验模型在证据出现时及时响应、证据缺失时保持沉默的能力。
 
 <figure class="figure">
-  <img src="assets/papers/streamov/x2.png" alt="SOVBench-O 数据统计" loading="lazy" />
+  <img src="assets/papers/streamov/x2.webp" alt="SOVBench-O 数据统计" loading="lazy" />
   <figcaption>图 2：SOVBench-O 的类别分布、局部 QA group 时长和完整 streaming session 时长统计。</figcaption>
 </figure>
 
@@ -71,7 +71,7 @@ SOVBench-T 进一步包含 **226 个触发样本**，其中 120 个正样本要�
 
 ## 方法：StreamOV 的三个核心设计
 <figure class="figure">
-  <img src="assets/papers/streamov/x3.png" alt="StreamOV 方法框架" loading="lazy" />
+  <img src="assets/papers/streamov/x3.webp" alt="StreamOV 方法框架" loading="lazy" />
   <figcaption>图 3：StreamOV 从连续音视频流构造多模态证据，更新长短期记忆，再将记忆输入冻结 MLLM；轻量触发器基于早期 hidden state 决定 Respond 或 Wait。</figcaption>
 </figure>
 
@@ -179,12 +179,12 @@ StreamOV 首先为每个时间窗口计算多模态证据分数。这里的关�
 
 ## 案例分析：更贴合当前音视频证据
 <figure class="figure">
-  <img src="assets/papers/streamov/x4.png" alt="StreamOV 流式音视频与视觉理解案例" loading="lazy" />
+  <img src="assets/papers/streamov/x4.webp" alt="StreamOV 流式音视频与视觉理解案例" loading="lazy" />
   <figcaption>图 4：在火箭发射、游戏等案例中，StreamOV 相比 Qwen3-Omni 更能对齐当前时间段的证据，避免把未来或上一段内容误当作答案。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/streamov/x5.png" alt="StreamOV 不同模态需求案例" loading="lazy" />
+  <img src="assets/papers/streamov/x5.webp" alt="StreamOV 不同模态需求案例" loading="lazy" />
   <figcaption>图 5：StreamOV 能根据问题需求使用视觉、音频或音视频联合证据，例如用视觉定位人物位置、用音频捕捉发音信息。</figcaption>
 </figure>
 

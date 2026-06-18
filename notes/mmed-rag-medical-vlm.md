@@ -7,7 +7,7 @@ order: 20
 readTime: "13 min"
 tags: ["Medical VLM","Multimodal RAG","RAG-PT","Retrieval","Alignment","ICLR 2025"]
 summary: "MMed-RAG 面向医疗视觉语言模型的事实性幻觉问题，提出领域感知检索、自适应检索上下文选择和 RAG-based Preference Fine-Tuning，在放射、眼科、病理五个数据集上显著提升医疗 VQA 与报告生成的事实准确性。"
-hero: "assets/papers/mmed-rag/overview.png"
+hero: "assets/papers/mmed-rag/overview.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ MMed-RAG 的核心贡献是把医疗多模态 RAG 从“检索几条相似报告
 - **链接**：[arXiv:2410.13085](https://arxiv.org/abs/2410.13085) · [PDF](https://arxiv.org/pdf/2410.13085) · [代码/数据](https://github.com/richard-peng-xia/MMed-RAG)
 
 <figure class="figure">
-  <img src="assets/papers/mmed-rag/overview.png" alt="MMed-RAG 方法总览" loading="lazy" />
+  <img src="assets/papers/mmed-rag/overview.webp" alt="MMed-RAG 方法总览" loading="lazy" />
   <figcaption>图 1：MMed-RAG 总览。系统由领域感知检索、自适应上下文选择和 RAG-based Preference Fine-Tuning 三部分组成。</figcaption>
 </figure>
 
@@ -56,7 +56,7 @@ MMed-RAG 首先用一个领域识别模块判断输入图像属于哪个医学�
 很多 RAG 系统使用固定 top-k，例如每次都取 5 条或 10 条。但在医疗图像中，不同样本的检索质量分布差异很大：有些图像前几条都很相关，有些图像只有第一条可信，后面迅速变成噪声。
 
 <figure class="figure">
-  <img src="assets/papers/mmed-rag/context-selection.png" alt="检索上下文数量与相似度关系" loading="lazy" />
+  <img src="assets/papers/mmed-rag/context-selection.webp" alt="检索上下文数量与相似度关系" loading="lazy" />
   <figcaption>图 2：检索结果的相似度常在某个位置出现明显下降。MMed-RAG 利用相邻相似度比值检测这个断点，从而动态截断低质量上下文。</figcaption>
 </figure>
 
@@ -71,7 +71,7 @@ MMed-RAG 的做法是观察连续检索结果的相似度比值：如果第 i �
 - **Overall alignment misalignment**：模型原本能答对，但加入错误检索后反而被带偏。论文报告这类 over-reliance 比例达到 **43.31%**。
 
 <figure class="figure">
-  <img src="assets/papers/mmed-rag/noisy-image.png" alt="交叉模态对齐中使用的噪声图像示例" loading="lazy" />
+  <img src="assets/papers/mmed-rag/noisy-image.webp" alt="交叉模态对齐中使用的噪声图像示例" loading="lazy" />
   <figcaption>图 3：用于检测 cross-modality misalignment 的噪声图像。若模型在图像被强噪声替换后仍回答正确，说明它可能过度依赖检索上下文。</figcaption>
 </figure>
 
@@ -172,14 +172,14 @@ VQA 数据由医学报告经 GPT-4 生成 yes/no 问答，并进行自检与人�
 - **Over-Reliance Rate** 从 **43.31%** 降到 **8.38%**。
 
 <figure class="figure">
-  <img src="assets/papers/mmed-rag/alignment-rates.png" alt="MMed-RAG 对 Copy-Reference 和 Over-Reliance 的改善" loading="lazy" />
+  <img src="assets/papers/mmed-rag/alignment-rates.webp" alt="MMed-RAG 对 Copy-Reference 和 Over-Reliance 的改善" loading="lazy" />
   <figcaption>图 4：RAG-PT 显著降低直接复制检索内容和被错误检索干扰的比例。</figcaption>
 </figure>
 
 注意力可视化也支持这一点：原始 Med-LVLM 加入 RAG 后更关注文本检索结果，而 RAG-PT 后模型对图像 token 的关注增强，对干扰性检索上下文的关注下降。
 
 <figure class="figure">
-  <img src="assets/papers/mmed-rag/attention-map.png" alt="加入 RAG-PT 前后的注意力对比" loading="lazy" />
+  <img src="assets/papers/mmed-rag/attention-map.webp" alt="加入 RAG-PT 前后的注意力对比" loading="lazy" />
   <figcaption>图 5：注意力图显示，RAG-PT 后模型更重视视觉信息，并降低对错误检索内容的过度依赖。</figcaption>
 </figure>
 

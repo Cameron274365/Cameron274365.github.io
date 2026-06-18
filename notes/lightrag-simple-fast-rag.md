@@ -7,7 +7,7 @@ order: 45
 readTime: "14 min"
 tags: ["RAG","GraphRAG","Knowledge Graph","Vector Retrieval","Incremental Update","Information Retrieval"]
 summary: "LightRAG 将知识图谱引入 RAG 的索引与检索流程，用实体/关系图替代纯扁平文本块，并通过低层实体检索与高层主题检索的双层范式，在复杂语义查询上同时提升回答质量、检索效率和增量更新能力。"
-hero: "assets/papers/lightrag/x1.png"
+hero: "assets/papers/lightrag/x1.webp"
 ---
 
 ## 一句话总结
@@ -40,7 +40,7 @@ LightRAG 的核心思路是：**不要只把文档切成一堆扁平 chunk 再�
 论文用一个例子说明：当用户问“电动车增长如何影响城市空气质量和公共交通基础设施”时，普通 RAG 可能分别检索电动车、空气污染、公共交通资料，但难以回答它们之间的联动关系。LightRAG 的目标就是把这种“关系”作为索引与检索的一等公民。
 
 <figure class="figure">
-  <img src="assets/papers/lightrag/x1.png" alt="LightRAG 整体架构" loading="lazy" />
+  <img src="assets/papers/lightrag/x1.webp" alt="LightRAG 整体架构" loading="lazy" />
   <figcaption>图 1：LightRAG 总体架构。系统先从文档中抽取实体和关系构建知识图谱，再结合向量检索执行低层实体检索与高层关系/主题检索。</figcaption>
 </figure>
 
@@ -89,7 +89,7 @@ LightRAG 并不是抛弃向量数据库，而是把向量检索从“检索 chun
 4. 最后由通用 LLM 基于 query + retrieved context 生成答案。
 
 <figure class="figure">
-  <img src="assets/papers/lightrag/x2.png" alt="LightRAG 检索与生成示例" loading="lazy" />
+  <img src="assets/papers/lightrag/x2.webp" alt="LightRAG 检索与生成示例" loading="lazy" />
   <figcaption>图 2：LightRAG 的检索生成示例。系统先抽取高低层关键词，再在知识图谱上检索实体、关系和文本块，最后把结构化上下文交给 LLM 生成答案。</figcaption>
 </figure>
 
@@ -182,12 +182,12 @@ LightRAG 在 Diversity 维度上对 GraphRAG 也有明显优势，例如 Agricul
 这说明 LLM 抽取出的语义图在一定程度上起到了信息压缩和去噪作用。原始文本虽然完整，但也混杂了许多与问题无关的内容；结构化图反而可能更适合回答高层语义问题。
 
 <figure class="figure">
-  <img src="assets/papers/lightrag/x3.png" alt="LightRAG 图构建 Prompt" loading="lazy" />
+  <img src="assets/papers/lightrag/x3.webp" alt="LightRAG 图构建 Prompt" loading="lazy" />
   <figcaption>图 3：LightRAG 用于图构建的 Prompt。它要求 LLM 抽取实体、实体类型、实体描述、关系描述、关系强度和高层关键词。</figcaption>
 </figure>
 
 <figure class="figure">
-  <img src="assets/papers/lightrag/x4.png" alt="LightRAG 关键词抽取 Prompt" loading="lazy" />
+  <img src="assets/papers/lightrag/x4.webp" alt="LightRAG 关键词抽取 Prompt" loading="lazy" />
   <figcaption>图 4：LightRAG 的关键词抽取 Prompt。检索前先把用户问题拆成 high-level keywords 和 low-level keywords，对应高层主题检索与低层实体检索。</figcaption>
 </figure>
 

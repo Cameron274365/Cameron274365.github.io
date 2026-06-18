@@ -7,7 +7,7 @@ order: 10
 readTime: "15 min"
 tags: ["VideoLLM", "Streaming Video", "Online Assistant", "Temporal Alignment", "KV Cache", "Ego4D", "COIN"]
 summary: "VideoLLM-online 提出 LIVE（Learning-In-Video-strEam）框架，把传统离线视频理解改造成可持续接收视频流、按时间点主动回答或保持沉默的在线 VideoLLM。核心设计包括 Streaming EOS 训练目标、从离线标注生成流式对话数据，以及连续 KV cache 与编码/解码并行的推理流水线。"
-hero: "assets/papers/videollm-online/x1.png"
+hero: "assets/papers/videollm-online/x1.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ VideoLLM-online 解决的是一个很实际的问题：**视频大模型不能�
 - **链接**：[arXiv 摘要页](https://arxiv.org/abs/2406.11816) · [论文 PDF](https://arxiv.org/pdf/2406.11816) · [项目主页](https://showlab.github.io/videollm-online/)
 
 <figure class="figure">
-  <img src="assets/papers/videollm-online/x1.png" alt="VideoLLM-online 应用于第一视角视频流的示例" loading="lazy" />
+  <img src="assets/papers/videollm-online/x1.webp" alt="VideoLLM-online 应用于第一视角视频流的示例" loading="lazy" />
   <figcaption>图 1：VideoLLM-online 面向连续视频流工作，而不是离线短视频问答。模型可以在需要时回答，在画面无变化或无需响应时跳过输出。</figcaption>
 </figure>
 
@@ -44,7 +44,7 @@ VideoLLM-online 解决的是一个很实际的问题：**视频大模型不能�
 这也是论文批评 per-frame dialogue 的原因：把每一帧都包装成一次用户输入，看似自然，实际会引入大量重复 prompt、冗余 EOS 或无意义回答，既慢又占上下文。
 
 <figure class="figure">
-  <img src="assets/papers/videollm-online/x2.png" alt="VideoLLM-online 流式视频叙述示例" loading="lazy" />
+  <img src="assets/papers/videollm-online/x2.webp" alt="VideoLLM-online 流式视频叙述示例" loading="lazy" />
   <figcaption>图 2：模型在流式视频叙述任务中表现出时间对齐能力：输出跟随当前画面变化，而不是对整段视频做离线总结。</figcaption>
 </figure>
 
@@ -73,7 +73,7 @@ LIVE（Learning-In-Video-strEam）不是单一模型结构，而是一套面向�
 转换流程大致是：先准备关于过去、当前、未来事件的问题模板；再读取视频时间轴标注；把状态变化的关键时间点作为理想响应时刻；最后让 LLM 根据问题和标注生成这些时刻的回答。训练时还会随机插入用户问题，构造更接近真实使用的流式多轮交互。
 
 <figure class="figure">
-  <img src="assets/papers/videollm-online/x3.png" alt="LIVE 将离线视频标注转换为流式对话数据" loading="lazy" />
+  <img src="assets/papers/videollm-online/x3.webp" alt="LIVE 将离线视频标注转换为流式对话数据" loading="lazy" />
   <figcaption>图 3：LIVE 的数据生成流程。通过问题模板和时间轴标注，LLM 可以把离线视频数据转换为带时间点的流式对话监督信号。</figcaption>
 </figure>
 
@@ -87,7 +87,7 @@ LIVE（Learning-In-Video-strEam）不是单一模型结构，而是一套面向�
 - 即使回答生成较慢，也不必让视频编码停下来等待。
 
 <figure class="figure">
-  <img src="assets/papers/videollm-online/x5.png" alt="VideoLLM-online 推理流水线" loading="lazy" />
+  <img src="assets/papers/videollm-online/x5.webp" alt="VideoLLM-online 推理流水线" loading="lazy" />
   <figcaption>图 4：LIVE 推理阶段维护连续 KV cache，并并行化视频帧编码与语言解码，从而减少延迟和跳帧。</figcaption>
 </figure>
 
@@ -114,7 +114,7 @@ VideoLLM-online 的模型结构相对朴素，类似 LLaVA：
 需要注意的是，论文为了效率在主实验中使用每帧 1 个 token，这使模型能在 4096 上下文窗口内处理约半小时视频；但代价是空间细节理解较弱。
 
 <figure class="figure">
-  <img src="assets/papers/videollm-online/x4.png" alt="VideoLLM-online 训练方法" loading="lazy" />
+  <img src="assets/papers/videollm-online/x4.webp" alt="VideoLLM-online 训练方法" loading="lazy" />
   <figcaption>图 5：训练时把视频帧、用户问题和助手回答按时间顺序组织成输入序列。LM loss 学习回答内容，Streaming loss 学习不该回答时保持沉默。</figcaption>
 </figure>
 
@@ -204,7 +204,7 @@ VideoLLM-online 的模型结构相对朴素，类似 LLaVA：
 Llama-3 明显提升语言质量；更多视觉 token 对在线指标提升有限，但有助于 demo 中的视觉细节理解。
 
 <figure class="figure">
-  <img src="assets/papers/videollm-online/x6.png" alt="GPT-4V per-frame prompting 对流式视频的局限" loading="lazy" />
+  <img src="assets/papers/videollm-online/x6.webp" alt="GPT-4V per-frame prompting 对流式视频的局限" loading="lazy" />
   <figcaption>图 6：附录中对 GPT-4V per-frame prompting 的分析。即使强 prompt 限制输出，逐帧对话仍会消耗大量 token 和时间，并可能出现不稳定回答。</figcaption>
 </figure>
 

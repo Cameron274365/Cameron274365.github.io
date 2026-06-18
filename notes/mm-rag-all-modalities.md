@@ -7,7 +7,7 @@ order: 4
 readTime: "20 min"
 tags: ["RAG", "Multimodal", "MM-RAG", "Survey", "Retrieval", "Generation", "Evaluation", "Modality Combination"]
 summary: "这篇 TechRxiv 综述从输入模态和输出模态的组合出发，系统梳理几乎所有可用于多模态 RAG 的研究空间。它的核心价值不是只总结图文 RAG，而是把文本、图像、音频、视频、代码、表格、知识图谱、3D 等模态放到同一张 taxonomy 中，指出 54 种潜在组合里只有 18 种已有较充分研究，并进一步拆解 MM-RAG 的四阶段工作流、训练策略、评估基准和未来方向。"
-hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
+hero: "assets/papers/mm-rag-all-modalities/taxonomy.webp"
 ---
 
 ## 一句话总结
@@ -28,7 +28,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 - **链接**：[TechRxiv DOI](https://doi.org/10.36227/techrxiv.176341513.38473003/v2) · [项目主页 / Awesome-MM-RAG](https://github.com/INTREBID/Awesome-MM-RAG)
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/definition.png" alt="MM-RAG 数学定义示意" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/definition.webp" alt="MM-RAG 数学定义示意" loading="lazy" />
   <figcaption>图 1：论文对 MM-RAG 的形式化定义。系统由知识库、检索器和生成器组成：检索器从多模态知识库中取回 top-k 相关文档，生成器再基于 query 与检索证据生成目标输出。</figcaption>
 </figure>
 
@@ -55,7 +55,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 如果仍然用“图像检索 + 文本生成”的范式去概括全部 MM-RAG，就会遮蔽大量新问题。作者因此提出从 **输入模态 × 输出模态** 出发重画地图：先问“哪些模态能作为 query？哪些模态能作为 retrieved knowledge？最终输出可以是什么？”，再看每个组合中已经有哪些方法、任务和空白。
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/taxonomy.png" alt="MM-RAG 输入输出模态组合分类" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/taxonomy.webp" alt="MM-RAG 输入输出模态组合分类" loading="lazy" />
   <figcaption>图 2：论文按输入和输出模态组合组织 MM-RAG 研究。这个 taxonomy 的重点是暴露研究版图：54 种潜在组合中只有 18 种已有研究覆盖，许多跨模态生成与结构化输出仍待探索。</figcaption>
 </figure>
 
@@ -79,7 +79,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 论文认为一个可用的 MM-RAG 系统至少包含四个阶段：预检索、检索、增强、生成。每个阶段都和模态强相关，不能简单复用文本 RAG 的经验。
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/workflow.png" alt="MM-RAG 四阶段工作流" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/workflow.webp" alt="MM-RAG 四阶段工作流" loading="lazy" />
   <figcaption>图 3：MM-RAG 的典型工作流。预检索负责知识库和查询准备，检索负责找出相关多模态证据，增强负责重排序、选择、压缩、去噪和融合证据，生成负责输出目标模态结果。</figcaption>
 </figure>
 
@@ -137,7 +137,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 这比“把检索结果拼进 prompt”细得多。真正的 MM-RAG augmentation 既要处理多模态格式差异，也要处理相关性、冗余、压缩、噪声和融合位置。
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/workflow-tree.png" alt="MM-RAG 工作流细分树" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/workflow-tree.webp" alt="MM-RAG 工作流细分树" loading="lazy" />
   <figcaption>图 4：论文进一步展开四阶段工作流下的常见技术组件。它提醒我们，MM-RAG 的每个阶段都可以继续细分，并且每个细分节点都可能需要模态特定优化。</figcaption>
 </figure>
 
@@ -159,7 +159,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 论文把 MM-RAG 训练策略概括为两大类：**parameter-frozen** 和 **parameter-trainable**。
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/training.png" alt="MM-RAG 训练策略" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/training.webp" alt="MM-RAG 训练策略" loading="lazy" />
   <figcaption>图 5：MM-RAG 的训练策略概览。论文将训练划分为 parameter-frozen 与 parameter-trainable 两类；后者又可细分为训练检索器、训练生成器或训练中间层。</figcaption>
 </figure>
 
@@ -186,7 +186,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 但它也更依赖高质量训练数据和评估闭环。对于许多仍处早期的模态组合，数据可能比模型结构更稀缺。
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/datasets.png" alt="MM-RAG 常用训练数据集" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/datasets.webp" alt="MM-RAG 常用训练数据集" loading="lazy" />
   <figcaption>图 6：论文按输入-输出模态组合整理了常用训练数据集。可以看到，图文和文本任务数据最丰富，而音频、视频、3D、代码等组合仍然依赖更少、更分散的数据源。</figcaption>
 </figure>
 
@@ -194,7 +194,7 @@ hero: "assets/papers/mm-rag-all-modalities/taxonomy.png"
 MM-RAG 的评估至少要同时看两个核心组件：**retriever** 和 **generator**。
 
 <figure class="figure">
-  <img src="assets/papers/mm-rag-all-modalities/evaluation.png" alt="MM-RAG 评估指标和基准" loading="lazy" />
+  <img src="assets/papers/mm-rag-all-modalities/evaluation.webp" alt="MM-RAG 评估指标和基准" loading="lazy" />
   <figcaption>图 7：论文整理了 MM-RAG 的评估指标和 benchmark。评估不应只看最终答案，还要看检索相关性、检索质量、答案相关性、答案正确性和答案忠实性。</figcaption>
 </figure>
 

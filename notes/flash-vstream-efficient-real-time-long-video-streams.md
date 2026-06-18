@@ -7,7 +7,7 @@ order: 20
 readTime: "11 min"
 tags: ["VLM","Long Video","Video Stream","Memory","Real-Time","Qwen2-VL"]
 summary: "Flash-VStream 用异步双进程框架和固定大小的 Flash Memory，把长视频流处理与问题回答解耦：CSM 聚合长程时序信息，DAM 按信息密度取回关键帧细节，在 11520 个视频 token 预算内实现一秒级响应，并在 EgoSchema、MLVU、LVBench、MVBench、Video-MME 上取得强结果。"
-hero: "assets/papers/flash-vstream/x1_framework.png"
+hero: "assets/papers/flash-vstream/x1_framework.webp"
 ---
 
 ## 一句话总结
@@ -37,7 +37,7 @@ Flash-VStream 的核心思路是：不要把长视频当作一个越来越长的
 论文把实时 VLM 定义为：当用户提问时，模型能在 **1 秒内生成首个回答 token**。这比普通离线 VQA 更接近产品交互场景。
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x1_framework.png" alt="Flash-VStream 双进程框架和 Flash Memory 总览" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x1_framework.webp" alt="Flash-VStream 双进程框架和 Flash Memory 总览" loading="lazy" />
   <figcaption>图 1：Flash-VStream 的双进程框架。Frame Handler 持续编码新帧并更新 Flash Memory；Question Handler 在问题到来时异步读取当前记忆并快速生成答案。</figcaption>
 </figure>
 
@@ -59,7 +59,7 @@ Flash Memory 不是简单的均匀采样，也不是无限增长的 KV cache，�
 我的理解是：CSM 负责“知道视频长期发生过什么”，DAM 负责“在关键位置看清楚细节”。二者组合，比单纯压缩或单纯采样更适合长视频 VQA。
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x3_memory_config.png" alt="Flash Memory 默认配置" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x3_memory_config.webp" alt="Flash Memory 默认配置" loading="lazy" />
   <figcaption>图 2：Flash Memory 默认配置。CSM 使用 120 个输入帧、60 个低分辨率特征；DAM 使用 60 个输入帧、30 个高分辨率特征，最终共 11520 个 LLM 视频 token。</figcaption>
 </figure>
 
@@ -116,7 +116,7 @@ Flash-VStream 基于 **Qwen2-VL-7B** 初始化，视觉编码器冻结，对 pro
 </div>
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x5_main_results.png" alt="Flash-VStream 在多个视频理解 benchmark 上的主结果" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x5_main_results.webp" alt="Flash-VStream 在多个视频理解 benchmark 上的主结果" loading="lazy" />
   <figcaption>图 3：主结果表。Flash-VStream 在 11520 视频 token 成本下达到 EgoSchema 68.2、MLVUdev 66.3、LVBench 42.0、MVBench 65.4、Video-MME 61.2/67.0。</figcaption>
 </figure>
 
@@ -126,7 +126,7 @@ Flash-VStream 基于 **Qwen2-VL-7B** 初始化，视觉编码器冻结，对 pro
 Flash-VStream 的优势不是单纯减少 token，而是通过 CSM + DAM 让固定 token 预算更有信息量：同样 11520 个 token，它比均匀截断/在线版本更准确。
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x2_latency.png" alt="Flash-VStream 响应延迟与准确率对比" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x2_latency.webp" alt="Flash-VStream 响应延迟与准确率对比" loading="lazy" />
   <figcaption>图 4：响应延迟、准确率和推理成本关系。超过约 12000 个视频 token 后难以满足实时要求；Flash-VStream 在实时区间取得更好的准确率。</figcaption>
 </figure>
 
@@ -158,7 +158,7 @@ Flash-VStream 的优势不是单纯减少 token，而是通过 CSM + DAM 让固�
 论文结论是：CSM 相比均匀采样带来约 **2.0%** 平均提升，DAM 带来约 **0.7%** 平均提升。我的理解是，长视频任务首先需要“别丢掉长期结构”，因此 CSM 的贡献更大；DAM 则进一步补足细节。
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x6_ablation.png" alt="Flash Memory 组件消融实验" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x6_ablation.webp" alt="Flash Memory 组件消融实验" loading="lazy" />
   <figcaption>图 5：Flash Memory 组件消融。CSM 和 DAM 的组合最优；只用均匀采样或移除关键组件都会降低平均准确率。</figcaption>
 </figure>
 
@@ -168,7 +168,7 @@ Flash-VStream 的优势不是单纯减少 token，而是通过 CSM + DAM 让固�
 这很符合直觉：CSM 太少会丢长期时序，DAM 太少会缺空间细节；二者不是替代关系，而是互补关系。
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x4_capacity.png" alt="CSM 容量比例与空间池化比例消融" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x4_capacity.webp" alt="CSM 容量比例与空间池化比例消融" loading="lazy" />
   <figcaption>图 6：容量分配消融。固定实时 token 预算下，约 1/3 CSM + 2/3 DAM、pool ratio = 4 是较优配置。</figcaption>
 </figure>
 
@@ -187,7 +187,7 @@ CSM 的聚类策略中，K-means 在 EgoSchema 和 MVBench 上优于 DBScan、GM
 3. **异步系统设计很重要**：在真实产品里，视频编码、状态更新和用户问答本来就是不同节奏的任务。双进程框架比“问题来了再处理全量视频”更接近可部署形态。
 
 <figure class="figure">
-  <img src="assets/papers/flash-vstream/x7_case.png" alt="Flash Memory 可视化与问答案例" loading="lazy" />
+  <img src="assets/papers/flash-vstream/x7_case.webp" alt="Flash Memory 可视化与问答案例" loading="lazy" />
   <figcaption>图 7：Flash Memory 可视化与案例。左侧 PCA 显示 CSM/DAM 对特征空间进行了压缩与整合；右侧案例展示了模型在 OCR、空间理解和复杂推理问题上的表现。</figcaption>
 </figure>
 
