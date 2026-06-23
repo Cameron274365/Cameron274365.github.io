@@ -7,7 +7,7 @@ order: 10
 readTime: "18 min"
 tags: ["Multimodal RAG","Knowledge Graph","Multi-hop Retrieval","GRASP","Audio-Visual Reasoning","Multi-Agent","MLLM"]
 summary: "M3KG-RAG 构建多跳多模态知识图谱（M3KG），通过模态级检索（Modality-Wise Retrieval）消除跨模态 embedding gap，再经 GRASP（Grounded Retrieval And Selective Pruning）利用视觉/音频 grounding 模型和 LLM filter 逐级剪枝，仅保留与 query 相关且对回答有用的子图，在 Audio/Video/Audio-Visual QA 三个 benchmark 上全面超越现有 MMKG-RAG 方法。"
-hero: "assets/papers/m3kg-rag/fig3_framework.webp"
+hero: "assets/papers/m3kg-rag/fig2_pipeline.webp"
 ---
 
 ## 一句话总结
