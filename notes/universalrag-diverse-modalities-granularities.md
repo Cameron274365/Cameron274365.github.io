@@ -7,7 +7,6 @@ order: 2
 readTime: "14 min"
 tags: ["RAG", "Multimodal RAG", "UniversalRAG", "Routing", "Granularity", "Retrieval", "Qwen3-VL", "ACL 2026"]
 summary: "UniversalRAG 提出一种 any-to-any RAG 框架：不再把所有文本、表格、图片、视频统一塞进一个 embedding 空间，而是先用路由器判断 query 需要哪些模态和粒度，再到对应的专用语料库中检索。论文在 10 个跨模态、多粒度 benchmark 上验证了该设计，显示出比单模态 RAG、统一 embedding RAG 和 MultiRAG 更稳定的平均效果。"
-hero: "assets/papers/universalrag/concept.webp"
 ---
 
 ## 一句话总结

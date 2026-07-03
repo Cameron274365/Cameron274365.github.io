@@ -7,7 +7,6 @@ order: 10
 readTime: "18 min"
 tags: ["LLM","Streaming","Survey","Real-Time Interaction","KV Cache","Multimodal"]
 summary: "这篇 ACL 2026 Findings 综述把 Streaming LLM 从一个容易混淆的术语拆成三层：output-streaming、sequential-streaming 和 concurrent-streaming，并从生成机制、增量编码、上下文管理、架构适配、交互策略和应用任务几个维度梳理了实时智能的发展路线。"
-hero: "assets/papers/streaming-llm-survey/top.webp"
 ---
 
 ## 一句话总结

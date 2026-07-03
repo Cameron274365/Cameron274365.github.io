@@ -7,7 +7,6 @@ order: 10
 readTime: "9 min"
 tags: ["VLM","WebRTC","Realtime AI","NVIDIA","Video Understanding","OpenAI API"]
 summary: "NVIDIA-AI-IOT/live-vlm-webui 是一个面向实时视觉语言模型交互的 WebUI 项目：前端采集摄像头或 RTSP 视频，后端通过 WebRTC 接收视频帧，按固定间隔抽帧调用 OpenAI-compatible VLM API，并用 WebSocket 把分析结果、推理延迟和系统监控指标实时推回页面。"
-hero: ""
 ---
 
 ## 一句话总结

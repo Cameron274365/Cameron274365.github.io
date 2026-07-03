@@ -16,7 +16,6 @@
       stats: document.querySelector("#stats"),
       articleHeader: document.querySelector("#articleHeader"),
       articleBody: document.querySelector("#articleBody"),
-      articleHeroBanner: document.querySelector("#articleHeroBanner"),
       tocListDesktop: document.querySelector("#tocListDesktop"),
       tocListMobile: document.querySelector("#tocListMobile"),
       sidebar: document.querySelector("#sidebar"),
@@ -407,12 +406,7 @@
       history.replaceState(null, "", `?note=${encodeURIComponent(note.id)}`);
       document.title = `${note.title} · 屿佳的笔记博客`;
 
-      // Hero banner
-      if (note.hero) {
-        elements.articleHeroBanner.innerHTML = `<img src="${escapeHtml(note.hero)}" alt="${escapeHtml(note.title)}" loading="eager" />`;
-      } else {
-        elements.articleHeroBanner.innerHTML = "";
-      }
+      // Hero banner removed
 
       // Merged meta header
       elements.articleHeader.innerHTML = `
@@ -517,31 +511,64 @@
       const headings = elements.articleBody.querySelectorAll("h2[id], h3[id], h4[id]");
       if (!headings.length) return;
 
-      const allTocLinks = document.querySelectorAll(".toc-list a[href^='#']");
-      allTocLinks.forEach(a => a.classList.remove("active"));
+      // Cache TOC links for performance
+      const desktopLinks = elements.tocListDesktop ? Array.from(elements.tocListDesktop.querySelectorAll("a[href^='#']")) : [];
+      const mobileLinks = elements.tocListMobile ? Array.from(elements.tocListMobile.querySelectorAll("a[href^='#']")) : [];
+      const allLinks = [...desktopLinks, ...mobileLinks];
+      allLinks.forEach(a => a.classList.remove("active"));
 
-      let currentActiveId = null;
+      // Build a map from heading id to link elements
+      const linkMap = new Map();
+      allLinks.forEach(link => {
+        const id = link.getAttribute("href").slice(1);
+        if (!linkMap.has(id)) linkMap.set(id, []);
+        linkMap.get(id).push(link);
+      });
+
+      let activeId = null;
+      let lastScrolledId = null;
+      let rafPending = false;
+
+      function updateActiveLink(newId) {
+        if (newId === activeId) return;
+        // Remove active from previous
+        if (activeId) {
+          const prevLinks = linkMap.get(activeId);
+          if (prevLinks) prevLinks.forEach(a => a.classList.remove("active"));
+        }
+        // Add active to new
+        activeId = newId;
+        const newLinks = linkMap.get(activeId);
+        if (newLinks) newLinks.forEach(a => a.classList.add("active"));
+
+        // Scroll desktop TOC into view (without smooth to avoid jank)
+        if (activeId !== lastScrolledId) {
+          lastScrolledId = activeId;
+          const activeLink = elements.tocListDesktop?.querySelector("a.active");
+          if (activeLink) {
+            activeLink.scrollIntoView({ block: "nearest", behavior: "auto" });
+          }
+        }
+      }
 
       spyObserver = new IntersectionObserver(entries => {
+        let newActiveId = null;
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            currentActiveId = entry.target.id;
+            newActiveId = entry.target.id;
             break;
           }
         }
 
-        if (!currentActiveId) return;
+        if (!newActiveId) return;
 
-        [elements.tocListDesktop, elements.tocListMobile].forEach(list => {
-          if (!list) return;
-          list.querySelectorAll("a").forEach(a => {
-            a.classList.toggle("active", a.getAttribute("href") === `#${currentActiveId}`);
+        // Batch DOM updates with requestAnimationFrame
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(() => {
+            updateActiveLink(newActiveId);
+            rafPending = false;
           });
-        });
-
-        const activeLink = elements.tocListDesktop?.querySelector("a.active");
-        if (activeLink) {
-          activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
         }
       }, {
         rootMargin: "-80px 0px -70% 0px",

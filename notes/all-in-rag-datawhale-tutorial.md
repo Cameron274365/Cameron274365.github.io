@@ -7,7 +7,6 @@ order: 50
 readTime: "25 min"
 tags: ["RAG","LangChain","LlamaIndex","向量数据库","GraphRAG","Text2SQL","Embedding","Reranking"]
 summary: "Datawhale 开源的 RAG 全栈教程，从基础概念到生产实战，覆盖数据加载、文本分块、向量嵌入、混合检索、重排序、查询重构、格式化生成、系统评估、知识图谱 RAG 等完整链路，并附带两个端到端实战项目。"
-hero: ""
 ---
 
 ## 一句话总结

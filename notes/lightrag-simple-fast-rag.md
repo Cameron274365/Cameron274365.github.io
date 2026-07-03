@@ -7,7 +7,6 @@ order: 45
 readTime: "14 min"
 tags: ["RAG","GraphRAG","Knowledge Graph","Vector Retrieval","Incremental Update","Information Retrieval"]
 summary: "LightRAG 将知识图谱引入 RAG 的索引与检索流程，用实体/关系图替代纯扁平文本块，并通过低层实体检索与高层主题检索的双层范式，在复杂语义查询上同时提升回答质量、检索效率和增量更新能力。"
-hero: "assets/papers/lightrag/x1.webp"
 ---
 
 ## 一句话总结

@@ -68,7 +68,6 @@ function parseNoteFile(filePath) {
     readTime: metadata.readTime,
     tags: metadata.tags,
     summary: metadata.summary,
-    ...(metadata.hero ? { hero: metadata.hero } : {}),
     content
   };
 }

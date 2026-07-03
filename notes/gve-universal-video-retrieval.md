@@ -7,7 +7,6 @@ order: 10
 readTime: "16 min"
 tags: ["Video Retrieval", "Video Embedding", "Curriculum Learning", "Data Synthesis", "Benchmark", "MLLM", "CLIP"]
 summary: "GVE 提出 Universal Video Retrieval 的统一框架：构建 UVRB（16 个数据集的诊断性评测），通过 V-SynFlow 合成 1.55M 高质量多任务训练数据，并设计 Modality Pyramid 课程学习算法训练 General Video Embedder。GVE-7B 在 UVRB 上达到 SOTA，比 Unite-7B 高 6.5%，且 3B 模型超越 7B baseline。"
-hero: "assets/papers/gve-universal-video-retrieval/fig1_overview.png"
 ---
 
 ## 一句话总结

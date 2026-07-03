@@ -7,7 +7,6 @@ order: 3
 readTime: "14 min"
 tags: ["RAG", "Multimodal RAG", "GraphRAG", "Document QA", "Long Context", "Table", "Equation", "Retrieval"]
 summary: "RAG-Anything 提出一个面向多模态文档的统一 RAG 框架：先把文本、图片、表格、公式等内容拆成原子知识单元，再用双图结构同时建模跨模态关系和文本语义，最后通过结构导航与语义匹配结合的混合检索完成长文档问答。"
-hero: "assets/papers/rag-anything/x1_framework.webp"
 ---
 
 ## 一句话总结

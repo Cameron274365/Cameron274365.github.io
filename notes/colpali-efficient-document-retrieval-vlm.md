@@ -7,7 +7,6 @@ order: 10
 readTime: "12 min"
 tags: ["Document Retrieval","VLM","RAG","ColBERT","Late Interaction","ViDoRe"]
 summary: "ColPali 把文档页当作图片直接编码，用 PaliGemma 生成多向量视觉表示，再通过 ColBERT 风格 late interaction 与查询匹配。它在 ViDoRe 上达到 81.3 nDCG@5，显著超过传统 OCR/Layout/Captioning 管线，同时把离线索引从 7.22s/page 降到 0.39s/page。"
-hero: "assets/papers/colpali/figure1_overview.webp"
 ---
 
 ## 一句话总结

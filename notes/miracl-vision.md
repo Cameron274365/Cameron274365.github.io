@@ -50,11 +50,6 @@ MIRACL-VISION 正是为填补这些空白而生。
 
 MIRACL-VISION 基于 MIRACL（多语言文本检索 Benchmark）扩展而来。MIRACL 拥有由母语者手工标注的 77k 高质量问题，覆盖 18 种语言。MIRACL-VISION 复用这些问题，将 ground truth 文本段落替换为**包含答案的文档页面截图**。
 
-<figure class="figure">
-  <img src="assets/papers/miracl-vision/page_4.webp" alt="MIRACL-VISION 生成流程" loading="lazy" />
-  <figcaption>图 3：MIRACL-VISION 的 4 步生成流程，从 MIRACL 文本数据集到最终的视觉检索 Benchmark</figcaption>
-</figure>
-
 ### 四步构建流程
 
 **Step 1 — 仅保留每篇文章的第一段**
@@ -80,11 +75,6 @@ MIRACL 的语料来自 Wikipedia 文章，被切分成多个 chunk。例如英�
 **Step 4 — 生成图片和文本**
 
 对每个文档，下载对应的 Wikipedia 文章，用 Playwright 渲染 HTML（去除侧边栏等无关元素），截取前 2048 像素，裁剪为 980×980 像素。同时提取 HTML 文本的前 12 句作为近似文本表示，构成 **MIRACL-VISION-text** 版本。
-
-<figure class="figure">
-  <img src="assets/papers/miracl-vision/page_1.webp" alt="MIRACL-VISION 示例" loading="lazy" />
-  <figcaption>图 1：MIRACL-VISION 的用户查询与文档图片示例</figcaption>
-</figure>
 
 ## 数据与评测
 

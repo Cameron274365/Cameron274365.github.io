@@ -7,7 +7,6 @@ order: 45
 readTime: "16 min"
 tags: ["Video RAG","Multimodal RAG","Long Video Understanding","Knowledge Graph","Retrieval","ImageBind","MiniCPM-V"]
 summary: "VideoRAG 将视频先转化为可检索的跨视频知识库：一条通道用图结构组织视觉 caption 与 ASR 文本，另一条通道保留多模态视觉 embedding，再通过文本语义检索、视觉相似度检索和 LLM 过滤共同定位相关片段。论文提出 LongerVideos，覆盖 164 个视频、134.6 小时和 602 个查询，用于评估跨多个超长视频的问答能力。"
-hero: "assets/papers/videorag/framework.webp"
 ---
 
 ## 一句话总结

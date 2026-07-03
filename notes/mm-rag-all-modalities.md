@@ -7,7 +7,6 @@ order: 4
 readTime: "20 min"
 tags: ["RAG", "Multimodal", "MM-RAG", "Survey", "Retrieval", "Generation", "Evaluation", "Modality Combination"]
 summary: "这篇 TechRxiv 综述从输入模态和输出模态的组合出发，系统梳理几乎所有可用于多模态 RAG 的研究空间。它的核心价值不是只总结图文 RAG，而是把文本、图像、音频、视频、代码、表格、知识图谱、3D 等模态放到同一张 taxonomy 中，指出 54 种潜在组合里只有 18 种已有较充分研究，并进一步拆解 MM-RAG 的四阶段工作流、训练策略、评估基准和未来方向。"
-hero: "assets/papers/mm-rag-all-modalities/taxonomy.webp"
 ---
 
 ## 一句话总结

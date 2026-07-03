@@ -7,7 +7,6 @@ order: 10
 readTime: "13 min"
 tags: ["VLM","Omni-Modal","Streaming Video","Audio-Visual","Memory","Proactive Response","Benchmark"]
 summary: "StreamOV 面向流式全模态视频理解：它用多模态证据引导的长短期记忆在固定预算下保留关键音视频上下文，并用 MLLM 隐状态触发器决定何时回答。论文同时提出 SOVBench，评测在线、多轮、音视频理解和主动响应能力。"
-hero: "assets/papers/streamov/x1.webp"
 ---
 
 ## 一句话总结

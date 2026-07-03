@@ -7,7 +7,6 @@ order: 10
 readTime: "13 min"
 tags: ["LVLM","Streaming","Chain-of-Thought","KV Cache","Video Reasoning"]
 summary: "TaYS 把大视觉语言模型的视频 CoT 从“看完整段视频再思考”的 batch 范式，改造成边看边想的 streaming reasoning：通过流式注意力掩码、解耦位置编码和双 KV-cache 并行推理，在保持推理质量的同时把 TTFT 从约 10.6 秒降到近零。"
-hero: "assets/papers/tays/figure1.webp"
 ---
 
 ## 一句话总结

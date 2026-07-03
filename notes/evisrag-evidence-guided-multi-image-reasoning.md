@@ -7,7 +7,6 @@ order: 20
 readTime: "15 min"
 tags: ["Visual RAG","Multi-Image Reasoning","RS-GRPO","VLM","Evidence Grounding","Reinforcement Learning"]
 summary: "EVisRAG 提出 observe → record evidence → reason → answer 四阶段视觉 RAG 推理范式，并引入 RS-GRPO（Reward-Scoped GRPO）将感知奖励和推导奖励分别绑定到对应 token 作用域，在 5 个 VQA benchmark 上平均 F1 超过 Qwen2.5-VL-7B backbone 27 个百分点。"
-hero: "assets/papers/evisrag/fig2_framework.webp"
 ---
 
 ## 一句话总结

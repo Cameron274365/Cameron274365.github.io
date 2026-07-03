@@ -7,7 +7,6 @@ order: 20
 readTime: "11 min"
 tags: ["VideoLLM","Streaming","Real-Time QA","Proactive Assistant","Qwen3-VL","vLLM"]
 summary: "AURA 将流式视频理解从被动问答推进到常开式实时助手：统一模型持续观察视频流，在需要时回答或主动提醒，并通过双滑窗上下文、流式数据构造、静默-发言平衡训练和 vLLM 推理优化实现长时稳定交互。"
-hero: "assets/papers/aura/x3.webp"
 ---
 
 ## 一句话总结

@@ -7,7 +7,6 @@ order: 30
 readTime: "12 min"
 tags: ["VLM","Streaming","KV Cache","RoPE","Video Understanding"]
 summary: "StreamingVLM 通过训练-推理一致的流式框架，让 VLM 在近无限视频上保持低延迟、低显存和稳定理解能力。论文构建了 Inf-Streams-Train / Eval，并在长达 2 小时以上的视频流评测中取得强结果。"
-hero: "assets/papers/streamingvlm/x1.webp"
 ---
 
 ## 一句话总结

@@ -7,7 +7,6 @@ order: 9
 readTime: "16 min"
 tags: ["MM-BizRAG","Multimodal RAG","Enterprise QA","Document AI","Layout Parsing","FastRAGEval","ColPali","VisRAG"]
 summary: "MM-BizRAG 反思了近年多模态 RAG 过度依赖页面截图和视觉 embedding 的趋势，提出按文档结构区分报告类纵向文档与幻灯片类横向文档：前者显式做版面解析、表格/图片 artifact 转换和占位符对齐，后者保留页面级整体语义。它在 SlideVQA、FinRAGBench-V 和内部企业数据上优于 ColPali、VisRAG 等视觉中心基线，最高提升 32 个百分点，并提出单次 LLM Judge 的 FastRAGEval 降低评估成本。"
-hero: "assets/papers/mm-bizrag/structure-aware-ingestion.webp"
 ---
 
 ## 一句话总结

@@ -7,7 +7,6 @@ order: 20
 readTime: "11 min"
 tags: ["VLM","Streaming Video","Memory","Token Compression","Training-free","OVO-Bench","StreamingBench"]
 summary: "FluxMem 是一个免训练的流式视频记忆框架，通过短期、中期、长期三层视觉记忆，以及 TAS 与 SDC 两个自适应压缩模块，在保持因果在线处理的同时降低视觉 token、延迟和显存开销。"
-hero: "assets/papers/fluxmem/teaserfigure.webp"
 ---
 
 ## 一句话总结

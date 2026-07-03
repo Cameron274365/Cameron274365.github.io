@@ -7,7 +7,6 @@ order: 20
 readTime: "13 min"
 tags: ["Video LLM","Streaming Video Dialogue","Event Gate","State Space Model","Real-time AI"]
 summary: "StreamMind 提出 event-gated LLM invocation：视频编码器持续以全帧率感知，只有当查询相关事件出现时才唤醒 LLM，从而在单张 A100 上达到最高 100 FPS 的流式视频对话处理能力。"
-hero: "assets/papers/streammind/x3.webp"
 ---
 
 ## 一句话总结

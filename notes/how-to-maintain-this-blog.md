@@ -7,7 +7,6 @@ order: 40
 readTime: "4 min"
 tags: ["Static Site","Notes","Workflow"]
 summary: "这个站点不依赖框架和后端。新增文章时，在 notes/ 目录添加 Markdown 文件，再运行 node scripts/build-notes.js 生成 notes-data.js，页面会自动生成列表、分类、搜索和文章目录。"
-hero: ""
 ---
 
 ## 结构说明
@@ -20,7 +19,7 @@ hero: ""
 
 ## 新增笔记步骤
 1. 在 `notes/` 目录新增一篇 Markdown 文件。
-2. 在文件顶部填写 frontmatter：`id`、`title`、`category`、`date`、`order`、`readTime`、`tags`、`summary`、`hero`。
+2. 在文件顶部填写 frontmatter：`id`、`title`、`category`、`date`、`order`、`readTime`、`tags`、`summary`。
 3. 在 frontmatter 下方编写正文内容。
 4. 如果有图片，放到 `assets/你的主题/` 目录，并在正文中用 `<figure class="figure">...</figure>` 引用。
 5. 运行 `node scripts/build-notes.js` 重新生成 `notes-data.js`。

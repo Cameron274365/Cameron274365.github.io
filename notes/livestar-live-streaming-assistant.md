@@ -7,7 +7,6 @@ order: 10
 readTime: "14 min"
 tags: ["Video-LLM","Online Video Understanding","Streaming","Response Timing","KV Cache","Benchmark"]
 summary: "LiveStar 面向真实在线视频理解，提出 SCAM 流式训练、SVeD 响应-沉默解码和 Peak-End 记忆压缩，在 OmniStar 五类在线任务上同时提升语义正确性、响应时机和推理速度。"
-hero: "assets/papers/livestar/overview.webp"
 ---
 
 ## 一句话总结

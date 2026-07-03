@@ -1,7 +1,7 @@
     :root {
       color-scheme: light;
       --bg: #f6f7fb;
-      --panel: rgba(255, 255, 255, 0.78);
+      --panel: rgba(255, 255, 255, 0.92);
       --panel-strong: #ffffff;
       --text: #172033;
       --muted: #6b7280;
@@ -21,7 +21,7 @@
     [data-theme="dark"] {
       color-scheme: dark;
       --bg: #0b1020;
-      --panel: rgba(17, 24, 39, 0.76);
+      --panel: rgba(17, 24, 39, 0.92);
       --panel-strong: #111827;
       --text: #eef2ff;
       --muted: #aab2c5;
@@ -35,7 +35,7 @@
     }
 
     html {
-      scroll-behavior: smooth;
+      /* scroll-behavior: smooth removed for performance */
     }
 
     body {
@@ -278,8 +278,7 @@
       border-radius: var(--radius-lg);
       background: var(--panel);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      /* backdrop-filter removed for scroll performance */
       padding: 16px;
     }
 
@@ -452,26 +451,12 @@
       border-radius: var(--radius-lg);
       background: var(--panel);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      /* backdrop-filter removed for scroll performance */
       overflow: hidden;
     }
 
     .article-hero-banner {
-      width: 100%;
-      height: 280px;
-      overflow: hidden;
-      background: var(--panel-strong);
-    }
-
-    .article-hero-banner:empty {
       display: none;
-    }
-
-    .article-hero-banner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     .article-content {
@@ -513,6 +498,8 @@
       max-width: 1080px;
       font-size: 16px;
       line-height: 1.86;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 800px;
     }
 
     /* Article body typography */
@@ -701,8 +688,7 @@
       border-radius: var(--radius-lg);
       background: var(--panel);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      /* backdrop-filter removed for scroll performance */
       padding: 16px;
     }
 

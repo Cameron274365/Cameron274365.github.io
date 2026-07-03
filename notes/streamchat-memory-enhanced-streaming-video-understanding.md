@@ -7,7 +7,6 @@ order: 10
 readTime: "13 min"
 tags: ["VLM","Streaming Video","Memory","RAG","Multi-round Interaction","Benchmark"]
 summary: "StreamChat 是一个 training-free 的流式视频理解框架，通过长短期视觉记忆、对话记忆和并行系统调度，让 Video-LLM 能在在线场景中实时处理长视频并支持多轮问答。论文同时提出 StreamBench，用 306 个视频、24.8 小时内容和 1.8K QA 评测真实流式交互能力。"
-hero: "assets/papers/streamchat/x4.webp"
 ---
 
 ## 一句话总结

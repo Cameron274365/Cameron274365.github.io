@@ -7,7 +7,6 @@ order: 10
 readTime: "12 min"
 tags: ["Real-time Interaction", "Full-Duplex", "Streaming VLM", "Audio-Visual Generation", "Thinker-Performer", "Flow Matching", "Block-Causal Attention", "Digital Human"]
 summary: "Wan-Streamer 是一个从底层为实时交互设计的全双工基础模型，将语言、音频、视频统一为单 Transformer 中的因果流，不依赖外部 ASR/TTS/Avatar 模块。模型端延迟约 200ms，含网络延迟约 550ms，支持 25fps 同步音视频输出，是目前首个端到端覆盖感知、推理、语音生成与视觉生成的实时交互模型。"
-hero: "assets/papers/wan-streamer/fig1_overview.webp"
 ---
 
 ## 一句话总结

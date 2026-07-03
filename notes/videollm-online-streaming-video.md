@@ -7,7 +7,6 @@ order: 10
 readTime: "15 min"
 tags: ["VideoLLM", "Streaming Video", "Online Assistant", "Temporal Alignment", "KV Cache", "Ego4D", "COIN"]
 summary: "VideoLLM-online 提出 LIVE（Learning-In-Video-strEam）框架，把传统离线视频理解改造成可持续接收视频流、按时间点主动回答或保持沉默的在线 VideoLLM。核心设计包括 Streaming EOS 训练目标、从离线标注生成流式对话数据，以及连续 KV cache 与编码/解码并行的推理流水线。"
-hero: "assets/papers/videollm-online/x1.webp"
 ---
 
 ## 一句话总结

@@ -7,7 +7,6 @@ order: 20
 readTime: "11 min"
 tags: ["VLM","Long Video","Video Stream","Memory","Real-Time","Qwen2-VL"]
 summary: "Flash-VStream 用异步双进程框架和固定大小的 Flash Memory，把长视频流处理与问题回答解耦：CSM 聚合长程时序信息，DAM 按信息密度取回关键帧细节，在 11520 个视频 token 预算内实现一秒级响应，并在 EgoSchema、MLVU、LVBench、MVBench、Video-MME 上取得强结果。"
-hero: "assets/papers/flash-vstream/x1_framework.webp"
 ---
 
 ## 一句话总结

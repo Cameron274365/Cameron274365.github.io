@@ -7,7 +7,6 @@ order: 10
 readTime: "14 min"
 tags: ["Omni-Modal","Streaming Video","Audio-Visual","Proactive Response","TMRoPE","Speak Head","Benchmark"]
 summary: "ROMA 面向实时音视频流交互，把被动问答和主动响应统一到同一个 omni-multimodal assistant 中：用一秒级多模态单元对齐音频与视频，用 chunked TMRoPE 维护连续时间线，并用轻量 speak head 专门判断何时开口。"
-hero: "assets/papers/roma/x1.webp"
 ---
 
 ## 一句话总结

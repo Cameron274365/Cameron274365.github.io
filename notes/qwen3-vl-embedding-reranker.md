@@ -7,7 +7,6 @@ order: 10
 readTime: "14 min"
 tags: ["Qwen3-VL","Multimodal Retrieval","Embedding","Reranker","MRL","QAT","MMEB-V2"]
 summary: "Qwen3-VL-Embedding 与 Qwen3-VL-Reranker 基于 Qwen3-VL 构建统一多模态检索流水线，覆盖文本、图像、视觉文档和视频，在 MMEB-V2 上 8B Embedding 达到 77.8，总体排名领先，并通过 MRL 与 QAT 兼顾效果和部署成本。"
-hero: "assets/papers/qwen3-vl-embedding/performance-comparison.webp"
 ---
 
 ## 一句话总结

@@ -7,7 +7,6 @@ order: 10
 readTime: "11 min"
 tags: ["VLM","Streaming Video","Simple Baseline","OVO-Bench","StreamingBench"]
 summary: "SimpleStream 质疑流式视频理解中越来越复杂的记忆机制：只把最近 N 帧输入现成 VLM，就能在 OVO-Bench 和 StreamingBench 上匹配甚至超过多个已发表流式方法。论文的关键价值不在新架构，而在提醒后续工作必须先跑强 recency baseline，并拆开评估实时感知与长期记忆。"
-hero: "assets/papers/simple-stream/figure1_baseline_teaser.webp"
 ---
 
 ## 一句话总结

@@ -7,7 +7,6 @@ order: 1
 readTime: "14 min"
 tags: ["RAG", "Multimodal Memory", "Graph", "Visual Token Compression", "RL", "Agentic Reasoning"]
 summary: "VimRAG 将多模态 RAG 的推理过程建模为动态有向无环图（Memory Graph），通过图拓扑评估节点重要性来自适应分配视觉 token 密度，并提出 Graph-Guided Policy Optimization 解耦步骤有效性与轨迹级奖励。在 9 个多模态 RAG benchmark 上取得 SOTA，Qwen3-VL-8B 整体准确率从 43.6 提升至 50.1。"
-hero: "assets/papers/vimrag/fig1-overview.webp"
 ---
 
 ## 一句话总结

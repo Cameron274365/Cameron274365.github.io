@@ -7,7 +7,6 @@ order: 10
 readTime: "16 min"
 tags: ["RAG","MLLM","Multimodal Retrieval","VRD","Document AI","Survey"]
 summary: "这篇 AACL-IJCNLP 2025 综述聚焦视觉富文档在 RAG 中的检索问题，将 MLLM 的作用归纳为三种角色：把视觉内容转成文本的 Captioner、统一多模态表征空间的 Embedder，以及直接编码整页图像的 End-to-End Representer，并系统比较了检索粒度、信息保真度、延迟、索引成本和可解释性之间的取舍。"
-hero: "assets/papers/vrd-rag-mllm-survey/roles.webp"
 ---
 
 ## 一句话总结

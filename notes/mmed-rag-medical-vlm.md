@@ -7,7 +7,6 @@ order: 20
 readTime: "13 min"
 tags: ["Medical VLM","Multimodal RAG","RAG-PT","Retrieval","Alignment","ICLR 2025"]
 summary: "MMed-RAG 面向医疗视觉语言模型的事实性幻觉问题，提出领域感知检索、自适应检索上下文选择和 RAG-based Preference Fine-Tuning，在放射、眼科、病理五个数据集上显著提升医疗 VQA 与报告生成的事实准确性。"
-hero: "assets/papers/mmed-rag/overview.webp"
 ---
 
 ## 一句话总结

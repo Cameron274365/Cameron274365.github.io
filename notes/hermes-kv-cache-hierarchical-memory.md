@@ -7,7 +7,6 @@ order: 10
 readTime: "13 min"
 tags: ["VLM","Streaming Video","KV Cache","Memory","Token Compression","Real-time"]
 summary: "HERMES 将 MLLM 的 KV cache 解释为分层视频记忆：浅层保留近期感知，中层承担工作记忆，深层存储长期语义锚点。它无需训练，通过层次化缓存管理、跨层记忆平滑和位置重索引，在流式视频理解中实现低延迟、低显存和稳定准确率。"
-hero: "assets/papers/hermes/x1_teaser.webp"
 ---
 
 ## 一句话总结

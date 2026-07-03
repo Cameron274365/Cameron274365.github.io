@@ -7,7 +7,6 @@ order: 10
 readTime: "12 min"
 tags: ["Video-LLM","Streaming","Proactive AI","Masked Diffusion","When-to-Speak","Temporal Grounding"]
 summary: "STRIDE 将流式视频理解里的 when-to-speak 问题从逐帧二分类改写为滑动窗口上的结构化序列建模，用轻量 masked diffusion 激活模块迭代去噪激活序列，从而生成更连续、更稳定的触发片段。"
-hero: "assets/papers/stride/fig1.webp"
 ---
 
 ## 一句话总结
