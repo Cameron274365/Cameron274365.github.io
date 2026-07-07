@@ -7,7 +7,7 @@ order: 5
 readTime: "16 min"
 tags: ["RAG", "Multimodal RAG", "Knowledge Graph", "Audio-Visual", "Multi-hop", "GRASP", "MLLM", "CVPR 2026"]
 summary: "M³KG-RAG 指出音视频多模态 RAG 的两大瓶颈：现有 MMKG 缺乏多跳连通性和 audio-visual 覆盖，共享 embedding 空间的 modality gap 导致检索偏离。论文用 7-agent 管线构建每个三元组都链接到 audio/visual item 的多跳 MMKG，用同模态检索绕过跨模态距离校准问题，再用 GRASP（grounding 验证 + LLM 语义剪枝）只保留对回答有用的知识。在 AudioCaps-QA、VideoChatGPT、VALOR 上全面超越 VAT-KG 等基线，包括对 GPT-4o 的一致提升。"
-hero: "assets/papers/m3kg-rag/fig1_comparison.webp"
+hero: "assets/papers/m3kg-rag/fig1_comparison_new.png"
 ---
 
 ## 一句话总结
@@ -38,7 +38,7 @@ M³KG-RAG 把音视频 RAG 的问题拆解为两层：**知识源不够结构化
 多模态编码器（InternVL2、CLAP）的统一向量空间中，不同模态的距离校准不一致。用 video query 搜 text 索引、或用 audio query 搜 visual items，检索到的往往是模态相近而非语义相关的邻居。即使检索到了"看起来相关"的知识，也可能与当前 query 的具体内容无关，成为噪声。
 
 <figure class="figure">
-  <img src="assets/papers/m3kg-rag/fig1_comparison.webp" alt="M3KG-RAG 与现有方法对比" loading="lazy" />
+  <img src="assets/papers/m3kg-rag/fig1_comparison_new.png" alt="M3KG-RAG 与现有方法对比" loading="lazy" />
   <figcaption>图 1：三种范式对比。(a) 共享 embedding 检索因 modality gap 命中错误证据；(b) 单跳图提供碎片化上下文，无法支撑推理；(c) M³KG-RAG 通过模态级多跳检索 + GRASP 剪枝，获取真正 answer-supporting 的上下文。</figcaption>
 </figure>
 
@@ -65,7 +65,7 @@ M³KG-RAG 把音视频 RAG 的问题拆解为两层：**知识源不够结构化
 最终得到的 M³KG 形式化为 \(G = \{E, R, \mathcal{T}, \hat{D}, A, V, L\}\)，关键约束是**全图覆盖性**：每个三元组至少链接到一个 audio 或 visual item。这保证了后续模态级检索可以触达图中任意知识。
 
 <figure class="figure">
-  <img src="assets/papers/m3kg-rag/fig2_pipeline.webp" alt="M3KG 构建管线" loading="lazy" />
+  <img src="assets/papers/m3kg-rag/fig2_pipeline_new.png" alt="M3KG 构建管线" loading="lazy" />
   <figcaption>图 2：M³KG 构建管线。三步流程 + Self-Reflection Loop，从多模态语料中提取 context-enriched triplet，grounding 到外部知识库，再 refine 为上下文一致的描述。</figcaption>
 </figure>
 
@@ -94,7 +94,7 @@ GRASP（Grounded Retrieval And Selective Pruning）解决"检索到的知识虽�
 Qwen3-8B 对 grounded subgraph 做 binary keep-or-drop 决策，采用 conservative 策略（不确定时倾向保留），去除对回答无贡献的知识。
 
 <figure class="figure">
-  <img src="assets/papers/m3kg-rag/fig3_framework.webp" alt="M3KG-RAG 检索框架" loading="lazy" />
+  <img src="assets/papers/m3kg-rag/fig3_framework_new.png" alt="M3KG-RAG 检索框架" loading="lazy" />
   <figcaption>图 3：检索框架总览。(a) Modality-Wise Retrieval 在同模态空间内检索候选子图；(b) GRASP 先用 grounding 模型验证实体存在性，再用 LLM filter 剪除无用知识，最终精简子图送入 MLLM 生成回答。</figcaption>
 </figure>
 
