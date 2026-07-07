@@ -1,3 +1,4 @@
+- [preference] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/preference_论文博客笔记需保留关键图片.md — 用户在论文博客笔记中要求保留关键图片，且图片应清晰展示方法/架构，不包含大量正文文字。
 - [insight] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/insight_latex_公式渲染问题.md — 网页中 LaTeX 公式如 \(V_t\)、\(p_t \geq \tau\) 无法正确显示，需要检查前端 Markdown 渲染器配置。
 - [feedback] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/feedback_论文博客笔记需保留关键图片.md — 整理论文/技术报告笔记时必须保留关键图表，若无法访问需说明原因。
 - [preference] /Users/longtengyu/Cameron274365.github.io/.aone_copilot/memories/preference_技术笔记写作规范.md — 生成的技术笔记需要排除环境配置说明，重点介绍项目内容和技术细节。
