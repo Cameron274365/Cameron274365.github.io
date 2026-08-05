@@ -48,15 +48,20 @@ GVE 的核心思路是：**评测-数据-训练三位一体**——先用 UVRB �
 
 论文首先构建 UVRB 作为诊断性评测基准，包含 16 个数据集，覆盖 3 种任务类型和 6 种子领域：
 
-| 任务类型 | 子领域 | 数据集 |
-|---------|--------|--------|
-| **Textual (TXT)** | Coarse-grained (CG) | MSRVTT, DiDeMo, CRB-G |
-| | Fine-grained Spatial (S) | CRB-S, VDC-O |
-| | Fine-grained Temporal (T) | CRB-T, CMRB |
-| | Partially Relevant (PR) | DREAM-E, LoVR-TH, PEV-K |
-| | Long-context (LC) | LoVR-V, VDC-D |
-| **Composed (CMP)** | - | MS-TI, MS-TV |
-| **Visual (VIS)** | - | MSRVTT-V, MS-TV-V |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>任务类型</th><th>子领域</th><th>数据集</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Textual (TXT)</strong></td><td>Coarse-grained (CG)</td><td>MSRVTT, DiDeMo, CRB-G</td></tr>
+      <tr><td></td><td>Fine-grained Spatial (S)</td><td>CRB-S, VDC-O</td></tr>
+      <tr><td></td><td>Fine-grained Temporal (T)</td><td>CRB-T, CMRB</td></tr>
+      <tr><td></td><td>Partially Relevant (PR)</td><td>DREAM-E, LoVR-TH, PEV-K</td></tr>
+      <tr><td></td><td>Long-context (LC)</td><td>LoVR-V, VDC-D</td></tr>
+      <tr><td><strong>Composed (CMP)</strong></td><td>-</td><td>MS-TI, MS-TV</td></tr>
+      <tr><td><strong>Visual (VIS)</strong></td><td>-</td><td>MSRVTT-V, MS-TV-V</td></tr>
+    </tbody>
+  </table>
+</div>
 
 评测指标主要使用 Recall@1 (R@1)，对于模糊查询任务（如 CMRB、LoVR-TH）使用 Recall@10。
 

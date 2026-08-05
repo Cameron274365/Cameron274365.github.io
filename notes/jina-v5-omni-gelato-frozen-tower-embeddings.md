@@ -53,10 +53,15 @@ GELATO 提出**第三条路线**：选一个已经训好的纯文本嵌入模型
 
 ### 两个模型规模
 
-| 模型 | 文本骨干 | 视觉编码器 | 总参数 | 文本隐藏维度 |
-|------|---------|-----------|:---:|:---:|
-| jina-v5-omni-nano | jina-v5-text-nano (0.24B) | Qwen3.5-0.8B ViT | 0.95B | 768 |
-| jina-v5-omni-small | jina-v5-text-small (0.67B) | Qwen3.5-2B ViT | 1.57B | 1024 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>文本骨干</th><th>视觉编码器</th><th>总参数</th><th>文本隐藏维度</th></tr></thead>
+    <tbody>
+      <tr><td>jina-v5-omni-nano</td><td>jina-v5-text-nano (0.24B)</td><td>Qwen3.5-0.8B ViT</td><td>0.95B</td><td>768</td></tr>
+      <tr><td>jina-v5-omni-small</td><td>jina-v5-text-small (0.67B)</td><td>Qwen3.5-2B ViT</td><td>1.57B</td><td>1024</td></tr>
+    </tbody>
+  </table>
+</div>
 
 两个模型共享同一个音频编码器（Qwen2.5-Omni 的 Whisper-large-v3 变体，输出 1280 维）。
 
@@ -166,13 +171,18 @@ jina-v5-omni-small 在非英语图像-语言检索和音频检索上**相对基�
 
 MS-COCO 图文跨模态检索（Karpathy split, 2000 图 × 5 caption）：
 
-| 模型 | 参数 | 质心 L2 | R@1 图→文 | R@1 文→图 |
-|------|:---:|:---:|:---:|:---:|
-| LCO-7B | 8.93B | 0.46 | **74.0** | **63.6** |
-| LCO-3B | 3.7B | 0.43 | 71.6 | 58.0 |
-| **jina-v5-omni-small** | **1.57B** | 0.71 | 68.0 | 57.0 |
-| jina-v5-omni-nano | 0.95B | 0.54 | 36.6 | 27.7 |
-| Omni-Embed-Nemotron-3B | 4.7B | 0.92 | 23.1 | 1.4 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>参数</th><th>质心 L2</th><th>R@1 图→文</th><th>R@1 文→图</th></tr></thead>
+    <tbody>
+      <tr><td>LCO-7B</td><td>8.93B</td><td>0.46</td><td><strong>74.0</strong></td><td><strong>63.6</strong></td></tr>
+      <tr><td>LCO-3B</td><td>3.7B</td><td>0.43</td><td>71.6</td><td>58.0</td></tr>
+      <tr><td><strong>jina-v5-omni-small</strong></td><td><strong>1.57B</strong></td><td>0.71</td><td>68.0</td><td>57.0</td></tr>
+      <tr><td>jina-v5-omni-nano</td><td>0.95B</td><td>0.54</td><td>36.6</td><td>27.7</td></tr>
+      <tr><td>Omni-Embed-Nemotron-3B</td><td>4.7B</td><td>0.92</td><td>23.1</td><td>1.4</td></tr>
+    </tbody>
+  </table>
+</div>
 
 Small 以 1.57B 参数达到 68.0/57.0，与 LCO-3B (3.7B) 在文→图方向上统计无显著差异。注意 Omni-Embed-Nemotron-3B (4.7B) 虽然参数更多，但在跨模态检索上严重退化（文→图仅 1.4%）——参数量不决定跨模态对齐质量。
 
@@ -194,12 +204,17 @@ Small 以 1.57B 参数达到 68.0/57.0，与 LCO-3B (3.7B) 在文→图方向上
 
 ### 训练效率
 
-| 设置 | 训练范围 | 更新参数 | 每步耗时 | 峰值显存 | 15k 步总时间 |
-|------|---------|:---:|:---:|:---:|:---:|
-| Small 视觉 | 仅投影 | 4.20M | 0.413s | 7.52 GiB | 103 min |
-| Small 视觉 | 全量 | 920.6M | 0.752s | 12.96 GiB | 188 min |
-| Small 音频 | 仅投影 | 1.31M | 0.617s | 6.06 GiB | 154 min |
-| Small 音频 | 全量 | 1232.1M | 1.989s | 19.53 GiB | 497 min |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>设置</th><th>训练范围</th><th>更新参数</th><th>每步耗时</th><th>峰值显存</th><th>15k 步总时间</th></tr></thead>
+    <tbody>
+      <tr><td>Small 视觉</td><td>仅投影</td><td>4.20M</td><td>0.413s</td><td>7.52 GiB</td><td>103 min</td></tr>
+      <tr><td>Small 视觉</td><td>全量</td><td>920.6M</td><td>0.752s</td><td>12.96 GiB</td><td>188 min</td></tr>
+      <tr><td>Small 音频</td><td>仅投影</td><td>1.31M</td><td>0.617s</td><td>6.06 GiB</td><td>154 min</td></tr>
+      <tr><td>Small 音频</td><td>全量</td><td>1232.1M</td><td>1.989s</td><td>19.53 GiB</td><td>497 min</td></tr>
+    </tbody>
+  </table>
+</div>
 
 投影训练比全量训练**视觉快 1.8×、音频快 3.2-3.9×**，峰值显存也显著更低。
 

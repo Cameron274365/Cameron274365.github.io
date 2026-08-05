@@ -76,10 +76,15 @@ $$p_\theta(y_{1:K} | u_{1:K}) = \prod_{k=1}^{K} p_\theta(y_k^t, y_k^a, y_k^v \mi
 
 虽然训练时是单个端到端模型，推理时部署为分离的 thinker-performer 管线以最大化硬件利用率和 overlap：
 
-| 组件 | 职责 |
-|------|------|
-| **Thinker** (GPU 0) | 因果音视频编码、语言预测与 KV-cache 状态更新、因果音视频解码（输出前一步的 latent） |
-| **Performer** (GPU 1) | 仅运行 flow-matching solver 生成下一步的 clean AV latent |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>组件</th><th>职责</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Thinker</strong> (GPU 0)</td><td>因果音视频编码、语言预测与 KV-cache 状态更新、因果音视频解码（输出前一步的 latent）</td></tr>
+      <tr><td><strong>Performer</strong> (GPU 1)</td><td>仅运行 flow-matching solver 生成下一步的 clean AV latent</td></tr>
+    </tbody>
+  </table>
+</div>
 
 <figure class="figure">
   <img src="assets/papers/wan-streamer/fig2_thinker_performer.webp" alt="Thinker-Performer 流式推理调度" loading="lazy" />

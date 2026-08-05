@@ -58,11 +58,16 @@ EVisRAG 的输出被特殊 token 分割为四个作用域（scope）：
 
 RS-GRPO 是论文的核心算法贡献。它定义了三种细粒度奖励，并将每种奖励绑定到其对应的 token 作用域：
 
-| 奖励 | 作用 | 绑定的 token 作用域 |
-|------|------|---------------------|
-| **Format Reward** \(R_{\text{format}}\) | 强制模型遵守四阶段输出格式 | 所有 token |
-| **Perception Reward** \(R_{\text{perception}}\) | 检查每页证据区域是否被正确定位和摘要 | Observe + Evidence 区间 |
-| **Derivation Reward** \(R_{\text{derivation}}\) | 评估最终答案是否正确 | Reason + Answer 区间 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>奖励</th><th>作用</th><th>绑定的 token 作用域</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Format Reward</strong> \(R_{\text{format}}\)</td><td>强制模型遵守四阶段输出格式</td><td>所有 token</td></tr>
+      <tr><td><strong>Perception Reward</strong> \(R_{\text{perception}}\)</td><td>检查每页证据区域是否被正确定位和摘要</td><td>Observe + Evidence 区间</td></tr>
+      <tr><td><strong>Derivation Reward</strong> \(R_{\text{derivation}}\)</td><td>评估最终答案是否正确</td><td>Reason + Answer 区间</td></tr>
+    </tbody>
+  </table>
+</div>
 
 形式化地，位置 \(t\) 的 reward-scope 映射为：
 

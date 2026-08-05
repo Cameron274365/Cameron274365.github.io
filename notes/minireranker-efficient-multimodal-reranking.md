@@ -74,14 +74,19 @@ miniReranker 的核心问题是：**MLLM 做 point-wise 重排（直接对 query
 
 - **主结果（表 3）**：微调后的稠密 reranker 全面超越对应 instruct 模型，是很强的基线；miniReranker 在此基础上压缩后 **2B 保留 >96%（70.3 vs 73.0）、4B/8B 保留 >98%** 的性能。
 
-| 模型 | All（overall） | 保留率 |
-|------|---------------|--------|
-| Qwen3-VL-2B-reranker（稠密） | 73.0 | — |
-| **Qwen3-VL-2B-miniReranker** | 70.3 | 96.3% |
-| Qwen3-VL-4B-reranker（稠密） | 75.3 | — |
-| **Qwen3-VL-4B-miniReranker** | 74.0 | 98.3% |
-| Qwen3-VL-8B-reranker（稠密） | 76.5 | — |
-| **Qwen3-VL-8B-miniReranker** | 75.4 | 98.6% |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>All（overall）</th><th>保留率</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen3-VL-2B-reranker（稠密）</td><td>73.0</td><td>—</td></tr>
+      <tr><td><strong>Qwen3-VL-2B-miniReranker</strong></td><td>70.3</td><td>96.3%</td></tr>
+      <tr><td>Qwen3-VL-4B-reranker（稠密）</td><td>75.3</td><td>—</td></tr>
+      <tr><td><strong>Qwen3-VL-4B-miniReranker</strong></td><td>74.0</td><td>98.3%</td></tr>
+      <tr><td>Qwen3-VL-8B-reranker（稠密）</td><td>76.5</td><td>—</td></tr>
+      <tr><td><strong>Qwen3-VL-8B-miniReranker</strong></td><td>75.4</td><td>98.6%</td></tr>
+    </tbody>
+  </table>
+</div>
 
 - **消融（表 4）**：prompt 格式上 V-first（73.0）> Q-first（71.3）> D-first（69.6）；三个压缩组件单独用都能保留 98%+ 性能（EE 99.0%、TP 99.6%、IB 98.4%），互相正交。
 

@@ -81,13 +81,18 @@ ZipRerank 的答案：**把 n 砍小（查询感知剪枝，ρ 倍），把 u �
 
 **主结果（DSE 检索器，Macro-Avg）**：
 
-| 方法 | R@1 | R@3 | R@5 | LLM 时间 |
-|------|-----|-----|-----|---------|
-| DSE（一阶段） | 46.0 | 69.5 | 77.1 | – |
-| MM-R5 | **66.1** | 79.1 | 83.8 | 3.82s |
-| GPT-5-mini | 70.0 | 88.0 | 90.9 | 23.38s |
-| **ZipRerank** | 64.2 | **84.8** | **89.0** | **0.36s** |
-| ZipRerank-50%（ρ=0.5） | 63.3 | 83.4 | 88.2 | 0.30s |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>方法</th><th>R@1</th><th>R@3</th><th>R@5</th><th>LLM 时间</th></tr></thead>
+    <tbody>
+      <tr><td>DSE（一阶段）</td><td>46.0</td><td>69.5</td><td>77.1</td><td>–</td></tr>
+      <tr><td>MM-R5</td><td><strong>66.1</strong></td><td>79.1</td><td>83.8</td><td>3.82s</td></tr>
+      <tr><td>GPT-5-mini</td><td>70.0</td><td>88.0</td><td>90.9</td><td>23.38s</td></tr>
+      <tr><td><strong>ZipRerank</strong></td><td>64.2</td><td><strong>84.8</strong></td><td><strong>89.0</strong></td><td><strong>0.36s</strong></td></tr>
+      <tr><td>ZipRerank-50%（ρ=0.5）</td><td>63.3</td><td>83.4</td><td>88.2</td><td>0.30s</td></tr>
+    </tbody>
+  </table>
+</div>
 
 - **R@3/R@5 大幅超过 MM-R5**（84.8/89.0 vs 79.1/83.8），R@1 略输（64.2 vs 66.1）——作者解释这是速度换 top-1 的权衡：MM-R5 生成显式推理链有利于锁定第一名，但自回归代价巨大。ColQwen 检索器上结论一致。
 - **零样本小 VLM 做不好 listwise 重排**：Llama-3.2-11B-Vision 几乎完全失败（R@1 约 1%），Qwen3-VL-8B 也常低于一阶段检索器——同时理解排序指令 + 联合推理 20 页图像对小模型太难，这正是"要专门训练一个重排器 + 用强教师蒸馏"的动机。

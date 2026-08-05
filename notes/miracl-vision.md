@@ -80,21 +80,31 @@ MIRACL 的语料来自 Wikipedia 文章，被切分成多个 chunk。例如英�
 
 ### 数据集规模
 
-| 维度 | MIRACL（原始） | MIRACL-1stParagraph | MIRACL-VISION |
-|------|:---:|:---:|:---:|
-| 语言数 | 18 | 18 | 18 |
-| 平均查询数/语言 | 750 | 439 | 439 |
-| 平均文档数/语言 | 5.9M | 1.09M | **18,819** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>维度</th><th>MIRACL（原始）</th><th>MIRACL-1stParagraph</th><th>MIRACL-VISION</th></tr></thead>
+    <tbody>
+      <tr><td>语言数</td><td>18</td><td>18</td><td>18</td></tr>
+      <tr><td>平均查询数/语言</td><td>750</td><td>439</td><td>439</td></tr>
+      <tr><td>平均文档数/语言</td><td>5.9M</td><td>1.09M</td><td><strong>18,819</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 ### 与现有 Benchmark 的对比
 
-| 特性 | ViDoRe | VDR-Multilingual | **MIRACL-VISION** |
-|------|:---:|:---:|:---:|
-| 语言数 | 2 | 5 | **18** |
-| 平均文档/数据集 | 672 | 3,000 | **18,500** |
-| 文档选择 | 随机 | 随机 | **hard-negative 采样** |
-| 模态 | 文本/图表/表格 | 文本/视觉 | 文本 |
-| 问题生成 | 人工+合成 | 合成+人工审核 | **纯人工生成** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>特性</th><th>ViDoRe</th><th>VDR-Multilingual</th><th><strong>MIRACL-VISION</strong></th></tr></thead>
+    <tbody>
+      <tr><td>语言数</td><td>2</td><td>5</td><td><strong>18</strong></td></tr>
+      <tr><td>平均文档/数据集</td><td>672</td><td>3,000</td><td><strong>18,500</strong></td></tr>
+      <tr><td>文档选择</td><td>随机</td><td>随机</td><td><strong>hard-negative 采样</strong></td></tr>
+      <tr><td>模态</td><td>文本/图表/表格</td><td>文本/视觉</td><td>文本</td></tr>
+      <tr><td>问题生成</td><td>人工+合成</td><td>合成+人工审核</td><td><strong>纯人工生成</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 MIRACL-VISION 的语料库是其他 Benchmark 的 **6 倍**大，且问题由母语者手工标注，避免了合成问题中关键词重复的问题。
 
@@ -102,11 +112,16 @@ MIRACL-VISION 的语料库是其他 Benchmark 的 **6 倍**大，且问题由母
 
 ### 文本模型：MIRACL 各变体的 NDCG@10
 
-| 模型 | MIRACL 原始 | 1stParagraph | 1stParagraph-Reduced | VISION-text |
-|------|:---:|:---:|:---:|:---:|
-| bge-m3 | 0.6776 | 0.8442 | 0.8468 | 0.7964 |
-| multilingual-e5-large | 0.6512 | 0.8322 | 0.8323 | 0.7624 |
-| Average | 0.6499 | 0.8271 | 0.8306 | 0.7798 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>MIRACL 原始</th><th>1stParagraph</th><th>1stParagraph-Reduced</th><th>VISION-text</th></tr></thead>
+    <tbody>
+      <tr><td>bge-m3</td><td>0.6776</td><td>0.8442</td><td>0.8468</td><td>0.7964</td></tr>
+      <tr><td>multilingual-e5-large</td><td>0.6512</td><td>0.8322</td><td>0.8323</td><td>0.7624</td></tr>
+      <tr><td>Average</td><td>0.6499</td><td>0.8271</td><td>0.8306</td><td>0.7798</td></tr>
+    </tbody>
+  </table>
+</div>
 
 关键洞察：
 - 1stParagraph 版本比原始 MIRACL 分数更高，说明仅保留第一段后任务变简单了——可能是因为同一篇文章的其他 chunk 是更强的 distractor
@@ -114,24 +129,34 @@ MIRACL-VISION 的语料库是其他 Benchmark 的 **6 倍**大，且问题由母
 
 ### 视觉模型：跨 Benchmark 对比
 
-| 模型 | VDR-Multilingual | ViDoRe | **MIRACL-VISION** |
-|------|:---:|:---:|:---:|
-| colqwen2-v1.0 | 0.9604 | 0.8969 | **0.4728** |
-| gme-Qwen2-VL-2B | 0.9165 | 0.8878 | **0.5283** |
-| dse-qwen2-2b-mrl-v1 | 0.8363 | 0.8416 | **0.4426** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>VDR-Multilingual</th><th>ViDoRe</th><th><strong>MIRACL-VISION</strong></th></tr></thead>
+    <tbody>
+      <tr><td>colqwen2-v1.0</td><td>0.9604</td><td>0.8969</td><td><strong>0.4728</strong></td></tr>
+      <tr><td>gme-Qwen2-VL-2B</td><td>0.9165</td><td>0.8878</td><td><strong>0.5283</strong></td></tr>
+      <tr><td>dse-qwen2-2b-mrl-v1</td><td>0.8363</td><td>0.8416</td><td><strong>0.4426</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 VDR-Multilingual 和 ViDoRe 几乎被饱和（NDCG@10 接近 0.9），而 MIRACL-VISION 上最好的模型也仅 0.5283。
 
 ### 核心发现：视觉 vs 文本的差距
 
-| 语言 | 最佳文本模型 (bge-m3) | 最佳视觉模型 (gme-Qwen2) | **差距** |
-|------|:---:|:---:|:---:|
-| English | 0.7348 | 0.6784 | **-12.1%** |
-| Chinese | 0.7458 | 0.6314 | **-15.3%** |
-| Arabic | 0.8883 | 0.4888 | **-45.0%** |
-| Hindi | 0.7581 | 0.3127 | **-58.7%** |
-| Telugu | 0.9090 | 0.0893 | **-90.2%** |
-| **Average** | **0.7964** | **0.5283** | **-33.7%** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>语言</th><th>最佳文本模型 (bge-m3)</th><th>最佳视觉模型 (gme-Qwen2)</th><th><strong>差距</strong></th></tr></thead>
+    <tbody>
+      <tr><td>English</td><td>0.7348</td><td>0.6784</td><td><strong>-12.1%</strong></td></tr>
+      <tr><td>Chinese</td><td>0.7458</td><td>0.6314</td><td><strong>-15.3%</strong></td></tr>
+      <tr><td>Arabic</td><td>0.8883</td><td>0.4888</td><td><strong>-45.0%</strong></td></tr>
+      <tr><td>Hindi</td><td>0.7581</td><td>0.3127</td><td><strong>-58.7%</strong></td></tr>
+      <tr><td>Telugu</td><td>0.9090</td><td>0.0893</td><td><strong>-90.2%</strong></td></tr>
+      <tr><td><strong>Average</strong></td><td><strong>0.7964</strong></td><td><strong>0.5283</strong></td><td><strong>-33.7%</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 去掉 Telugu（视觉模型几乎完全失效）这个 outlier 后，文本模型仍比视觉模型高 **43%**。
 

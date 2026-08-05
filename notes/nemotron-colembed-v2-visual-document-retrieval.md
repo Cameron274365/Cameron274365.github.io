@@ -49,11 +49,16 @@ VLM-based 视觉文档检索（如 ColPali）直接把文档页面渲染为图�
 
 ### 模型架构
 
-| 模型 | 骨干 | 参数量 | 嵌入维度 | 平均每页 token 数 |
-|------|------|:---:|:---:|:---:|
-| llama-nemotron-colembed-vl-3b-v2 | Eagle 2 (SigLIP2 + Llama 3.2 3B) | 3.99B | 3072 | 2304 |
-| nemotron-colembed-vl-4b-v2 | Qwen3-VL-4B-Instruct | 4.43B | 2560 | 773 |
-| nemotron-colembed-vl-8b-v2 | Qwen3-VL-8B-Instruct | 8.14B | 4096 | 773 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>骨干</th><th>参数量</th><th>嵌入维度</th><th>平均每页 token 数</th></tr></thead>
+    <tbody>
+      <tr><td>llama-nemotron-colembed-vl-3b-v2</td><td>Eagle 2 (SigLIP2 + Llama 3.2 3B)</td><td>3.99B</td><td>3072</td><td>2304</td></tr>
+      <tr><td>nemotron-colembed-vl-4b-v2</td><td>Qwen3-VL-4B-Instruct</td><td>4.43B</td><td>2560</td><td>773</td></tr>
+      <tr><td>nemotron-colembed-vl-8b-v2</td><td>Qwen3-VL-8B-Instruct</td><td>8.14B</td><td>4096</td><td>773</td></tr>
+    </tbody>
+  </table>
+</div>
 
 3B 模型使用动态图像切片（训练时 max_input_tiles=2，推理时 =8），每切片生成 256 个视觉 token。Qwen3-VL 系列采用 DeepStack 机制，将视觉编码器中间层 token 注入 LLM 多层。
 

@@ -101,11 +101,16 @@ Qwen3-8B 对 grounded subgraph 做 binary keep-or-drop 决策，采用 conservat
 ## 数据与评测
 
 ### 评测基准
-| 基准 | 模态 | 特点 |
-|------|------|------|
-| AudioCaps-QA | Audio | 基于 AudioSet 10s 片段 + 人工标注 QA |
-| VideoChatGPT | Video | 基于 ActivityNet 视频 |
-| VALOR | Audio-Visual | 需同步 audio-visual 联合推理 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>基准</th><th>模态</th><th>特点</th></tr></thead>
+    <tbody>
+      <tr><td>AudioCaps-QA</td><td>Audio</td><td>基于 AudioSet 10s 片段 + 人工标注 QA</td></tr>
+      <tr><td>VideoChatGPT</td><td>Video</td><td>基于 ActivityNet 视频</td></tr>
+      <tr><td>VALOR</td><td>Audio-Visual</td><td>需同步 audio-visual 联合推理</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ### 模型与基线
 - **Base MLLMs**：VideoLLaMA2、Qwen2.5-Omni（开源）、GPT-4o（商业）

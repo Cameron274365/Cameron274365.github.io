@@ -25,17 +25,22 @@ summary: "Datawhale 开源的 RAG 全栈教程，从基础概念到生产实战�
 
 教程按照 RAG 流水线的自然顺序组织为 9 个章节 + 番外，从"认识 RAG"到"GraphRAG 实战"层层递进：
 
-| 阶段 | 章节 | 核心内容 |
-| :--- | :--- | :--- |
-| **认识与入门** | Ch1 | RAG 概念、四步快速搭建、环境准备 |
-| **数据处理** | Ch2 | 文档加载器、文本分块策略 |
-| **索引构建** | Ch3 | 向量嵌入、多模态嵌入、向量数据库、混合检索、索引优化 |
-| **查询与检索** | Ch4 | 查询构建、Text2SQL、查询重构/路由、检索进阶（重排序/压缩） |
-| **生成** | Ch5 | 格式化生成（Output Parsers / Pydantic）、Function Calling |
-| **评估** | Ch6 | RAG 三元组评估、RAGAS / LlamaIndex Evaluation / TruLens |
-| **高级主题** | Ch7 | 知识图谱 RAG（GraphRAG / LightRAG / FRAG） |
-| **实战一** | Ch8 | 基于 HowToCook 菜谱的传统 RAG 系统 |
-| **实战二** | Ch9 | 基于 Neo4j 的图 RAG 菜谱系统 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>阶段</th><th>章节</th><th>核心内容</th></tr></thead>
+    <tbody>
+      <tr><td><strong>认识与入门</strong></td><td>Ch1</td><td>RAG 概念、四步快速搭建、环境准备</td></tr>
+      <tr><td><strong>数据处理</strong></td><td>Ch2</td><td>文档加载器、文本分块策略</td></tr>
+      <tr><td><strong>索引构建</strong></td><td>Ch3</td><td>向量嵌入、多模态嵌入、向量数据库、混合检索、索引优化</td></tr>
+      <tr><td><strong>查询与检索</strong></td><td>Ch4</td><td>查询构建、Text2SQL、查询重构/路由、检索进阶（重排序/压缩）</td></tr>
+      <tr><td><strong>生成</strong></td><td>Ch5</td><td>格式化生成（Output Parsers / Pydantic）、Function Calling</td></tr>
+      <tr><td><strong>评估</strong></td><td>Ch6</td><td>RAG 三元组评估、RAGAS / LlamaIndex Evaluation / TruLens</td></tr>
+      <tr><td><strong>高级主题</strong></td><td>Ch7</td><td>知识图谱 RAG（GraphRAG / LightRAG / FRAG）</td></tr>
+      <tr><td><strong>实战一</strong></td><td>Ch8</td><td>基于 HowToCook 菜谱的传统 RAG 系统</td></tr>
+      <tr><td><strong>实战二</strong></td><td>Ch9</td><td>基于 Neo4j 的图 RAG 菜谱系统</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ## Chapter 1：RAG 概念与快速入门
 
@@ -97,11 +102,16 @@ RAG 的核心流程可以概括为 **"索引 → 检索 → 生成"** 三步：�
 
 ### 向量数据库
 
-| 数据库 | 类型 | 特点 |
-| :--- | :--- | :--- |
-| **Milvus** | 分布式 | 高性能、支持多种索引（IVF_FLAT / HNSW / GPU_IVF） |
-| **Chroma** | 轻量级 | 开发友好，适合原型验证 |
-| **FAISS** | 库（非服务） | Meta 出品，纯计算层面极致性能 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>数据库</th><th>类型</th><th>特点</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Milvus</strong></td><td>分布式</td><td>高性能、支持多种索引（IVF_FLAT / HNSW / GPU_IVF）</td></tr>
+      <tr><td><strong>Chroma</strong></td><td>轻量级</td><td>开发友好，适合原型验证</td></tr>
+      <tr><td><strong>FAISS</strong></td><td>库（非服务）</td><td>Meta 出品，纯计算层面极致性能</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ### 混合检索
 
@@ -153,12 +163,17 @@ LlamaIndex 提出的 **"为检索精确性而索引小块，为上下文丰富�
 
 教程对比了四种重排序方法：
 
-| 方法 | 核心机制 | 计算成本 | 适用场景 |
-| :--- | :--- | :--- | :--- |
-| **RRF** | 融合多个排名 | 低 | 多路召回结果融合 |
-| **RankLLM** | LLM 推理排序 | 中 | 高价值语义理解场景 |
-| **Cross-Encoder** | Query-Doc 联合编码 | 高 | Top-K 精排 |
-| **ColBERT** | 独立编码 + 后期交互 | 中 | Token 级细粒度重排 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>方法</th><th>核心机制</th><th>计算成本</th><th>适用场景</th></tr></thead>
+    <tbody>
+      <tr><td><strong>RRF</strong></td><td>融合多个排名</td><td>低</td><td>多路召回结果融合</td></tr>
+      <tr><td><strong>RankLLM</strong></td><td>LLM 推理排序</td><td>中</td><td>高价值语义理解场景</td></tr>
+      <tr><td><strong>Cross-Encoder</strong></td><td>Query-Doc 联合编码</td><td>高</td><td>Top-K 精排</td></tr>
+      <tr><td><strong>ColBERT</strong></td><td>独立编码 + 后期交互</td><td>中</td><td>Token 级细粒度重排</td></tr>
+    </tbody>
+  </table>
+</div>
 
 **上下文压缩**：使用 `ContextualCompressionRetriever` 对检索结果进行提炼，支持 LLM 提取、LLM 过滤和嵌入相似度过滤三种模式。
 
@@ -227,12 +242,17 @@ LlamaIndex 提出的 **"为检索精确性而索引小块，为上下文丰富�
 
 ### 前沿框架对比
 
-| 框架 | 核心特点 | 适用场景 |
-| :--- | :--- | :--- |
-| **Microsoft GraphRAG** | 社区检测 + 分层摘要，全局-局部双视角 | 探索性分析、全景总结 |
-| **LightRAG** | 轻量化双层检索，弱化复杂社区发现 | 资源受限、快速迭代 |
-| **FRAG** | 查询分流 + 模块化设计 | 查询复杂度差异大的场景 |
-| **GraphIRAG** | 迭代式多轮图查询 | 时间敏感与多跳推理 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>框架</th><th>核心特点</th><th>适用场景</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Microsoft GraphRAG</strong></td><td>社区检测 + 分层摘要，全局-局部双视角</td><td>探索性分析、全景总结</td></tr>
+      <tr><td><strong>LightRAG</strong></td><td>轻量化双层检索，弱化复杂社区发现</td><td>资源受限、快速迭代</td></tr>
+      <tr><td><strong>FRAG</strong></td><td>查询分流 + 模块化设计</td><td>查询复杂度差异大的场景</td></tr>
+      <tr><td><strong>GraphIRAG</strong></td><td>迭代式多轮图查询</td><td>时间敏感与多跳推理</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ## Chapter 8：实战一——菜谱 RAG 系统
 
@@ -246,12 +266,17 @@ LlamaIndex 提出的 **"为检索精确性而索引小块，为上下文丰富�
 
 ### 系统模块
 
-| 模块 | 职责 |
-| :--- | :--- |
-| **数据准备** | Markdown 加载 → 元数据增强 → 按标题分块 → 父子关系建立 |
-| **索引构建** | BGE-small-zh-v1.5 嵌入 → FAISS 向量索引 → 索引缓存 |
-| **混合检索** | 向量检索 + BM25 关键词检索 → RRF 重排融合 |
-| **生成集成** | 查询路由（list/detail/general）→ 查询重写 → 多模式生成 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模块</th><th>职责</th></tr></thead>
+    <tbody>
+      <tr><td><strong>数据准备</strong></td><td>Markdown 加载 → 元数据增强 → 按标题分块 → 父子关系建立</td></tr>
+      <tr><td><strong>索引构建</strong></td><td>BGE-small-zh-v1.5 嵌入 → FAISS 向量索引 → 索引缓存</td></tr>
+      <tr><td><strong>混合检索</strong></td><td>向量检索 + BM25 关键词检索 → RRF 重排融合</td></tr>
+      <tr><td><strong>生成集成</strong></td><td>查询路由（list/detail/general）→ 查询重写 → 多模式生成</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ### 查询路由设计
 
@@ -289,21 +314,31 @@ Ch8 的传统 RAG 系统虽然能回答简单的菜谱查询，但存在三个�
 
 基于分析结果自动路由到三种检索策略之一：
 
-| 策略 | 触发条件 | 示例查询 |
-| :--- | :--- | :--- |
-| **hybrid_traditional** | 简单直接的信息查找 | "宫保鸡丁怎么做？" |
-| **graph_rag** | 复杂关系推理和知识发现 | "适合糖尿病人的低糖川菜有哪些？" |
-| **combined** | 需要两种策略结合 | "哪些菜可以用豆腐替代肉类并保持相似口感？" |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>策略</th><th>触发条件</th><th>示例查询</th></tr></thead>
+    <tbody>
+      <tr><td><strong>hybrid_traditional</strong></td><td>简单直接的信息查找</td><td>&quot;宫保鸡丁怎么做？&quot;</td></tr>
+      <tr><td><strong>graph_rag</strong></td><td>复杂关系推理和知识发现</td><td>&quot;适合糖尿病人的低糖川菜有哪些？&quot;</td></tr>
+      <tr><td><strong>combined</strong></td><td>需要两种策略结合</td><td>&quot;哪些菜可以用豆腐替代肉类并保持相似口感？&quot;</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ### 与 Ch8 的对比
 
-| 维度 | Ch8 传统 RAG | Ch9 图 RAG |
-| :--- | :--- | :--- |
-| **数据库** | FAISS | Neo4j + Milvus |
-| **检索方式** | 向量 + BM25 混合 | 向量 + BM25 + 图查询三路 |
-| **查询路由** | 基于意图分类（list/detail/general） | 基于四维复杂度分析 |
-| **推理能力** | 单跳检索 | 支持多跳推理和关系发现 |
-| **适用场景** | 简单问答 | 复杂关系推理 + 简单问答 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>维度</th><th>Ch8 传统 RAG</th><th>Ch9 图 RAG</th></tr></thead>
+    <tbody>
+      <tr><td><strong>数据库</strong></td><td>FAISS</td><td>Neo4j + Milvus</td></tr>
+      <tr><td><strong>检索方式</strong></td><td>向量 + BM25 混合</td><td>向量 + BM25 + 图查询三路</td></tr>
+      <tr><td><strong>查询路由</strong></td><td>基于意图分类（list/detail/general）</td><td>基于四维复杂度分析</td></tr>
+      <tr><td><strong>推理能力</strong></td><td>单跳检索</td><td>支持多跳推理和关系发现</td></tr>
+      <tr><td><strong>适用场景</strong></td><td>简单问答</td><td>复杂关系推理 + 简单问答</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ## 番外：Extra-chapter 知识拓展
 

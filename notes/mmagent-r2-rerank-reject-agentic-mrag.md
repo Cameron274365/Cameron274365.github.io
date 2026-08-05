@@ -90,11 +90,16 @@ MMAgent-R² 的核心洞察是：**现有多模态 RAG 用全局视觉特征去�
 
 **主结果**：两个变体在三个 benchmark 上都超越所有对比方法（Direct Answer / Multimodal RAG / Agentic mRAG 三类基线）。
 
-| Benchmark | 指标 | MMAgent-R² | 相比次优 |
-|-----------|------|-----------|---------|
-| E-VQA | Single-Hop / All | 55.9 / 54.2 (8B) | +2.2 / +7.2 |
-| InfoSeek | All | 50.2 (7B) | +3.0 |
-| MMhops | Bridging / Comparison | 67.2 / 39.8 (8B) | +13.2 / +10.4 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Benchmark</th><th>指标</th><th>MMAgent-R²</th><th>相比次优</th></tr></thead>
+    <tbody>
+      <tr><td>E-VQA</td><td>Single-Hop / All</td><td>55.9 / 54.2 (8B)</td><td>+2.2 / +7.2</td></tr>
+      <tr><td>InfoSeek</td><td>All</td><td>50.2 (7B)</td><td>+3.0</td></tr>
+      <tr><td>MMhops</td><td>Bridging / Comparison</td><td>67.2 / 39.8 (8B)</td><td>+13.2 / +10.4</td></tr>
+    </tbody>
+  </table>
+</div>
 
 几个关键结论：
 

@@ -153,12 +153,17 @@ R_{format}=R_{valid}\times R_{len}\times R_{range}
 
 **② SFT 与 RL 互补，缺一不可**：
 
-| 变体 | Macro R@1 | 差距 |
-|---|---|---|
-| MM-R5（完整） | 0.6951 | — |
-| 仅 SFT | 0.6673 | −2.78 |
-| 仅 RL | 0.6586 | −3.65 |
-| 基线 Qwen2.5-VL-7B-cot | 0.6479 | −4.72 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>变体</th><th>Macro R@1</th><th>差距</th></tr></thead>
+    <tbody>
+      <tr><td>MM-R5（完整）</td><td>0.6951</td><td>—</td></tr>
+      <tr><td>仅 SFT</td><td>0.6673</td><td>−2.78</td></tr>
+      <tr><td>仅 RL</td><td>0.6586</td><td>−3.65</td></tr>
+      <tr><td>基线 Qwen2.5-VL-7B-cot</td><td>0.6479</td><td>−4.72</td></tr>
+    </tbody>
+  </table>
+</div>
 
 两个单阶段变体都明显优于基线，但都不及完整模型——**证实 SFT 与 RL 是互补的**，两阶段流水线的必要性与协同性成立。
 

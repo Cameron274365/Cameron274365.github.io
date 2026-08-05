@@ -90,48 +90,68 @@ HPC-ColPali 的做法是**把三条路径整合成一条模块化流水线**，�
 
 ### 检索精度（表 I / II）
 
-| ViDoRe | nDCG@10 | Recall@10 | MAP |
-|--------|--------|--------|-----|
-| ColPali Full（float32 全检索） | 0.85 | 0.92 | 0.78 |
-| PQ-Only (K=256) | 0.83 | 0.90 | 0.76 |
-| **HPC-ColPali (K=256, p=60%)** | **0.84** | **0.91** | **0.77** |
-| HPC-ColPali (K=512, p=40%) | 0.83 | 0.90 | 0.76 |
-| DistilCol（单向量蒸馏） | 0.70 | 0.75 | 0.60 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>ViDoRe</th><th>nDCG@10</th><th>Recall@10</th><th>MAP</th></tr></thead>
+    <tbody>
+      <tr><td>ColPali Full（float32 全检索）</td><td>0.85</td><td>0.92</td><td>0.78</td></tr>
+      <tr><td>PQ-Only (K=256)</td><td>0.83</td><td>0.90</td><td>0.76</td></tr>
+      <tr><td><strong>HPC-ColPali (K=256, p=60%)</strong></td><td><strong>0.84</strong></td><td><strong>0.91</strong></td><td><strong>0.77</strong></td></tr>
+      <tr><td>HPC-ColPali (K=512, p=40%)</td><td>0.83</td><td>0.90</td><td>0.76</td></tr>
+      <tr><td>DistilCol（单向量蒸馏）</td><td>0.70</td><td>0.75</td><td>0.60</td></tr>
+    </tbody>
+  </table>
+</div>
 
 **关键观察**：HPC-ColPali (K=256, p=60%) 在 ViDoRe 上 nDCG@10 只掉 0.01（0.84 vs 0.85），SEC-Filings 上也只掉 0.01（0.87 vs 0.88）；而 DistilCol 这类单向量蒸馏检索器掉得非常多（nDCG 0.70/0.72）——**印证 late-interaction 多向量的价值即便被压缩也远超单向量**。
 
 ### 存储压缩（表 III，10 万文档、平均 50 patch/文档）
 
-| 模型 | 存储 (GB) | 压缩比 |
-|-----|---------|--------|
-| ColPali Full | 2.56 | 1× |
-| PQ-Only (K=256) | 0.08 | 32× |
-| HPC-ColPali (K=256) | 0.08 | 32× |
-| HPC-ColPali (K=512) | 0.09 | 28× |
-| **HPC-ColPali (Binary, K=512)** | **0.045** | **57×** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>存储 (GB)</th><th>压缩比</th></tr></thead>
+    <tbody>
+      <tr><td>ColPali Full</td><td>2.56</td><td>1×</td></tr>
+      <tr><td>PQ-Only (K=256)</td><td>0.08</td><td>32×</td></tr>
+      <tr><td>HPC-ColPali (K=256)</td><td>0.08</td><td>32×</td></tr>
+      <tr><td>HPC-ColPali (K=512)</td><td>0.09</td><td>28×</td></tr>
+      <tr><td><strong>HPC-ColPali (Binary, K=512)</strong></td><td><strong>0.045</strong></td><td><strong>57×</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 Binary 模式把 2.56 GB 压到 45 MB，可以直接进内存做全库检索——这在 web 规模应用里意义很大（省内存、省磁盘、还免去了冷加载）。
 
 ### 查询延迟（表 IV，HNSW 索引下）
 
-| 模型 | ViDoRe (ms) | SEC-Filings (ms) |
-|-----|-------------|------------------|
-| ColPali Full | 120 | 150 |
-| PQ-Only (K=256) | 90 | 110 |
-| HPC-ColPali (K=256, p=60%) | **60** | **75** |
-| HPC-ColPali (Binary, K=512) | 40 | 50 |
-| DistilCol | 30 | 35 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>模型</th><th>ViDoRe (ms)</th><th>SEC-Filings (ms)</th></tr></thead>
+    <tbody>
+      <tr><td>ColPali Full</td><td>120</td><td>150</td></tr>
+      <tr><td>PQ-Only (K=256)</td><td>90</td><td>110</td></tr>
+      <tr><td>HPC-ColPali (K=256, p=60%)</td><td><strong>60</strong></td><td><strong>75</strong></td></tr>
+      <tr><td>HPC-ColPali (Binary, K=512)</td><td>40</td><td>50</td></tr>
+      <tr><td>DistilCol</td><td>30</td><td>35</td></tr>
+    </tbody>
+  </table>
+</div>
 
 K=256 + p=60% 组合在两个数据集上都拿到 **50% 延迟下降**；Binary 模式接近 DistilCol 的延迟但精度高得多。
 
 ### RAG 集成：法律摘要（表 V）
 
-| 检索器 | ROUGE-L | 幻觉率 | 端到端延迟 |
-|--------|---------|--------|-----------|
-| ColPali Full | 0.45 | 15% | 300 ms |
-| **HPC-ColPali (K=256, p=60%)** | **0.44** | **10%** | **150 ms** |
-| HPC-ColPali (Binary, K=512) | 0.43 | 11% | 100 ms |
-| DistilCol | 0.38 | 25% | 80 ms |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>检索器</th><th>ROUGE-L</th><th>幻觉率</th><th>端到端延迟</th></tr></thead>
+    <tbody>
+      <tr><td>ColPali Full</td><td>0.45</td><td>15%</td><td>300 ms</td></tr>
+      <tr><td><strong>HPC-ColPali (K=256, p=60%)</strong></td><td><strong>0.44</strong></td><td><strong>10%</strong></td><td><strong>150 ms</strong></td></tr>
+      <tr><td>HPC-ColPali (Binary, K=512)</td><td>0.43</td><td>11%</td><td>100 ms</td></tr>
+      <tr><td>DistilCol</td><td>0.38</td><td>25%</td><td>80 ms</td></tr>
+    </tbody>
+  </table>
+</div>
 
 **幻觉率降 33%（15% → 10%）、延迟减半（300 → 150 ms）**、ROUGE-L 只掉 0.01。作者的解读是：检索准+快意味着 LLM 拿到更相关的上下文，更少乱编；DistilCol 虽然快但检索质量差反而拉高幻觉。
 

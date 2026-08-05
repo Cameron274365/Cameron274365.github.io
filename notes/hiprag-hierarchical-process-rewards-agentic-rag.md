@@ -81,15 +81,20 @@ HiPRAG 的主张是：**要优化的是推理过程本身，而不只是最终�
 
 **主结果（表 1）**：HiPRAG 在 3B 和 7B 上都超越所有基线。HiPRAG-7B 平均 CEM 67.2%，明显高于次优基线 R1-Searcher++（62.2%）；HiPRAG-3B 达 65.4%。
 
-| 方法 | 平均 CEM |
-|------|---------|
-| Standard RAG | 45.3 |
-| Search-o1 | 43.9 |
-| Search-R1 | 60.3 |
-| R1-Searcher++ | 62.1 |
-| β-GRPO | 62.5 |
-| **HiPRAG-3B** | **65.4** |
-| **HiPRAG-7B** | **67.2** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>方法</th><th>平均 CEM</th></tr></thead>
+    <tbody>
+      <tr><td>Standard RAG</td><td>45.3</td></tr>
+      <tr><td>Search-o1</td><td>43.9</td></tr>
+      <tr><td>Search-R1</td><td>60.3</td></tr>
+      <tr><td>R1-Searcher++</td><td>62.1</td></tr>
+      <tr><td>β-GRPO</td><td>62.5</td></tr>
+      <tr><td><strong>HiPRAG-3B</strong></td><td><strong>65.4</strong></td></tr>
+      <tr><td><strong>HiPRAG-7B</strong></td><td><strong>67.2</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 **效率与泛化（表 2）**：process bonus（相对 λ_p=0 的 baseline）在几乎所有配置上都同时提升准确率、降低 OSR 与 USR。最佳配置 Qwen2.5-7B + GRPO 达到 67.2% CEM，OSR 低至 2.3%、USR 32.6%。
 

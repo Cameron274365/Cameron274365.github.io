@@ -108,16 +108,21 @@ FVPMR 的解法是：**用两种基于 SAM mask 的细粒度视觉提示（Fine-
 
 ### 消融（表 3）
 
-| 消融 | PR@5 | VQA |
-|------|------|-----|
-| Full FVPMR | 91.95 | 65.09 |
-| w/o KD（关键词定义） | 91.52 | 64.78 |
-| w/o FVP2CG（caption 生成不用红轮廓、直接输入裁剪区域） | **90.98** | **64.31** |
-| w/o FVP2PT（不做前缀调优） | 91.43 | 64.50 |
-| w/o RSD（不做自蒸馏） | 91.40 | 64.42 |
-| w/o FVP2PT & RSD（直接把裁剪区域喂 CLIP 拿嵌入） | 91.06 | 64.09 |
-| w/o VTA（不做视觉-文本对齐） | 91.16 | **64.00** |
-| w/o FVP & RSD & VTA | 90.61 | 63.48 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>消融</th><th>PR@5</th><th>VQA</th></tr></thead>
+    <tbody>
+      <tr><td>Full FVPMR</td><td>91.95</td><td>65.09</td></tr>
+      <tr><td>w/o KD（关键词定义）</td><td>91.52</td><td>64.78</td></tr>
+      <tr><td>w/o FVP2CG（caption 生成不用红轮廓、直接输入裁剪区域）</td><td><strong>90.98</strong></td><td><strong>64.31</strong></td></tr>
+      <tr><td>w/o FVP2PT（不做前缀调优）</td><td>91.43</td><td>64.50</td></tr>
+      <tr><td>w/o RSD（不做自蒸馏）</td><td>91.40</td><td>64.42</td></tr>
+      <tr><td>w/o FVP2PT &amp; RSD（直接把裁剪区域喂 CLIP 拿嵌入）</td><td>91.06</td><td>64.09</td></tr>
+      <tr><td>w/o VTA（不做视觉-文本对齐）</td><td>91.16</td><td><strong>64.00</strong></td></tr>
+      <tr><td>w/o FVP &amp; RSD &amp; VTA</td><td>90.61</td><td>63.48</td></tr>
+    </tbody>
+  </table>
+</div>
 
 三个关键组件都各自有效，且**红轮廓 caption (FVP2CG) 是单个组件里对 VQA 贡献最大的**（-0.78）——印证了"框而不裁、保留上下文"这个设计的价值。VTA 对 VQA 影响最大（-1.09），说明对齐直接决定了检索质量。
 

@@ -102,13 +102,18 @@ Conan-embedding-v3 的核心思路是：**与其用一次大规模混合模态�
 
 **逐组件消融（表 3）**——每一步都不可或缺：
 
-| 变体 | 说明 | Image | Video | VisDoc | MAEB |
-|------|------|-------|-------|--------|------|
-| Joint Training (I+V+D) | 无解耦/融合，仅视觉 | 80.3 | 67.2 | 82.0 | – |
-| Joint Training (I+V+D+A) | 无解耦，全模态联合 | 69.2 | 43.0 | 74.9 | 48.01 |
-| Direct Fusion | 融合但不修复 | 68.5 | 56.7 | 68.9 | **32.68** |
-| + Audio-Only Recovery | 无均衡复习 | 68.5 | 56.7 | 68.9 | 55.82 |
-| **Conan-embedding-v3** | 完整 decouple–fuse–recover | **77.2** | **65.1** | **79.0** | **55.61** |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>变体</th><th>说明</th><th>Image</th><th>Video</th><th>VisDoc</th><th>MAEB</th></tr></thead>
+    <tbody>
+      <tr><td>Joint Training (I+V+D)</td><td>无解耦/融合，仅视觉</td><td>80.3</td><td>67.2</td><td>82.0</td><td>–</td></tr>
+      <tr><td>Joint Training (I+V+D+A)</td><td>无解耦，全模态联合</td><td>69.2</td><td>43.0</td><td>74.9</td><td>48.01</td></tr>
+      <tr><td>Direct Fusion</td><td>融合但不修复</td><td>68.5</td><td>56.7</td><td>68.9</td><td><strong>32.68</strong></td></tr>
+      <tr><td>+ Audio-Only Recovery</td><td>无均衡复习</td><td>68.5</td><td>56.7</td><td>68.9</td><td>55.82</td></tr>
+      <tr><td><strong>Conan-embedding-v3</strong></td><td>完整 decouple–fuse–recover</td><td><strong>77.2</strong></td><td><strong>65.1</strong></td><td><strong>79.0</strong></td><td><strong>55.61</strong></td></tr>
+    </tbody>
+  </table>
+</div>
 
 <figure class="figure">
   <img src="assets/papers/conan-embedding-v3/fig5_tsne.webp" alt="Projector Drift 的输出空间视图" loading="lazy" />

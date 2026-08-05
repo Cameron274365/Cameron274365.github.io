@@ -147,11 +147,16 @@ Text-only LCO-Emb 相对 E5-V 和 Voyage-M3 分别平均提升 **21.69** 和 **1
 
 ### 数据集互补性
 
-| 数据集 | 优势任务 | 原因 |
-|--------|---------|------|
-| all-NLI | V-STS、Doc Understanding | NLI 监督锐化了语义相似度感知 |
-| Scale-1M | Linear Probing、Multilingual Retrieval | 丰富描述模拟 image-caption 预训练 |
-| Model Soup 融合 | 整体最优 | 有效整合两个 checkpoint 的互补优势 |
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>数据集</th><th>优势任务</th><th>原因</th></tr></thead>
+    <tbody>
+      <tr><td>all-NLI</td><td>V-STS、Doc Understanding</td><td>NLI 监督锐化了语义相似度感知</td></tr>
+      <tr><td>Scale-1M</td><td>Linear Probing、Multilingual Retrieval</td><td>丰富描述模拟 image-caption 预训练</td></tr>
+      <tr><td>Model Soup 融合</td><td>整体最优</td><td>有效整合两个 checkpoint 的互补优势</td></tr>
+    </tbody>
+  </table>
+</div>
 
 ### GRSL 验证
 
